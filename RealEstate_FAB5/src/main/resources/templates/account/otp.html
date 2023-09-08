@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Fpoly</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/Real_Estate.png" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/otp.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Nhập mã xác minh</h2>
+        <p>Chúng tôi đã gửi mã OTP đến Email ***@gmail.com</p>
+        <hr>
+        <p>Nhập mã OTP vào bên dưới</p>
+        <div class="code-container">
+            <input type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input type="number" class="code" placeholder="0" min="0" max="9" required>
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-primary">Xác thực</button>
+        </div>
+
+        <small>
+            <div>Thời gian còn lại: <span id="timer"></span>
+                <button class="resend" disabled>Gửi lại mã</button>
+            </div>
+            Nếu bạn không nhận được mã!! <strong>Gửi lại</strong>
+        </small>
+
+    </div>
+    <!-- JavaScript -->
+</body>
+
+</html>
