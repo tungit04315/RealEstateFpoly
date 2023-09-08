@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,20 +22,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pay")
-public class Pay implements Serializable{
-	
-	/**
+@Table(name = "ranks")
+public class Ranks implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int pay_id;
-	private Long pay_money;
+	private int ranks_id;
+	private int ranks_point;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "pay_id")
-	List<Users> users;
+	@ManyToOne
+	@JoinColumn(name = "ranks_name_id")
+	private RankName ranks_name_id;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "endow_id")
+	private Endow endow_id;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "ranks_id")
+	List<Users> users;
+
 }

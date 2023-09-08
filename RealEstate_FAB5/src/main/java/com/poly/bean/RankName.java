@@ -20,20 +20,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pay")
-public class Pay implements Serializable{
-	
+@Table(name = "rankName")
+public class RankName implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int pay_id;
-	private Long pay_money;
+	private int rankName_id;
+	private String rankName;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "pay_id")
-	List<Users> users;
+	@OneToMany(mappedBy = "ranks_name_id")
+	List<Ranks> ranks;
 	
 }
