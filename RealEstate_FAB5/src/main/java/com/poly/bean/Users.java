@@ -30,18 +30,20 @@ public class Users implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name = "username")
 	private String username;
 	private String passwords;
 	private String email;
-	private boolean gender;
 	private String phone;
 	private String fullname;
 	private String avatar;
 	private String addresss;
 	private int failLogin = 0;
 	private boolean active = true;
+	private boolean gender;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_block")
 	private Date create_block;
@@ -57,6 +59,18 @@ public class Users implements Serializable{/**
 	private Pay pay_id;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "username", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	List<Auth> auth;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	List<Likes> likes;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	List<Shares> shares;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	List<Transactions> transactions;
 }
