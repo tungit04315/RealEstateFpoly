@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		);
 	}
 
-	// Allows accessing restful API from other domains
+	// Cho phép truy cập restfull từ tên miền khác
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
