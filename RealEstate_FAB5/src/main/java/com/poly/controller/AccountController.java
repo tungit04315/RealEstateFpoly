@@ -20,13 +20,13 @@ public class AccountController {
 	@Autowired
 	UsersService userService;
 	
-	// Login
+	// Đăng nhập
 	@GetMapping("/login")
 	public String getLogin() {
 		return "account/login";
 	}
 	
-	// Login (success)
+	// Đăng nhập thành công
 	@RequestMapping("/login/action/success")
 	public String postLogin(Model m) {
 		
@@ -49,27 +49,27 @@ public class AccountController {
 		}
 	}
 	
-	// Login (error)
+	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
 		return "redirect:/login";
 	}
 	
-	// Login
+	// Đăng nhập
 	
-	// Logout
+	// Đăng xuất
 	@RequestMapping("/logout/success")
 	public String logoutSuccess() {
 		return "redirect:/login";
 	}
-	// Logout
+	// Đăng xuất
 	
-	//Forget Password
+	//Quên mật khẩu
 	@GetMapping("/forget-password")
 	public String getForgetPassword() {
 		return "account/forgetPassword";
 	}
-	//Forget Password
+	//Quên mật khẩu
 	
 	//OTP
 	@GetMapping("/OTP")
@@ -78,10 +78,10 @@ public class AccountController {
 	}
 	//OTP
 	
-	//Change Password
+	//Đổi mật khẩu
 	@GetMapping("/change-password")
 	public String getChangePassword() {
 		return "account/changePassword";
 	}
-	//Change Password
+	//Đổi mật khẩu
 }
