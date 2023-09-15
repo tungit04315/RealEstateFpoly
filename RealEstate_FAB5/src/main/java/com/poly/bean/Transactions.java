@@ -28,8 +28,8 @@ public class Transactions {
 	private int transactions_id;
 	
 	@Temporal(TemporalType.DATE)
-	@JoinColumn(name = "createDate_at")
-	private Date createDate_at = new Date();
+	@JoinColumn(name = "create_at")
+	private Date create_at = new Date();
 	
 	@ManyToOne
 	@JoinColumn(name = "users")

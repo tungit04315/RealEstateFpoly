@@ -37,6 +37,9 @@ public class Post {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_at")
 	private Date create_at;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "end_at")
+	private Date end_date;
 	
 	private int acreage;
 	private Long price;
@@ -44,12 +47,12 @@ public class Post {
 	private String linkVideo;
 	
 	@ManyToOne
-	@JoinColumn(name = "servicePack_id")
-	private ServicePack servicePack_id;
+	@JoinColumn(name = "services_id")
+	private ServicePack services_id;
 	
 	@ManyToOne
-	@JoinColumn(name = "typePropertys_id")
-	private TypePropertys typePropertys_id;
+	@JoinColumn(name = "types_id")
+	private TypePropertys types_id;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "post_id")
@@ -69,5 +72,5 @@ public class Post {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "post_id")
-	List<DetailTransactions> detailTransactions;
+	List<DetailTransactions> detail;
 }

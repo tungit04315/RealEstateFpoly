@@ -40,7 +40,7 @@ public class Users implements Serializable{/**
 	private String fullname;
 	private String avatar;
 	private String addresss;
-	private int failLogin = 0;
+	private int fail_login = 0;
 	private boolean active = true;
 	private boolean gender;
 	
@@ -63,14 +63,14 @@ public class Users implements Serializable{/**
 	List<Auth> auth;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "users")
 	List<Likes> likes;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "users")
 	List<Shares> shares;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "users")
 	List<Transactions> transactions;
 }

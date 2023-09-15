@@ -21,7 +21,7 @@ public class DetailTransactions {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int detailTransactions_id;
+	private int detail_id;
 	private double price;
 	
 	@ManyToOne

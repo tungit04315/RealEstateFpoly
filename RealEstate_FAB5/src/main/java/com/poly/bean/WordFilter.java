@@ -10,12 +10,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "wordFilter")
+@Table(name = "word_filter")
 public class WordFilter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int wordFilter_id;
+	private int word_id;
 	
-	private String wordFilter_name;
+	private String word_name;
 }

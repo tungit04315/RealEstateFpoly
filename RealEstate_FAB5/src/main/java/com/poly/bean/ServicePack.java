@@ -23,26 +23,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "servicePack")
+@Table(name = "service_pack")
 public class ServicePack {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int servicePack_id;
+	private int services_id;
 	
-	private String servicePack_name;
-	private double servicePack_price;
-	private String servicePack_location;
+	private String services_name;
+	private double services_price;
+	private String services_location;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "servicePack_StarsDate")
-	private Date servicePack_StarsDate;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "servicePack_EndDate")
-	private Date servicePack_EndDate;
+//	@Temporal(TemporalType.DATE)
+//	@Column(name = "servicePack_StarsDate")
+//	private Date servicePack_StarsDate;
+//	
+//	@Temporal(TemporalType.DATE)
+//	@Column(name = "servicePack_EndDate")
+//	private Date servicePack_EndDate;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "servicePack_id")
+	@OneToMany(mappedBy = "services_id")
 	List<Post> post;
 }

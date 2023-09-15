@@ -35,8 +35,8 @@ public class Ranks implements Serializable{/**
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "ranks_name_id")
-	private RankName ranks_name_id;
+	@JoinColumn(name = "rank_id")
+	private RankName rank_id;
 	
 	@JsonIgnore
 	@ManyToOne

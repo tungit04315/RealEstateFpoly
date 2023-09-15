@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "typePropertys")
+@Table(name = "type_propertys")
 public class TypePropertys {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int typePropertys_id;
+	private int types_id;
 	
-	private String typePropertys_name;
+	private String types_name;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "typePropertys_id")
+	@OneToMany(mappedBy = "types_id")
 	List<Post> post;
 }
