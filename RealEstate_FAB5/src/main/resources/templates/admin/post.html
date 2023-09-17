@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{index_admin::areas(~{::.container-fluid})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<main>
+		<div class="container-fluid">
+			<!--  Row 1 -->
+			<div class="col-lg-12 mb-3">
+				<h5 class="mb-3">Danh Sách Bài Viết</h5>
+				<table class="table tbl-edit">
+					<thead>
+						<tr>
+							<th scope="col">STT</th>
+							<th scope="col">Tiêu đề</th>
+							<th scope="col">Người đăng</th>
+							<th scope="col">Gói bài viết</th>
+							<th scope="col">Thời gian</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Tô Quốc Tùng</td>
+							<td>Lucas</td>
+							<td>Bạc</td>
+							<td>12/09/2023</td>
+							<td class="d-flex"><a type="button" href="#"
+								class="btn btn-primary"><i
+									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+									Chi tiết</a> <span
+								style="font-size: 25px; color: black; margin: 0 5px;">|</span> <a
+								type="button" href="#" class="btn btn-primary"><i
+									class="fa-solid fa-trash" style="color: #ffffff;"></i> Xóa</a></td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Tô Quốc Tùng</td>
+							<td>Lucas</td>
+							<td>Vàng</td>
+							<td>12/09/2023</td>
+							<td class="d-flex"><a type="button" href="#"
+								class="btn btn-primary"><i
+									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+									Chi tiết</a> <span
+								style="font-size: 25px; color: black; margin: 0 5px;">|</span> <a
+								type="button" href="#" class="btn btn-primary"><i
+									class="fa-solid fa-trash" style="color: #ffffff;"></i> Xóa</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-flex justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<div class="col-lg-12 mb-3">
+				<form action="#" class="form-edit-user-list">
+					<div class="mb-3 mt-2 mr-2 d-flex justify-content-end">
+						<div class="input-wrapper">
+							<button class="icon" type="button">
+								<!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="25px" width="25px">
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"></path>
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M22 22L20 20"></path>
+                                  </svg> -->
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</button>
+							<input placeholder="Nhập tên đăng nhập..." class="input"
+								name="text" type="text">
+						</div>
+					</div>
+					<div class="mb-3">
+						<h5>Thông tin bài viết</h5>
+						<hr>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">M</span> <span
+									style="transition-delay: 300ms">ã</span> <span
+									style="transition-delay: 300ms"></span> <span
+									style="transition-delay: 250ms">t</span> <span
+									style="transition-delay: 200ms">i</span> <span
+									style="transition-delay: 150ms">n</span>
+								</label>
+
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">T</span> <span
+									style="transition-delay: 300ms">i</span> <span
+									style="transition-delay: 250ms">ê</span> <span
+									style="transition-delay: 250ms">u</span> <span
+									style="transition-delay: 200ms"></span> <span
+									style="transition-delay: 150ms">đ</span> <span
+									style="transition-delay: 100ms">ề</span>
+
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">S</span> <span
+									style="transition-delay: 300ms">ố</span> <span
+									style="transition-delay: 250ms"></span> <span
+									style="transition-delay: 250ms">đ</span> <span
+									style="transition-delay: 250ms">i</span> <span
+									style="transition-delay: 200ms">ệ</span> <span
+									style="transition-delay: 150ms">n</span> <span
+									style="transition-delay: 250ms"></span> <span
+									style="transition-delay: 100ms">t</span> <span
+									style="transition-delay: 50ms">h</span> <span
+									style="transition-delay: 250ms">o</span> <span
+									style="transition-delay: 0ms">ạ</span> <span
+									style="transition-delay: 0ms">i</span>
+								</label>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">E</span> <span
+									style="transition-delay: 300ms">m</span> <span
+									style="transition-delay: 250ms">a</span> <span
+									style="transition-delay: 250ms">i</span> <span
+									style="transition-delay: 250ms">l</span>
+
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">L</span> <span
+									style="transition-delay: 300ms">o</span> <span
+									style="transition-delay: 250ms">ạ</span> <span
+									style="transition-delay: 250ms">i</span> <span
+									style="transition-delay: 250ms"></span> <span
+									style="transition-delay: 200ms">t</span> <span
+									style="transition-delay: 150ms">i</span> <span
+									style="transition-delay: 250ms">n</span>
+
+								</label>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">Đ</span> <span
+									style="transition-delay: 300ms">ị</span> <span
+									style="transition-delay: 250ms">a</span> <span
+									style="transition-delay: 250ms"></span> <span
+									style="transition-delay: 200ms">c</span> <span
+									style="transition-delay: 150ms">h</span> <span
+									style="transition-delay: 100ms">ỉ</span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="mb-3">
+						<div class="col-lg-12">
+							<div class="form-control-div">
+								<textarea name="" id="" cols="" rows="" required=""></textarea>
+								<label> <span style="transition-delay: 350ms">M</span> <span
+									style="transition-delay: 300ms">ô</span> <span
+									style="transition-delay: 250ms">t</span> <span
+									style="transition-delay: 250ms">ả</span>
+
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-6 row">
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">D</span> <span
+										style="transition-delay: 300ms">i</span> <span
+										style="transition-delay: 250ms">ệ</span> <span
+										style="transition-delay: 250ms">n</span> <span
+										style="transition-delay: 250ms"></span> <span
+										style="transition-delay: 200ms">t</span> <span
+										style="transition-delay: 150ms">í</span> <span
+										style="transition-delay: 100ms">c</span> <span
+										style="transition-delay: 50ms">h</span>
+									</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">H</span> <span
+										style="transition-delay: 300ms">ư</span> <span
+										style="transition-delay: 250ms">ớ</span> <span
+										style="transition-delay: 250ms">n</span> <span
+										style="transition-delay: 250ms">g</span> <span
+										style="transition-delay: 200ms"></span> <span
+										style="transition-delay: 150ms">n</span> <span
+										style="transition-delay: 100ms">h</span> <span
+										style="transition-delay: 50ms">à</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 row">
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">P</span> <span
+										style="transition-delay: 300ms">h</span> <span
+										style="transition-delay: 250ms">ò</span> <span
+										style="transition-delay: 250ms">n</span> <span
+										style="transition-delay: 250ms">g</span> <span
+										style="transition-delay: 200ms"></span> <span
+										style="transition-delay: 150ms">n</span> <span
+										style="transition-delay: 100ms">g</span> <span
+										style="transition-delay: 50ms">ủ</span>
+									</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">P</span> <span
+										style="transition-delay: 300ms">h</span> <span
+										style="transition-delay: 250ms">á</span> <span
+										style="transition-delay: 250ms">p</span> <span
+										style="transition-delay: 250ms"></span> <span
+										style="transition-delay: 200ms">l</span> <span
+										style="transition-delay: 150ms">ý</span>
+
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-6 row">
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">G</span> <span
+										style="transition-delay: 300ms">i</span> <span
+										style="transition-delay: 250ms">á</span>
+
+									</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">H</span> <span
+										style="transition-delay: 300ms">ư</span> <span
+										style="transition-delay: 250ms">ớ</span> <span
+										style="transition-delay: 250ms">n</span> <span
+										style="transition-delay: 250ms">g</span> <span
+										style="transition-delay: 200ms"></span> <span
+										style="transition-delay: 150ms">b</span> <span
+										style="transition-delay: 100ms">a</span> <span
+										style="transition-delay: 50ms">n</span> <span
+										style="transition-delay: 200ms"></span> <span
+										style="transition-delay: 150ms">c</span> <span
+										style="transition-delay: 100ms">ô</span> <span
+										style="transition-delay: 50ms">n</span> <span
+										style="transition-delay: 200ms">g</span>
+
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 row">
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">S</span> <span
+										style="transition-delay: 300ms">ố</span> <span
+										style="transition-delay: 250ms"></span> <span
+										style="transition-delay: 250ms">t</span> <span
+										style="transition-delay: 250ms">o</span> <span
+										style="transition-delay: 200ms">i</span> <span
+										style="transition-delay: 150ms">l</span> <span
+										style="transition-delay: 100ms">e</span> <span
+										style="transition-delay: 50ms">t</span>
+									</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-control-div">
+									<input required="" type="text"> <label> <span
+										style="transition-delay: 350ms">N</span> <span
+										style="transition-delay: 300ms">ộ</span> <span
+										style="transition-delay: 250ms">i</span> <span
+										style="transition-delay: 250ms"></span> <span
+										style="transition-delay: 250ms">t</span> <span
+										style="transition-delay: 200ms">h</span> <span
+										style="transition-delay: 150ms">ấ</span> <span
+										style="transition-delay: 100ms">t</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mb-3">
+						<div class="col-lg-12">
+							<label for="" class="form-label-2">Hình ảnh</label>
+							<div class="row">
+								<div class="col">
+									<img src="/img/about.jpg" class="img-fluid" alt="...">
+								</div>
+								<div class="col">
+									<img src="/img/carousel-1.jpg" class="img-fluid" alt="...">
+								</div>
+								<div class="col">
+									<img src="/img/carousel-2.jpg" class="img-fluid" alt="...">
+								</div>
+								<div class="col">
+									<img src="/img/about.jpg" class="img-fluid" alt="...">
+								</div>
+								<div class="col">
+									<img src="/img/carousel-1.jpg" class="img-fluid" alt="...">
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="mb-3 col-lg-12">
+						<label for="" class="form-label-2">Bản đồ</label> <br>
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31435.36395698237!2d105.72217851083983!3d9.982081500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a08906415c355f%3A0x416815a99ebd841e!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1sen!2s!4v1694576661496!5m2!1sen!2s"
+							class="w-100" height="200" style="border: 0;" allowfullscreen=""
+							loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+					</div>
+					<div class="row mb-4">
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">N</span> <span
+									style="transition-delay: 300ms">g</span> <span
+									style="transition-delay: 250ms">à</span> <span
+									style="transition-delay: 200ms">y</span> <span
+									style="transition-delay: 200ms"></span> <span
+									style="transition-delay: 150ms">đ</span> <span
+									style="transition-delay: 100ms">ă</span> <span
+									style="transition-delay: 50ms">n</span> <span
+									style="transition-delay: 0ms">g</span>
+								</label>
+
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-control-div">
+								<input required="" type="text"> <label> <span
+									style="transition-delay: 350ms">N</span> <span
+									style="transition-delay: 300ms">g</span> <span
+									style="transition-delay: 250ms">à</span> <span
+									style="transition-delay: 250ms">y</span> <span
+									style="transition-delay: 250ms"></span> <span
+									style="transition-delay: 200ms">h</span> <span
+									style="transition-delay: 150ms">ế</span> <span
+									style="transition-delay: 250ms">t</span> <span
+									style="transition-delay: 100ms"></span> <span
+									style="transition-delay: 50ms">h</span> <span
+									style="transition-delay: 250ms">ạ</span> <span
+									style="transition-delay: 0ms">n</span>
+
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<button class="button col-lg-2 mb-3" type="button">
+							<i class="fa-solid fa-plus"
+								style="color: #ffffff; margin-right: 10px;"></i> Duyệt
+						</button>
+						<button class="button col-lg-2 mb-3" type="button"
+							style="width: 120px;">
+							<i class="fa-solid fa-pen"
+								style="color: #ffffff; margin-right: 10px;"></i> Sửa
+						</button>
+						<button class="button col-lg-3 mb-3" type="button"
+							style="width: 170px;">
+							<svg viewBox="0 0 16 16" class="bi bi-arrow-repeat"
+								fill="currentColor" height="16" width="16"
+								xmlns="http://www.w3.org/2000/svg">
+                                    <path
+									d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
+                                    <path
+									d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+									fill-rule="evenodd"></path>
+                                </svg>
+							Làm mới
+						</button>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
