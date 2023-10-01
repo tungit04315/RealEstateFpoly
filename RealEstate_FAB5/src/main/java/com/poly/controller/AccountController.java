@@ -3,10 +3,7 @@ package com.poly.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -25,14 +22,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.poly.bean.Users;
 import com.poly.util.SessionService;
 import com.poly.service.UsersService;
 
-import lombok.SneakyThrows;
 
 @Controller
 public class AccountController {
@@ -119,9 +114,10 @@ public class AccountController {
 	@PostMapping("/account/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
 		userService.update(u);
-		Users user = (Users) ss.getAttribute("users");
-		m.addAttribute("u", userService.findById(user.getUsername()));
-		return "/home/manager/profile";
+		ss.setAttribute("user", u);
+//		Users user = (Users) ss.getAttribute("users");
+//		m.addAttribute("u", userService.findById(user.getUsername()));
+		return "redirect:/home/manager/profile";
 	}
 	
 	// Đăng nhập thất bại
