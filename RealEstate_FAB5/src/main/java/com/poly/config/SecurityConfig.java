@@ -57,10 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					byte[] token = (username + ":" + user.getPasswords()).getBytes();
 					authentication.put("user", user);
 					authentication.put("token", "Basic " + Base64.getEncoder().encodeToString(token));
-					
+					//Lưu tài khoản vào session
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
-					
+					//Lưu tài khoản vào session
 					return User.withUsername(username).password(passwords).roles(roles).build();
 				} catch (Exception e) {
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		);
 	}
 
-	// Allows accessing restful API from other domains
+	// Cho phép truy cập restfull từ tên miền khác
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");

@@ -40,8 +40,9 @@ public class HomeController {
 	@Autowired
 	TransactionService transactionService;
 
-	// Home Page
-	@RequestMapping({ "/home", "/" })
+	
+	//Home Page 
+	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
 		return "home/index";
 	}
@@ -149,6 +150,8 @@ public class HomeController {
 	// Profile Page
 	@RequestMapping("/home/manager/profile")
 	public String getManagerProfile(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "home/profile";
 	}
 	// Profile Page
