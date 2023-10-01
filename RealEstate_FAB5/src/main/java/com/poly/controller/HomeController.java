@@ -1,12 +1,23 @@
 package com.poly.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.poly.bean.Users;
+import com.poly.service.UsersService;
+import com.poly.util.SessionService;
+
 @Controller
 public class HomeController {
 
+	@Autowired
+	SessionService ss;
+	
+	@Autowired
+	UsersService usersService;
+	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
@@ -66,6 +77,8 @@ public class HomeController {
 	//Profile Page
 	@RequestMapping("/home/manager/profile")
 	public String getManagerProfile(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", usersService.findById(u.getUsername()));
 		return "home/profile";
 	}
 	//Profile Page

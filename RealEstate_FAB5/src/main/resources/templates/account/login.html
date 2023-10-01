@@ -15,18 +15,26 @@
 
 <body>
     <div class="container">
+    <!-- Captcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Captcha -->
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="/login/action" method="post" class="sign-in-form">
+                <form action="/login/action" method="post" class="sign-in-form" onsubmit="return validateForm()">
                     <h2 class="title">Đăng nhập</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Tên đăng nhập" name="username">
+                        <input type="text" placeholder="Tên đăng nhập" name="username" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Mật khẩu" name="password">
+                        <input type="password" placeholder="Mật khẩu" name="password" required>
                     </div>
+                    
+                    <!-- Captcha -->
+                    <!-- <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div> -->
+                    <!-- Captcha -->
+                    
                     <input type="submit" value="Đăng nhập" class="btn solid">
 
                     <p class="social-text">hoặc Đăng nhập với MXH</p>
@@ -38,21 +46,23 @@
                             <i class="fab fa-google"></i>
                         </a>
                     </div>
+                    <hr>
+                    <div> <a href="#">Quên mật khẩu?</a></div>
                 </form>
 
-                <form action="" class="sign-up-form">
+                <form action="signup" method="post" class="sign-up-form" onsubmit="return validateFormSignUp()">
                     <h2 class="title">Đăng ký</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Tên tài khoản">
+                        <input type="text" placeholder="Tên tài khoản" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="text" placeholder="Email">
+                        <input type="text" placeholder="Email" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Mật khẩu">
+                        <input type="password" placeholder="Mật khẩu" requireds>
                     </div>
 
                     <p class="notes">
@@ -60,11 +70,13 @@
                     </p>
                     <div class="input-field">
                         <i class="fa-solid fa-phone"></i>
-                        <input type="password" placeholder="Số điện thoại">
+                        <input type="text" placeholder="Số điện thoại">
 
                     </div>
-
-
+                    <!-- Captcha -->
+                    <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div>
+                    <!-- Captcha -->
+                    <div th:if="${successRegister} == 'true'" class="alert alert-success" role="alert">Đăng ký tài khoản thành công!</div>
                     <input type="submit" value="Đăng ký" class="btn solid">
 
                     <p class="social-text">hoặc Đăng ký với MXH</p>
@@ -101,9 +113,20 @@
             </div>
         </div>
     </div>
-
     <!-- JavaScript -->
     <script src="/js/login.js"></script>
+    <!-- Captcha -->
+    <script type="text/javascript">
+    	function validateFormSignUp(){
+    		if(grecaptcha.getResponse()){
+    			return true;
+    		}else{
+    			alert("Please prove that you're not robot!!");
+    			return false
+    		}
+    	}
+    </script>
+    <!-- Captcha -->
 </body>
 
 </html>
