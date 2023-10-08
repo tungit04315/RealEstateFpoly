@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -27,16 +28,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.poly.bean.Auth;
+import com.poly.bean.Roles;
 import com.poly.bean.Users;
 import com.poly.util.MailerService;
+import com.poly.util.ParamService;
 import com.poly.util.SessionService;
 import com.poly.util.SmsService;
 import com.poly.util.ValidatorUtil;
+
+import ch.qos.logback.core.joran.conditional.IfAction;
+
+import com.poly.service.AuthService;
+import com.poly.service.RoleService;
 import com.poly.service.UsersService;
 
 @Controller
 public class AccountController {
 
+	@Autowired
+	RoleService roleService;
+	
+	@Autowired
+	AuthService authService;
+	
 	@Autowired
 	UsersService userService;
 
@@ -51,7 +66,13 @@ public class AccountController {
 
 	@Autowired
 	SmsService smsService;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	ParamService paramService;
+	
 	// Captcha
 	@Value("${recaptcha.secret}")
 	private String recaptchaSecret;
@@ -69,19 +90,29 @@ public class AccountController {
 	// Captcha
 
 	// Đăng ký - Captcha
-	@PostMapping("/signup")
-	public String login(HttpServletRequest request, Model model) throws IOException {
-		if (true) {
-			model.addAttribute("successRegister", "true");
-			return "account/login";
+	@PostMapping("signup/action")
+	public String Register(Model m, Users u, @Param("username") String username) {
+		// System.out.println("xuất mẫu:"+userService.findById(username));
+		Users ufind = userService.findById(username);
+		if (ufind != null) {
+			m.addAttribute("errorUsername", "true");
+		} else {
+			String password = paramService.getString("passwords", "");
+			u.setPasswords(passwordEncoder.encode(password));
+			System.out.println(password);
+			userService.create(u);
+
+			Auth uAuth = new Auth();
+			uAuth.setUsers(u);
+			uAuth.setRoles(roleService.findbyId("user"));
+			authService.create(uAuth);
+
+			m.addAttribute("successRegister", "true");
 		}
-
-		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-		verifyReCAPTCHA(gRecaptchaResponse);
-		model.addAttribute("successRegister", "true");
-		return "account/login";
+		return "redirect:/login";
 	}
-
+	
+	
 	private void verifyReCAPTCHA(String gRecaptchaResponse) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -96,7 +127,7 @@ public class AccountController {
 
 		System.out.println(response);
 	}
-
+	// Đăng ký - Captcha
 	// Đăng nhập
 	@GetMapping("/login")
 	public String getLogin() {
@@ -104,28 +135,46 @@ public class AccountController {
 	}
 
 	// Đăng nhập thành công
-	@RequestMapping("/login/action/success")
-	public String postLogin(Model m) {
+//	@RequestMapping("/login/action/success")
+//	public String postLogin(Model m) {
+//
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		List<String> authList = new ArrayList<>();
+//
+//		// Check if the user is authenticated
+//		if (authentication != null && authentication.isAuthenticated()) {
+//			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
+//
+//			for (String roleName : roleNames) {
+//				authList.add("ROLE_" + roleName);
+//			}
+//		}
+//
+//		if (authList.contains("ROLE_ADMIN")) {
+//			return "/admin";
+//		} else {
+//			return "redirect:/home";
+//		}
+//	}
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		List<String> authList = new ArrayList<>();
-
-		// Check if the user is authenticated
-		if (authentication != null && authentication.isAuthenticated()) {
-			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
-
-			for (String roleName : roleNames) {
-				authList.add("ROLE_" + roleName);
+	@RequestMapping("/login/action")
+	public String login(Model m, @RequestParam("username") String username, @RequestParam("passwords") String passwords) {
+		Users u = userService.findById(username);
+		if(u==null) {
+			System.out.println(u);
+			return "redirect:/login";
+		}else {
+			System.out.println(u.getPasswords() + " | " + passwordEncoder.encode(passwords));
+			if(passwordEncoder.matches(passwords, u.getPasswords())) {
+				ss.setAttribute("user", u);
+				return "redirect:/home";
 			}
 		}
-
-		if (authList.contains("ROLE_ADMIN")) {
-			return "/admin";
-		} else {
-			return "redirect:/home";
-		}
+		
+		return "redirect:/login";
 	}
-
+	
+	// Đăng nhập
 	// Cập nhật tài khoản
 	@PostMapping("/account/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
