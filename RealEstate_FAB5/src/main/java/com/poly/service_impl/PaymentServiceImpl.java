@@ -143,7 +143,12 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public Pay findByID(Integer id) {
 		// TODO Auto-generated method stub
-		return dao.findById(id).get();
+		Pay p = dao.findById(id).get();
+		if(p != null) {
+			return p;
+		}else{
+			return null;
+		}
 	}
 
 

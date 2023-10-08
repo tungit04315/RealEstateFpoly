@@ -87,4 +87,10 @@ public class UsersServiceImpl implements UsersService{
 		return dao.findById(username);
 	}
 
+	@Override
+	public Users findByEmailOrPhone(String email, String phone) {
+		// TODO Auto-generated method stub
+		return dao.getUserFindByPhoneOrEmail(email, phone);
+	}
+
 }

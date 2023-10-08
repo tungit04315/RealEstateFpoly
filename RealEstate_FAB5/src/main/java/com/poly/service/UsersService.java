@@ -24,4 +24,6 @@ public interface UsersService {
 	public List<String> getRolesByUsername(String username);
 	
 	public Optional<Users> getAccount(String username);
+	
+	public Users findByEmailOrPhone(String email, String phone);
 }

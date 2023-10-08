@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import com.poly.bean.MailInfo;
 
@@ -20,16 +22,25 @@ public class MailerService{
 
 	@Autowired
 	JavaMailSender sender;
+	
+	@Autowired
+	TemplateEngine templateEngine;
 
 	
 	public void send(MailInfo mail) throws MessagingException {
 		MimeMessage message = sender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		
+		Context context = new Context();
+        context.setVariable("content", mail.getBody());
+        String html = templateEngine.process("email/index", context);
+
+		
 		helper.setFrom(mail.getFrom());
 		helper.setTo(mail.getTo());
 		helper.setSubject(mail.getSubject());
-		helper.setText(mail.getBody(), true);
+		helper.setText(html, true);
 		helper.setReplyTo(mail.getFrom());
 
 		String[] cc = mail.getCc();

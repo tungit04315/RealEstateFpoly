@@ -15,9 +15,9 @@
 
 <body>
     <div class="container">
-    <!-- Captcha -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!-- Captcha -->
+        <!-- Captcha -->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- Captcha -->
         <div class="forms-container">
             <div class="signin-signup">
                 <form action="/login/action" method="post" class="sign-in-form" onsubmit="return validateForm()">
@@ -30,11 +30,11 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Mật khẩu" name="password" required>
                     </div>
-                    
+
                     <!-- Captcha -->
                     <!-- <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div> -->
                     <!-- Captcha -->
-                    
+
                     <input type="submit" value="Đăng nhập" class="btn solid">
 
                     <p class="social-text">hoặc Đăng nhập với MXH</p>
@@ -47,7 +47,7 @@
                         </a>
                     </div>
                     <hr>
-                    <div> <a href="#">Quên mật khẩu?</a></div>
+                    <div> <a href="/forget-password">Quên mật khẩu?</a></div>
                 </form>
 
                 <form action="signup" method="post" class="sign-up-form" onsubmit="return validateFormSignUp()">
@@ -117,15 +117,17 @@
     <script src="/js/login.js"></script>
     <!-- Captcha -->
     <script type="text/javascript">
-    	function validateFormSignUp(){
-    		if(grecaptcha.getResponse()){
-    			return true;
-    		}else{
-    			alert("Please prove that you're not robot!!");
-    			return false
-    		}
-    	}
+        function validateFormSignUp() {
+            if (grecaptcha.getResponse()) {
+                return true;
+            } else {
+                alert("Please prove that you're not robot!!");
+                return false
+            }
+        }
     </script>
+
+
     <!-- Captcha -->
 </body>
 
