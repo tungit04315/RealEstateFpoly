@@ -42,11 +42,9 @@ import ch.qos.logback.core.joran.conditional.IfAction;
 import com.poly.service.AuthService;
 import com.poly.service.RoleService;
 import com.poly.service.UsersService;
-
+//Ok la
 @Controller
 public class AccountController {
-//Thich Di tu
-	// nguoi dep trai so 2 the gioi
 	@Autowired
 	RoleService roleService;
 	
