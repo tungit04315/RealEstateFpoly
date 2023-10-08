@@ -28,7 +28,7 @@
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Mật khẩu" name="password" required>
+                        <input type="password" placeholder="Mật khẩu" name="passwords" required>
                     </div>
 
                     <!-- Captcha -->
@@ -50,19 +50,19 @@
                     <div> <a href="/forget-password">Quên mật khẩu?</a></div>
                 </form>
 
-                <form action="signup" method="post" class="sign-up-form" onsubmit="return validateFormSignUp()">
+                <form action="signup/action" method="post" class="sign-up-form" onsubmit="return validateFormSignUp()">
                     <h2 class="title">Đăng ký</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Tên tài khoản" required>
+                        <input type="text" placeholder="Tên tài khoản" name="username" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="text" placeholder="Email" required>
+                        <input type="text" placeholder="Email" name="email" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Mật khẩu" requireds>
+                        <input type="password" placeholder="Mật khẩu" name="passwords" required>
                     </div>
 
                     <p class="notes">
@@ -70,13 +70,13 @@
                     </p>
                     <div class="input-field">
                         <i class="fa-solid fa-phone"></i>
-                        <input type="text" placeholder="Số điện thoại">
+                        <input type="text" placeholder="Số điện thoại" name="phone">
 
                     </div>
                     <!-- Captcha -->
                     <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div>
                     <!-- Captcha -->
-                    <div th:if="${successRegister} == 'true'" class="alert alert-success" role="alert">Đăng ký tài khoản thành công!</div>
+                    <!-- <div th:if="${successRegister} == 'true'" class="alert alert-success" role="alert">Đăng ký tài khoản thành công!</div> -->
                     <input type="submit" value="Đăng ký" class="btn solid">
 
                     <p class="social-text">hoặc Đăng ký với MXH</p>
