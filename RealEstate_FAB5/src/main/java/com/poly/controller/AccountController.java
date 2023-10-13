@@ -75,6 +75,7 @@ public class AccountController {
 
 	@Autowired
 	PaymentService payService;
+	
 	// Captcha
 	@Value("${recaptcha.secret}")
 	private String recaptchaSecret;
