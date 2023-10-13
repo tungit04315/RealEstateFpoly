@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.poly.bean.Auth;
+import com.poly.bean.Pay;
 import com.poly.bean.Roles;
 import com.poly.bean.Users;
 import com.poly.util.MailerService;
@@ -40,6 +41,7 @@ import com.poly.util.ValidatorUtil;
 import ch.qos.logback.core.joran.conditional.IfAction;
 
 import com.poly.service.AuthService;
+import com.poly.service.PaymentService;
 import com.poly.service.RoleService;
 import com.poly.service.UsersService;
 //Ok la
@@ -47,10 +49,10 @@ import com.poly.service.UsersService;
 public class AccountController {
 	@Autowired
 	RoleService roleService;
-	
+
 	@Autowired
 	AuthService authService;
-	
+
 	@Autowired
 	UsersService userService;
 
@@ -65,13 +67,15 @@ public class AccountController {
 
 	@Autowired
 	SmsService smsService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	ParamService paramService;
-	
+
+	@Autowired
+	PaymentService payService;
 	// Captcha
 	@Value("${recaptcha.secret}")
 	private String recaptchaSecret;
@@ -96,9 +100,13 @@ public class AccountController {
 		if (ufind != null) {
 			m.addAttribute("errorUsername", "true");
 		} else {
+			Pay newpay = new Pay();
+			newpay.setPay_money((long)0.00);
+			//payService
+			//rank
+			//OTP dangky, xac nhan email
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
-			System.out.println(password);
 			userService.create(u);
 
 			Auth uAuth = new Auth();
@@ -110,8 +118,7 @@ public class AccountController {
 		}
 		return "redirect:/login";
 	}
-	
-	
+
 	private void verifyReCAPTCHA(String gRecaptchaResponse) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -127,6 +134,7 @@ public class AccountController {
 		System.out.println(response);
 	}
 	// Đăng ký - Captcha
+
 	// Đăng nhập
 	@GetMapping("/login")
 	public String getLogin() {
@@ -155,27 +163,33 @@ public class AccountController {
 //			return "redirect:/home";
 //		}
 //	}
-
 	@RequestMapping("/login/action")
-	public String login(Model m, @RequestParam("username") String username, @RequestParam("passwords") String passwords) {
+	public String login(Model m, @RequestParam("username") String username,
+			@RequestParam("passwords") String passwords) {
 		Users u = userService.findById(username);
-		if(u==null) {
+		if (u == null) {
 			System.out.println(u);
 			return "redirect:/login";
-		}else {
+		} else {
 			System.out.println(u.getPasswords() + " | " + passwordEncoder.encode(passwords));
-			if(passwordEncoder.matches(passwords, u.getPasswords())) {
+			if (passwordEncoder.matches(passwords, u.getPasswords())) {
 				ss.setAttribute("user", u);
 				return "redirect:/home";
 			}
 		}
-		
+
 		return "redirect:/login";
 	}
-	
+
+	// Đăng nhập thất bại
+	@RequestMapping("/login/action/error")
+	public String loginError(Model model) {
+		return "redirect:/login";
+	}
 	// Đăng nhập
-	// Cập nhật tài khoản
-	@PostMapping("/account/changeprofile")
+
+	// Cập nhật thông tin tài khoản
+	@PostMapping("/profile/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
 		userService.update(u);
 		ss.setAttribute("user", u);
@@ -184,13 +198,48 @@ public class AccountController {
 		return "redirect:/home/manager/profile";
 	}
 
-	// Đăng nhập thất bại
-	@RequestMapping("/login/action/error")
-	public String loginError(Model model) {
-		return "redirect:/login";
-	}
+	// Đổi mật khẩu
+	@PostMapping("/profile/changePass")
+	public String ChangePassProfile(Model m, Users u, @Param("passhientai") String passhientai) {
+		Users user = (Users) ss.getAttribute("user");
 
-	// Đăng nhập
+		String passmoi = paramService.getString("passmoi", "");
+		String nhaplaipassmoi = paramService.getString("nhaplaipassmoi", "");
+
+		System.out.println(passhientai);
+		System.out.println(user.getPasswords());
+
+		if (passwordEncoder.matches(passhientai, user.getPasswords())) {
+			if (passmoi.equalsIgnoreCase(nhaplaipassmoi)) {
+				u.setUsername(user.getUsername());
+				u.setEmail(user.getEmail());
+				u.setGender(user.isGender());
+				u.setPhone(user.getPhone());
+				u.setFullname(user.getFullname());
+				u.setAvatar(user.getAvatar());
+				u.setAddresss(user.getAddresss());
+				u.setFail_login(user.getFail_login());
+				u.setActive(user.isActive());
+				u.setCreate_block(user.getCreate_block());
+				u.setRanks_id(user.getRanks_id());
+				u.setPay_id(user.getPay_id());
+
+				u.setPasswords(passwordEncoder.encode(passmoi));// db
+				user.setPasswords(passwordEncoder.encode(passmoi));// session
+				userService.update(user);
+				m.addAttribute("successPass", true);
+				return "redirect:/home/manager/profile";
+			} else {
+				m.addAttribute("errorPass", true);
+				return "redirect:/home/pay";
+			}
+		} else {
+			m.addAttribute("errorPass", true);
+			return "redirect:/home";
+		}
+	}
+	// Đổi mật khẩu
+	// Cập nhật thông tin tài khoản
 
 	// Đăng xuất
 	@RequestMapping("/logout/success")
@@ -205,13 +254,14 @@ public class AccountController {
 		return "account/forgetPassword";
 	}
 
+	// Gửi mail xác nhận
 	@PostMapping("/forget-password-action")
-	public String getForgetPasswordAction(Model m, @RequestParam("email") String email) throws Exception {		
+	public String getForgetPasswordAction(Model m, @RequestParam("email") String email) throws Exception {
 		if (validator.isEmailValid(email)) {
 			Users uFind = userService.findByEmailOrPhone(email, null);
 			if (uFind == null) {
 				// Set Notification Failed
-				m.addAttribute("notitication", false);				
+				m.addAttribute("notitication", false);
 				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Email
@@ -228,7 +278,7 @@ public class AccountController {
 
 				String title = "Dịch Vụ Tài Khoản";
 				String body = stringNumber.toString();
-
+				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
 
 				mailService.send(email, title, body);
@@ -251,11 +301,11 @@ public class AccountController {
 
 					stringNumber.append(numberRandom);
 				}
-				
-				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
 
+				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
+				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				
+
 				String phone = "+84" + email.substring(1);
 				System.out.println(phone);
 				smsService.sendSms(phone, body);
@@ -263,8 +313,8 @@ public class AccountController {
 				return "redirect:/OTP";
 			}
 		}
-
 	}
+	// Gửi mail xác nhận
 	// Quên mật khẩu
 
 	// OTP
@@ -272,12 +322,43 @@ public class AccountController {
 	public String getOTP() {
 		return "account/otp";
 	}
+
+	@PostMapping("/OTP/action")
+	public String postOTP(Model m, @RequestParam("so1") String so1, @RequestParam("so2") String so2,
+			@RequestParam("so3") String so3, @RequestParam("so4") String so4) {
+		String OTP = so1 + so2 + so3 + so4;
+		String OTPss = ss.getAttribute("otp");
+		if (OTPss.equalsIgnoreCase(OTP)) {
+			return "redirect:/change-password";
+		} else {
+			return "redirect:/OTP";
+		}
+	}
 	// OTP
 
 	// Đổi mật khẩu
 	@GetMapping("/change-password")
 	public String getChangePassword() {
 		return "account/changePassword";
+	}
+
+	@PostMapping("/change-password-post")
+	public String postChangePassword(Model m, @RequestParam("mkmoi") String mkmoi,
+			@RequestParam("nhaplaimkmoi") String nhaplaimkmoi) {
+		Users u = ss.getAttribute("UFind");
+		if (!nhaplaimkmoi.equalsIgnoreCase(mkmoi)) {
+			System.out.println("mk nhap lai khong trung");
+			return "redirect:/change-password";
+		} else {
+			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
+				System.out.println("mk moi trung vs mk cu");
+				return "redirect:/change-password";
+			}else {
+				u.setPasswords(passwordEncoder.encode(mkmoi));
+				userService.update(u);
+				return "redirect:/login";
+			}
+		}
 	}
 	// Đổi mật khẩu
 }

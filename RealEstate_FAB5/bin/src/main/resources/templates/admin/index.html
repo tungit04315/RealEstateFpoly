@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{index_admin::areas(~{::.container-fluid})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<main>
+		<div class="container-fluid">
+			<!--  Row 1 -->
+			<div class="row">
+				<div class="col-lg-8 d-flex align-items-strech">
+					<div class="card w-100">
+						<div class="card-body">
+							<div
+								class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+								<div class="mb-3 mb-sm-0">
+									<h5 class="card-title fw-semibold">Tổng quan về doanh thu</h5>
+								</div>
+								<div>
+									<select class="form-select">
+										<option value="1">09/2023</option>
+										<option value="2">10/2023</option>
+										<option value="3">11/2023</option>
+										<option value="4">12/2023</option>
+									</select>
+								</div>
+							</div>
+							<div id="chart"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="row">
+						<div class="col-lg-12">
+							<!-- Yearly Breakup -->
+							<div class="card overflow-hidden">
+								<div class="card-body p-4">
+									<h5 class="card-title mb-9 fw-semibold">Thống kê cuối năm</h5>
+									<div class="row align-items-center">
+										<div class="col-8">
+											<h4 class="fw-semibold mb-3">3 TỶ 7</h4>
+											<div class="d-flex align-items-center mb-3">
+												<span
+													class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+													<i class="fa-solid fa-arrow-trend-up"
+													style="color: #E57C23;"></i>
+												</span>
+												<p class="text-dark me-1 fs-3 mb-0">+19%</p>
+												<p class="fs-3 mb-0">Năm ngoái</p>
+											</div>
+											<div class="d-flex align-items-center">
+												<div class="me-4">
+													<span
+														class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+													<span class="fs-2">2023</span>
+												</div>
+												<div>
+													<span
+														class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
+													<span class="fs-2">2024</span>
+												</div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="d-flex justify-content-center">
+												<div id="breakup"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<!-- Monthly Earnings -->
+							<div class="card">
+								<div class="card-body">
+									<div class="row alig n-items-start">
+										<div class="col-8">
+											<h5 class="card-title mb-9 fw-semibold">Thống kê cuối
+												tháng</h5>
+											<h4 class="fw-semibold mb-3">308,333,333</h4>
+											<div class="d-flex align-items-center pb-1">
+												<span
+													class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+													<i class="fa-solid fa-arrow-trend-down"
+													style="color: #E57C23;"></i>
+												</span>
+												<p class="text-dark me-1 fs-3 mb-0">+9%</p>
+												<p class="fs-3 mb-0">Tháng trước</p>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="d-flex justify-content-end">
+												<div
+													class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+													<i class="fa-solid fa-dong-sign fs-6"
+														style="color: #ffffff;"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="earning"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 d-flex align-items-stretch">
+					<div class="card w-100">
+						<div class="card-body p-4">
+							<div class="mb-4">
+								<h5 class="card-title fw-semibold">Giao dịch gần đây</h5>
+							</div>
+							<ul class="timeline-widget mb-0 position-relative mb-n5">
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">09:30</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+										<span class="timeline-badge-border d-block flex-shrink-0"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">User1 mua
+										gói bài viết giá 1.100/vnđ</div>
+								</li>
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">10:00
+										am</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-info flex-shrink-0 my-8"></span>
+										<span class="timeline-badge-border d-block flex-shrink-0"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">User1 mua
+										gói bài viết giá 1.100/vnđ</div>
+								</li>
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">12:00
+										am</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
+										<span class="timeline-badge-border d-block flex-shrink-0"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">User1 mua
+										gói bài viết giá 1.100/vnđ</div>
+								</li>
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">09:30
+										am</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-warning flex-shrink-0 my-8"></span>
+										<span class="timeline-badge-border d-block flex-shrink-0"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">User1 mua
+										gói bài viết giá 1.100/vnđ</div>
+								</li>
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">09:30
+										am</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-danger flex-shrink-0 my-8"></span>
+										<span class="timeline-badge-border d-block flex-shrink-0"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">User1 mua
+										gói bài viết giá 1.100/vnđ</div>
+								</li>
+								<li
+									class="timeline-item d-flex position-relative overflow-hidden">
+									<div class="timeline-time text-dark flex-shrink-0 text-end">12:00
+										am</div>
+									<div
+										class="timeline-badge-wrap d-flex flex-column align-items-center">
+										<span
+											class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
+									</div>
+									<div class="timeline-desc fs-3 text-dark mt-n1">Pay</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 d-flex align-items-stretch">
+					<div class="card w-100">
+						<div class="card-body p-4">
+							<h5 class="card-title fw-semibold mb-4">Giao dịch gần đây</h5>
+							<div class="table-responsive">
+								<table class="table text-nowrap mb-0 align-middle">
+									<thead class="text-dark fs-4">
+										<tr>
+											<th class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">STT</h6>
+											</th>
+											<th class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">Tên gói</h6>
+											</th>
+											<th class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">Người dùng</h6>
+											</th>
+											<th class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">Giá trị</h6>
+											</th>
+											<th class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">Thời gian</h6>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">1</h6>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-1">Gói bài viết</h6> <span
+												class="fw-normal">Bạc</span>
+											</td>
+											<td class="border-bottom-0">
+												<p class="mb-0 fw-normal">User1</p>
+											</td>
+											<td class="border-bottom-0">
+												<div class="d-flex align-items-center gap-2">
+													<span class="badge bg-primary rounded-3 fw-semibold">1.100
+														vnđ</span>
+												</div>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0 fs-4">11/09/2023</h6>
+											</td>
+										</tr>
+										<tr>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">2</h6>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-1">Gói bài viết</h6> <span
+												class="fw-normal">Bạc</span>
+											</td>
+											<td class="border-bottom-0">
+												<p class="mb-0 fw-normal">User1</p>
+											</td>
+											<td class="border-bottom-0">
+												<div class="d-flex align-items-center gap-2">
+													<span class="badge bg-primary rounded-3 fw-semibold">1.100
+														vnđ</span>
+												</div>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0 fs-4">11/09/2023</h6>
+											</td>
+										</tr>
+										<tr>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">3</h6>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-1">Gói bài viết</h6> <span
+												class="fw-normal">Bạc</span>
+											</td>
+											<td class="border-bottom-0">
+												<p class="mb-0 fw-normal">User1</p>
+											</td>
+											<td class="border-bottom-0">
+												<div class="d-flex align-items-center gap-2">
+													<span class="badge bg-primary rounded-3 fw-semibold">1.100
+														vnđ</span>
+												</div>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0 fs-4">11/09/2023</h6>
+											</td>
+										</tr>
+										<tr>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0">4</h6>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-1">Gói bài viết</h6> <span
+												class="fw-normal">Bạc</span>
+											</td>
+											<td class="border-bottom-0">
+												<p class="mb-0 fw-normal">User1</p>
+											</td>
+											<td class="border-bottom-0">
+												<div class="d-flex align-items-center gap-2">
+													<span class="badge bg-primary rounded-3 fw-semibold">1.100
+														vnđ</span>
+												</div>
+											</td>
+											<td class="border-bottom-0">
+												<h6 class="fw-semibold mb-0 fs-4">11/09/2023</h6>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

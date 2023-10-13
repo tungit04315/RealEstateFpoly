@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EMAIL TEMPLATE</title>
+    <style>
+        strong {
+            color: #787878;
+            font-size: 20px;
+        }
+        
+        h2 {
+            color: rgb(255, 157, 37);
+        }
+    </style>
+</head>
+
+<body>
+    <strong>Real Estate</strong>
+    <h2>Xác minh địa chỉ email của bạn.</h2>
+    <p>
+        Để hoàn tất việc thiết lập tài khoản Real Estate, chúng tôi chỉ cần đảm bảo địa chỉ email này là của bạn.
+        <br> <br> Để xác minh địa chỉ email của bạn, hãy sử dụng mã bảo mật này: <span th:utext="${content}"></span>
+        <br> <br> Nếu bạn không yêu cầu mã này, bạn có thể yên tâm bỏ qua email này. Người khác có thể đã gõ nhầm địa chỉ email của bạn.
+        <br> <br> Cảm ơn,
+        <br> <br> Nhóm tài khoản Real Estate.
+    </p>
+</body>
+
+</html>

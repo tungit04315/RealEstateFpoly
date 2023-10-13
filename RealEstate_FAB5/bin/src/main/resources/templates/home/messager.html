@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Fpoly</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/Real_Estate.png" type="image/x-icon">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/swipe.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Hanuman:wght@400;700&family=Poppins:wght@300;400;500;600&family=Roboto:wght@400;500&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div class="layout">
+            <div class="navigation">
+                <div class="container">
+                    <div class="inside">
+                        <div class="nav nav-tab menu">
+                            <button class="btn"><img class="avatar-xl" src="/img/about.jpg" alt="avatar"></button>
+                            <a href="#members" data-toggle="tab"><i class="fa-solid fa-user"></i></a>
+                            <a href="#discussions" data-toggle="tab" class="active"><i class="fa-solid fa-comments active"></i></a>
+                            <a href="#notifications" data-toggle="tab" class="f-grow1"><i class="fa-solid fa-bell"></i></a>
+                            <button class="btn mode"><i class="fa-solid fa-moon"></i></button>
+                            <a href="#settings" data-toggle="tab"><i class="fa-solid fa-gear"></i></a>
+                            <button class="btn power" onclick="visitPage();"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar" id="sidebar">
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="tab-content">
+                            <div class="tab-pane fade" id="members">
+                                <div class="search">
+                                    <form class="form-inline position-relative">
+                                        <input type="search" class="form-control" id="people" placeholder="Tìm kiếm người dùng...">
+                                        <button type="button" class="btn btn-link loop"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </form>
+                                    <button class="btn create" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa-solid fa-user-plus"></i></button>
+                                </div>
+                                <div class="list-group sort">
+                                    <button class="btn filterMembersBtn active show" data-toggle="list" data-filter="all">Tất cả</button>
+                                    <button class="btn filterMembersBtn" data-toggle="list" data-filter="online">Online</button>
+                                    <button class="btn filterMembersBtn" data-toggle="list" data-filter="offline">Offline</button>
+                                </div>
+                                <div class="contacts">
+                                    <h1>Gợi ý kết bạn</h1>
+                                    <div class="list-group" id="contacts" role="tablist">
+                                        <a href="#" class="filterMembers all online contact" data-toggle="list">
+                                            <img class="avatar-md" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="data">
+                                                <h5>Fullname</h5>
+                                                <p>Address</p>
+                                            </div>
+                                            <div class="person-add">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="discussions" class="tab-pane fade active show">
+                                <div class="search">
+                                    <form class="form-inline position-relative">
+                                        <input type="search" class="form-control" id="conversations" placeholder="Tìm kiếm bạn bè...">
+                                        <button type="button" class="btn btn-link loop"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </form>
+                                </div>
+                                <div class="list-group sort">
+                                    <button class="btn filterDiscussionsBtn active show" data-toggle="list" data-filter="all">Tất cả</button>
+                                    <button class="btn filterDiscussionsBtn" data-toggle="list" data-filter="read">Đọc rồi</button>
+                                    <button class="btn filterDiscussionsBtn" data-toggle="list" data-filter="unread">Chưa đọc</button>
+                                </div>
+                                <div class="discussions">
+                                    <h1>Bạn bè</h1>
+                                    <div class="list-group" id="chats" role="tablist">
+                                        <a href="#list-chat" class="filterDiscussions all unread single active" id="list-chat-list" data-toggle="list" role="tab">
+                                            <img class="avatar-md" src="/img/about.jpg" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="new bg-yellow">
+                                                <span>+7</span>
+                                            </div>
+                                            <div class="data">
+                                                <h5>User</h5>
+                                                <span>Thứ ?</span>
+                                                <p>Nội dung</p>
+                                            </div>
+                                        </a>
+                                        <a href="#list-empty" class="filterDiscussions all unread single" id="list-empty-list" data-toggle="list" role="tab">
+                                            <img class="avatar-md" src="/img/about.jpg" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="new bg-yellow">
+                                                <span>+7</span>
+                                            </div>
+                                            <div class="data">
+                                                <h5>User</h5>
+                                                <span>Thứ ?</span>
+                                                <p>Nội dung</p>
+                                            </div>
+                                        </a>
+
+                                        <a href="#list-request" class="filterDiscussions all unread single" id="list-request-list" data-toggle="list" role="tab">
+                                            <img class="avatar-md" src="/img/about.jpg" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="new bg-yellow">
+                                                <span>+7</span>
+                                            </div>
+                                            <div class="data">
+                                                <h5>User</h5>
+                                                <span>Thứ ?</span>
+                                                <p>Nội dung</p>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="notifications" class="tab-pane fade">
+                                <div class="search">
+                                    <form class="form-inline position-relative">
+                                        <input type="search" class="form-control" id="notice" placeholder="Lọc thông báo...">
+                                        <button type="button" class="btn btn-link loop"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </form>
+                                </div>
+                                <div class="list-group sort">
+                                    <button class="btn filterNotificationsBtn active show" data-toggle="list" data-filter="all">Tất cả</button>
+                                    <button class="btn filterNotificationsBtn" data-toggle="list" data-filter="latest">Cũ nhất</button>
+                                    <button class="btn filterNotificationsBtn" data-toggle="list" data-filter="oldest">Mới nhất</button>
+                                </div>
+                                <div class="notifications">
+                                    <h1>Thông báo</h1>
+                                    <div class="list-group" id="alerts" role="tablist">
+                                        <a href="#" class="filterNotifications all latest notification" data-toggle="list">
+                                            <img class="avatar-md" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="data">
+                                                <p>User.</p>
+                                                <span>Ngày tháng năm</span>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="settings">
+                                <div class="settings">
+                                    <div class="profile">
+                                        <img class="avatar-xl" src="/img/about.jpg" alt="avatar">
+                                        <h1><a href="#">User</a></h1>
+                                        <span>Address</span>
+                                        <div class="stats">
+                                            <div class="item">
+                                                <h2>122</h2>
+                                                <h3>Bạn bè</h3>
+                                            </div>
+                                            <div class="item">
+                                                <h2>305</h2>
+                                                <h3>Tin nhắn</h3>
+                                            </div>
+                                            <div class="item">
+                                                <h2>1538</h2>
+                                                <h3>Bài viết</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="categories" id="accordionSettings">
+                                        <h1>Cài đặt</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="requests">
+                        <div class="title">
+                            <h1>Gửi yêu cầu kết bạn</h1>
+                            <button type="button" class="btn" data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="content">
+                            <form>
+                                <div class="form-group">
+                                    <label for="user">Tên đăng nhập:</label>
+                                    <input type="text" class="form-control" id="user" placeholder="Nhập tên đăng nhập...." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="welcome">Nội dung:</label>
+                                    <textarea class="text-control" id="welcome" placeholder="Gửi lời nhắn yêu cầu kết bạn..."></textarea>
+                                </div>
+                                <button type="submit" class="btn button w-100">Kết bạn</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="babble tab-pane fade active show" id="list-chat" role="tabpanel" aria-labelledby="list-chat-list">
+                        <div class="chat" id="chat1">
+                            <div class="top">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="inside">
+                                            <a href="#"><img class="avatar-md" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar"></a>
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle online"></i>
+                                            </div>
+                                            <div class="data">
+                                                <h5><a href="#">User</a></h5>
+                                                <p style="font-size: 13px;" class="onlineTwo">Vừa mới truy cập</p>
+                                            </div>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-phone"></i></button>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-video"></i></button>
+                                            <button class="btn d-md-block d-none"><i class="fa-solid fa-circle-info"></i></button>
+                                            <div class="dropdown">
+                                                <button class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-phone"></i> Gọi điện</button>
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-video"></i> Gọi điện Video</button>
+                                                    <hr>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-trash-can-arrow-up"></i> Xóa lịch sử trò chuyện</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-slash"></i> Chặn</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-xmark"></i> Xóa kết bạn</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content" id="content">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="date">
+                                            <hr>
+                                            <span>Hôm nay</span>
+                                            <hr>
+                                        </div>
+                                        <div class="message">
+                                            <img class="avatar-md" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar">
+                                            <div class="text-main">
+                                                <div class="text-group">
+                                                    <div class="text">
+                                                        <p>Nội dung.</p>
+                                                    </div>
+                                                </div>
+                                                <span>thời gian AM</span>
+                                            </div>
+                                        </div>
+                                        <div class="message me">
+                                            <div class="text-main">
+                                                <div class="text-group me">
+                                                    <div class="text me">
+                                                        <p>Câu trả lời.</p>
+                                                    </div>
+                                                </div>
+                                                <span>Thời gian AM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <div class="bottom">
+                                        <form class="position-relative w-100">
+                                            <textarea class="form-control" placeholder="Aa..." rows="1"></textarea>
+                                            <button class="btn emoticons"><i class="fa-solid fa-face-laugh-beam"></i></button>
+                                            <button type="submit" class="btn send"><i class="fa-solid fa-paper-plane"></i></button>
+                                        </form>
+                                        <label>
+                                            <input type="file">
+                                            <span class="btn attach d-sm-block d-none"><i class="fa-solid fa-paperclip md-24"></i></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="call" id="call1">
+                            <div class="content">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="inside">
+                                            <div class="panel">
+                                                <div class="participant">
+                                                    <img class="avatar-xxl" src="/img/about.jpg" alt="avatar">
+                                                    <span>Đang đổ chuông...</span>
+                                                </div>
+                                                <div class="options">
+                                                    <button class="btn option"><i class="fa-solid fa-microphone md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-video md-24"></i></button>
+                                                    <button class="btn option call-end"><i class="fa-solid fa-phone-slash md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-user-plus md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-volume-high md-24"></i></button>
+                                                </div>
+                                                <button class="btn back" name="1"><i class="fa-solid fa-comments md-24"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="babble tab-pane fade" id="list-empty" role="tabpanel" aria-labelledby="list-empty-list">
+                        <div class="chat" id="chat2">
+                            <div class="top">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="inside">
+                                            <a href="#"><img class="avatar-md" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar"></a>
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle offline"></i>
+
+                                            </div>
+                                            <div class="data">
+                                                <h5><a href="#">User</a></h5>
+                                                <p style="font-size: 13px;" class="offlineTwo">Không hoạt động</p>
+                                            </div>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-phone"></i></button>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-video"></i></button>
+                                            <button class="btn d-md-block d-none"><i class="fa-solid fa-circle-info"></i></button>
+                                            <div class="dropdown">
+                                                <button class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-phone"></i> Gọi điện</button>
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-video"></i> Gọi điện Video</button>
+                                                    <hr>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-trash-can-arrow-up"></i> Xóa lịch sử trò chuyện</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-slash"></i> Chặn</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-xmark"></i> Xóa kết bạn</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content empty">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="no-messages">
+                                            <i class="fa-solid fa-comments md-30"></i>
+                                            <p>Mọi người đều đang ngại ngùng không biết bắt chuyện. Đừng ngại, hãy là người đầu tiên gửi tin nhắn nhé!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <div class="bottom">
+                                        <form class="position-relative w-100">
+                                            <textarea class="form-control" placeholder="Aa..." rows="1"></textarea>
+                                            <button class="btn emoticons"><i class="fa-solid fa-face-laugh-beam"></i></button>
+                                            <button type="submit" class="btn send"><i class="fa-solid fa-paper-plane"></i></button>
+                                        </form>
+                                        <label>
+                                            <input type="file">
+                                            <span class="btn attach d-sm-block d-none"><i class="fa-solid fa-paperclip md-24"></i></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="call" id="call2">
+                            <div class="content">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="inside">
+                                            <div class="panel">
+                                                <div class="participant">
+                                                    <img class="avatar-xxl" src="/img/about.jpg" alt="avatar">
+                                                    <span>Đang đổ chuông...</span>
+                                                </div>
+                                                <div class="options">
+                                                    <button class="btn option"><i class="fa-solid fa-microphone md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-video md-24"></i></button>
+                                                    <button class="btn option call-end"><i class="fa-solid fa-phone-slash md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-user-plus md-24"></i></button>
+                                                    <button class="btn option"><i class="fa-solid fa-volume-high md-24"></i></button>
+                                                </div>
+                                                <button class="btn back" name="1"><i class="fa-solid fa-comments md-24"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="babble tab-pane fade" id="list-request" role="tabpanel" aria-labelledby="list-request-list">
+                        <div class="chat" id="chat3">
+                            <div class="top">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="inside">
+                                            <a href="#"><img class="avatar-md" src="dist/img/avatars/avatar-female-6.jpg" data-toggle="tooltip" data-placement="top" title="Louis" alt="avatar"></a>
+                                            <div class="status">
+                                                <i class="fa-solid fa-circle offline"></i>
+                                            </div>
+                                            <div class="data">
+                                                <h5><a href="#">User</a></h5>
+                                                <p style="font-size: 13px;" class="offlineTwo">Không hoạt động</p>
+                                            </div>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-phone"></i></button>
+                                            <button class="btn connect d-md-block d-none" name="1"><i class="fa-solid fa-video"></i></button>
+                                            <button class="btn d-md-block d-none"><i class="fa-solid fa-circle-info"></i></button>
+                                            <div class="dropdown">
+                                                <button class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-phone"></i> Gọi điện</button>
+                                                    <button class="dropdown-item connect" name="1"><i class="fa-solid fa-video"></i> Gọi điện Video</button>
+                                                    <hr>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-trash-can-arrow-up"></i> Xóa lịch sử trò chuyện</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-slash"></i> Chặn</button>
+                                                    <button class="dropdown-item"><i class="fa-solid fa-user-xmark"></i> Xóa kết bạn</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content empty">
+                                <div class="container">
+                                    <div class="col-md-12">
+                                        <div class="no-messages request">
+                                            <a href="#"><img class="avatar-xl" src="#" data-toggle="tooltip" data-placement="top" title="avatar" alt="avatar"></a>
+                                            <h5>Lời chào. <span>Lời chào.</span></h5>
+                                            <div class="options">
+                                                <button class="btn button"><i class="fa-solid fa-check fa-xl" style="color: #ffffff;"></i></button>
+                                                <button class="btn button"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <div class="bottom">
+                                        <form class="position-relative w-100">
+                                            <textarea class="form-control" placeholder="Aa..." rows="1"></textarea>
+                                            <button class="btn emoticons"><i class="fa-solid fa-face-laugh-beam"></i></button>
+                                            <button type="submit" class="btn send"><i class="fa-solid fa-paper-plane"></i></button>
+                                        </form>
+                                        <label>
+                                            <input type="file">
+                                            <span class="btn attach d-sm-block d-none"><i class="fa-solid fa-paperclip md-24"></i></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="/js/vendor/popper.min.js"></script>
+    <script src="/js/swipe.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        function scrollToBottom(el) {
+            el.scrollTop = el.scrollHeight;
+        }
+        scrollToBottom(document.getElementById('content'));
+    </script>
+</body>
+
+</html>

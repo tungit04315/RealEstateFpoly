@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_user::areas(~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-xxl py-5">
+            <div class="container row">
+                <div th:replace="~{/layout_user/aside :: .aside}"></div>
+                <div class="col-lg-10">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-post" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <div class="container">
+                                <h1 class="fs-4">Thông tin cơ bản</h1>
+                                <hr class="mb-3">
+                                <form id="signUpForm" action="#!">
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6 mb-3">
+                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
+                                            <label class="btn btn-outline-success w-100" for="success-outlined">Bán</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined2" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100" for="success-outlined2">Cho thuê</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- start step indicators -->
+                                    <div class="form-header d-flex mb-4">
+                                        <span class="stepIndicator">Thông tin</span>
+                                        <span class="stepIndicator">Cấu hình tin đăng</span>
+                                        <span class="stepIndicator">Xem trước</span>
+                                    </div>
+                                    <!-- end step indicators -->
+
+                                    <!-- step one -->
+                                    <div class="step">
+                                        <div class="mb-3">
+                                            <label for="disabledSelect" class="form-label">Loại bất động sản *</label>
+                                            <select id="disabledSelect" class="form-select">
+                                                  <option value="">Ví dụ: Nhà riêng</option>
+                                                  <option value="">Bán căn hộ chung cư</option>
+                                                  <option value="">Bán nhà riêng</option>
+                                                  <option value="">Bán biệt thự, liền kề</option>
+                                                  <option value="">Bán mặt phố</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="disabledSelect" class="form-label">Tỉnh, thành phố *</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                        <option value="">--Chọn--</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="disabledSelect" class="form-label">Quận, huyện *</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                        <option value="">--Chọn--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="disabledSelect" class="form-label">Phường, xã *</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                        <option value="">--Chọn--</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="disabledSelect" class="form-label">Đường, phố</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                        <option value="">--Chọn--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="disabledSelect" class="form-label">Dự án *</label>
+                                            <select id="disabledSelect" class="form-select">
+                                                  <option value="">--Chọn--</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <hr class="mb-3">
+                                            <h5>Thông tin bài viết</h5>
+                                            <label for="exampleInputEmail1" class="form-label">Tiêu đề *</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ví dụ: Bán nhà 50m² chính chủ tại Cầu giấy" style="height: 40px;">
+                                            <label for="exampleInputEmail1" class="form-label">Mô tả *</label>
+                                            <textarea rows="7" cols="" class="form-control" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <hr class="mb-3">
+                                            <h5>Thông tin bất động sản</h5>
+                                            <label for="exampleInputEmail1" class="form-label">Diện tích (m²)*</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                            <div class="row">
+                                                <div class="col-lg-9">
+                                                    <label for="disabledTextInput" class="form-label">Mức giá *</label>
+                                                    <input type="text" id="disabledTextInput" class="form-control" style="height: 40px;">
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <label for="disabledSelect" class="form-label">Đơn vị</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                      <option>VNĐ</option>
+                                                      <option>m²</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-lg-12">
+                                                <label for="exampleInputEmail1" class="form-label">Giấy tờ pháp lý *</label>
+                                                <div class="col-lg-3 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Sổ đỏ/ Sổ hồng</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37-1" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37-1">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Hợp đồng mua bán</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37-2" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37-2">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Đang chờ sổ</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <label for="exampleInputEmail1" class="form-label">Nội thất *</label>
+                                                <div class="col-lg-3 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37-3" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37-3">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Đầy đủ</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37-4" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37-4">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Cơ bản</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <div class="checkbox-wrapper-37">
+                                                        <input id="terms-checkbox-37-5" name="checkbox" type="checkbox">
+                                                        <label class="terms-label" for="terms-checkbox-37-5">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
+                                                            <mask fill="white" id="path-1-inside-1_476_5-37">
+                                                              <rect height="200" width="200"></rect>
+                                                            </mask>
+                                                            <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
+                                                            <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
+                                                          </svg>
+                                                          <span class="label-text">Không nội thất</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <hr class="mb-3">
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-10">
+                                                        <label for="" class="form-label">Số phòng ngủ</label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="d-flex">
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                            </div>
+                                                            <div class="col">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                            </div>
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-10">
+                                                        <label for="" class="form-label">Số phòng tắm, vệ sinh</label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="d-flex">
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                            </div>
+                                                            <div class="col">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                            </div>
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-10">
+                                                        <label for="" class="form-label">Số tầng</label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="d-flex">
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                            </div>
+                                                            <div class="col">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                            </div>
+                                                            <div class="col">
+                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="mb-3 mt-4">
+                                                <label for="exampleInputEmail1" class="form-label">Mô tả bổ sung</label>
+                                                <div class="mb-3">
+                                                    <label for="disabledSelect" class="form-label">Hướng nhà</label>
+                                                    <select id="disabledSelect" class="form-select">
+                                                        <option value="">--Chọn--</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Đường vào (m)</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Mặt tiền (m)</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <hr class="mb-3">
+                                            <h5>Video & Hình ảnh</h5>
+                                            <div class="mb-3" style="font-size: 14px;">
+                                                <p>
+                                                    <li style="margin-bottom: -15px;">Đăng tối thiểu 4 ảnh với tin VIP</li>
+                                                </p>
+                                                <p>
+                                                    <li style="margin-bottom: -15px;">Đăng tối đa 24 ảnh với tất cả loại tin</li>
+                                                </p>
+                                                <p>
+                                                    <li style="margin-bottom: -15px;">Mỗi ảnh kích thước tối thiểu 100x100 px, tối đa 15MB</li>
+                                                </p>
+                                                <p>
+                                                    <li style="margin-bottom: -15px;">Hãy dùng ảnh thật, không trùng, chèn số điện thoại</li>
+                                                </p>
+                                                <p>
+                                                    <li style="margin-bottom: -15px;">Mô tả ảnh không được quá 45 ký tự</li>
+                                                </p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="col-lg-12 ">
+                                                    <img src="//placehold.it/100" class="avatar img-circle w-100" alt="avatar">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <p>
+                                                    <i class="fa-brands fa-youtube" style="color: #E57C23;"></i>
+                                                    <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                        Thêm video từ YouTube
+                                                    </a>
+                                                </p>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card card-body">
+                                                        <label for="linkYoutube" class="form-label">Link video YouTube</label>
+                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" style="height: 40px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <hr class="mb-3">
+                                            <h5>Thông tin liên hệ</h5>
+                                            <label for="Fullname" class="form-label">Tên liên hệ *</label>
+                                            <input type="text" class="form-control" id="Fullname" style="height: 40px;">
+                                            <label for="Phone" class="form-label">Số điện thoại *</label>
+                                            <input type="text" class="form-control" id="Phone" style="height: 40px;">
+                                            <label for="Email" class="form-label">Email</label>
+                                            <input type="text" class="form-control" id="Email" style="height: 40px;">
+                                        </div>
+                                    </div>
+
+                                    <!-- step two -->
+                                    <div class="step">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Chọn loại tin</label>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="card w-100 p-3">
+                                                        <strong class="text-center text-black">Tin Thường</strong>
+                                                        <p class="text-center">1.500 đ/ngày</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off" checked>
+                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="card w-100 p-3">
+                                                        <strong class="text-center text-black">Tin Bạc</strong>
+                                                        <p class="text-center">1.500 đ/ngày</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
+                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="card w-100 p-3">
+                                                        <strong class="text-center text-black">Tin Vàng</strong>
+                                                        <p class="text-center">1.500 đ/ngày</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
+                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="card w-100 p-3">
+                                                        <strong class="text-center text-black">Tin Kim Cương</strong>
+                                                        <p class="text-center">1.500 đ/ngày</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
+                                                        <hr class="mb-3 color-or">
+                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
+                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr class="mb-3">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label text-black">Thời gian đăng tin</label>
+                                            <p>Số ngày đăng</p>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off" checked>
+                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">10 ngày <p>&nbsp; 2.300 đ/ngày</p></label><br>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off">
+                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">
+                                                        15 ngày <p>&nbsp; 2.000 đ/ngày</p> &nbsp; <span class="badge bg-secondary h-50"> -10%</span> 
+                                                    </label><br>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off">
+                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">
+                                                        30 ngày <p>&nbsp; 1.500 đ/ngày</p> &nbsp; <span class="badge bg-secondary h-50"> -20%</span> 
+                                                    </label><br>
+                                                </div>
+                                            </div>
+                                            <hr class="mb-3">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label text-black">Tiện ích</label>
+                                            <div class="row">
+                                                <div class="col-lg-1 d-flex align-items-center justify-content-center">
+                                                    <i class="fa-solid fa-rotate-right" style="color: #ff811a; font-size: 45px;"></i>
+                                                </div>
+                                                <div class="col-lg-10" style="font-size: 14px;">
+                                                    <p class="text-black">Tự động đăng lại</p>
+                                                    <p>Tin sẽ được đăng lại ngay khi vừa hết hạn. Mỗi lần đăng lại, Hệ thống sẽ tự động trừ tiền của lần đăng lại đó.</p>
+                                                </div>
+                                                <div class="col-lg-1 d-flex align-items-center justify-content-center">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                                                        <!-- <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- step three -->
+                                    <div class="step">
+                                        <label for="exampleInputEmail1" class="form-label text-black">Thanh Toán</label>
+                                        <div class="pay-detail">
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <p>Loại tin</p>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    Tin thường
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <p>Đơn giá/ngày</p>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    2.300 đ
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <p>Thời gian</p>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    10 ngày
+                                                    <p style="font-size: 10px;">5/9/2023 - 15/9/2023</p>
+                                                </div>
+                                                <hr class="mb-3">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <p>Phí đăng tin</p>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    23.000 đ
+                                                </div>
+                                                <hr class="mb-3">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <strong>Tổng tiền</strong>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <strong>23.000</strong> đ
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="mb-3">
+                                    <!-- start previous / next buttons -->
+                                    <div class="form-footer d-flex">
+                                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Quay lại</button>
+                                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Tiếp</button>
+                                    </div>
+                                    <!-- end previous / next buttons -->
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <div class="container">
+                                <h1 class="wow slideInDown" data-wow-delay="0.1s">Chỉnh sửa</h1>
+                                <hr>
+                                <div class="row">
+                                    <!-- left column -->
+                                    <div class="col-lg-3 wow slideInLeft" data-wow-delay="0.1s">
+                                        <div class="text-center">
+                                            <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                                            <h6 style="font-size: 15px;">Tải lên một bức ảnh khác...</h6>
+                                            <input type="file" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- edit form column -->
+                                    <div class="col-lg-9 personal-info wow slideInRight" data-wow-delay="0.1s">
+                                        <h3>Thông tin cá nhân</h3>
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Tên đăng nhập:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Họ và tên:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Giới tính:</label>
+                                                <div class="col-lg-8">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" checked>
+                                                        <label class="form-check-label" for="inlineRadio1">Nam</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false">
+                                                        <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Mật khẩu:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="password" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Email:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="a@gmail.com">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Số điện thoại:</label>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" type="text" value="">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Địa chỉ:</label>
+                                                <div class="col-md-8">
+                                                    <textarea rows="" cols="" class="form-control"></textarea>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Hạng thành viên:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"></label>
+                                                <div class="col-md-8">
+                                                    <input type="button" class="btn btn-primary" value="Lưu">
+                                                    <span></span>
+                                                    <input type="reset" class="btn btn-default" value="Hủy">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
+                            <div class="container">
+                                <h1 class="wow slideInDown" data-wow-delay="0.1s">Đổi mật khẩu</h1>
+                                <hr class="mb-3">
+                                <form class="form-edit-change-password wow slideInLeft" data-wow-delay="0.1s">
+                                    <div class="mb-3">
+                                        <h5>Đặt một mật khẩu mới</h5>
+                                        <hr>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text"> * Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Xác nhận lại mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            <div class="container-xxl py-5">
+                                <div class="container">
+                                    <div class="row g-0 gx-5 align-items-end">
+                                        <div class="col-lg-6">
+                                            <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                                                <h3 class="mb-3">Tin của bạn</h3>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                                            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                                                <li class="nav-item me-2">
+                                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Tin mới đăng</a>
+                                                </li>
+                                                <li class="nav-item me-2">
+                                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">Để bán</a>
+                                                </li>
+                                                <li class="nav-item me-0">
+                                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">Cho thuê</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Nhà</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Cửa hàng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center wow fadeInUp d-flex justify-content-center" data-wow-delay="0.1s">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-2" class="tab-pane fade show p-0">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Nhà</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Cửa hàng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center d-flex justify-content-center">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-3" class="tab-pane fade show p-0">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Home</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Shop</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center d-flex justify-content-center">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Cài đặt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_user::areas(~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-xxl py-5">
+            <div class="container row">
+                <div th:replace="~{/layout_user/aside :: .aside}"></div>
+                <div class="col-lg-10">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <div class="container">
+                                <h1 class="wow slideInDown" data-wow-delay="0.1s">Chỉnh sửa</h1>
+                                <hr>
+                                <div class="row">
+                                    <!-- left column -->
+                                    <div class="col-lg-3 wow slideInLeft" data-wow-delay="0.1s">
+                                        <div class="text-center">
+                                            <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                                            <h6 style="font-size: 15px;">Tải lên một bức ảnh khác...</h6>
+                                            <input type="file" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- edit form column -->
+                                    <div class="col-lg-9 personal-info wow slideInRight" data-wow-delay="0.1s">
+                                        <h3>Thông tin cá nhân</h3>
+
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Tên đăng nhập:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Họ và tên:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Giới tính:</label>
+                                                <div class="col-lg-8">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" checked>
+                                                        <label class="form-check-label" for="inlineRadio1">Nam</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false">
+                                                        <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Mật khẩu:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="password" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Email:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="a@gmail.com">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Số điện thoại:</label>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" type="text" value="">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Địa chỉ:</label>
+                                                <div class="col-md-8">
+                                                    <textarea rows="" cols="" class="form-control"></textarea>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Hạng thành viên:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value="" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"></label>
+                                                <div class="col-md-8">
+                                                    <input type="button" class="btn btn-primary" value="Lưu">
+                                                    <span></span>
+                                                    <input type="reset" class="btn btn-default" value="Hủy">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
+                            <div class="container">
+                                <h1 class="wow slideInDown" data-wow-delay="0.1s">Đổi mật khẩu</h1>
+                                <hr class="mb-3">
+                                <form class="form-edit-change-password wow slideInLeft" data-wow-delay="0.1s">
+                                    <div class="mb-3">
+                                        <h5>Đặt một mật khẩu mới</h5>
+                                        <hr>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text"> * Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Xác nhận lại mật khẩu mới</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade show active" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            <div class="container-xxl py-5">
+                                <div class="container">
+                                    <div class="row g-0 gx-5 align-items-end">
+                                        <div class="col-lg-6">
+                                            <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                                                <h3 class="mb-3">Tin của bạn</h3>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                                            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                                                <li class="nav-item me-2">
+                                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Tin mới đăng</a>
+                                                </li>
+                                                <li class="nav-item me-2">
+                                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">Để bán</a>
+                                                </li>
+                                                <li class="nav-item me-0">
+                                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">Cho thuê</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Nhà</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Cửa hàng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center wow fadeInUp d-flex justify-content-center" data-wow-delay="0.1s">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-2" class="tab-pane fade show p-0">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Nhà</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Cửa hàng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center d-flex justify-content-center">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-3" class="tab-pane fade show p-0">
+                                            <div class="row g-4">
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-1.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Căn hộ</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-2.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Biệt thự</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-3.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Văn phòng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-4.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Xây dựng</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-5.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Home</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div class="property-item rounded overflow-hidden">
+                                                        <div class="position-relative overflow-hidden">
+                                                            <a href=""><img class="img-fluid" src="/img/property-6.jpg" alt=""></a>
+                                                            <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Cho thuê</div>
+                                                            <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Shop</div>
+                                                        </div>
+                                                        <div class="p-4 pb-0">
+                                                            <h5 class="text-primary mb-3">60 Triệu</h5>
+                                                            <a class="d-block h5 mb-2" href="">Golden Urban House Để bán</a>
+                                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>123 Street, New York, USA</p>
+                                                        </div>
+                                                        <div class="d-flex border-top">
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 m²</small>
+                                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 PN</small>
+                                                            <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Toilet</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-center d-flex justify-content-center">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Cài đặt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
