@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_user::areas(~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <!-- Search Start -->
+        <div class="container-fluid bg-primary wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+            <div class="container">
+                <div class="row g-2">
+                    <div class="col-md-10">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control border-0 py-3" placeholder="Nhập địa chỉ, tên dự án...">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Tỉnh/Thành</option>
+                                    <option value="1">Location 1</option>
+                                    <option value="2">Location 2</option>
+                                    <option value="3">Location 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Loại dự án</option>
+                                    <option value="1">Property Type 1</option>
+                                    <option value="2">Property Type 2</option>
+                                    <option value="3">Property Type 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Mức giá</option>
+                                    <option value="1">Location 1</option>
+                                    <option value="2">Location 2</option>
+                                    <option value="3">Location 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Diện tích</option>
+                                    <option value="1">Location 1</option>
+                                    <option value="2">Location 2</option>
+                                    <option value="3">Location 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Trạng thái</option>
+                                    <option value="1">Location 1</option>
+                                    <option value="2">Location 2</option>
+                                    <option value="3">Location 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-dark border-0 w-100 py-3"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Search End -->
+
+        <!-- Detail -->
+        <div class="container-xxl py-5">
+            <div class="container wow fadeInUp" data-wow-delay="0.1s">
+                <div class="row g-4">
+                    <!-- Detailed article content -->
+                    <div class="col-lg-9 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="/img/carousel-1.jpg" class="d-block w-100 h-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/img/carousel-2.jpg" class="d-block w-100 h-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/img/header.jpg" class="d-block w-100 h-100" alt="...">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Bán</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Tất cả BĐS trên toàn quốc</li>
+                            </ol>
+                        </nav>
+                        <div class="title">
+                            <h4>Tôi chủ nhà cần bán nhanh căn góc 4 phòng ngủ tòa Park 8, tầng trung đẹp, giá 10,5 tỷ 0702 098 ***</h4>
+                            <p>Dự án Times City - Park Hill, Đường Minh Khai, Phường Vĩnh Tuy, Hai Bà Trưng, Hà Nội</p>
+                            <hr class="mb2">
+                        </div>
+                        <div class="room-space">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-2">
+                                    <p class="mb-1">Mức giá</p>
+                                    <strong class="text-dark">10,5 Tỷ</strong>
+                                    <p style="font-size:13px;">~72,41 triệu/m²</p>
+                                </div>
+                                <div class="col-lg-2 col-sm-2">
+                                    <p class="mb-1">Diện tích</p>
+                                    <strong class="text-dark">10,5 m²</strong>
+                                    <p style="font-size:13px;"></p>
+                                </div>
+                                <div class="col-lg-5 col-sm-5">
+                                    <p class="mb-1">Phòng ngủ</p>
+                                    <strong class="text-dark">3 PN</strong>
+                                    <p style="font-size:13px;"></p>
+                                </div>
+                                <div class="col-lg-3 col-sm-3 mt-4" style="padding-left: 100px;">
+                                    <a href="" class="" style="padding-right:18px;">
+                                        <i class="fa-regular fa-share-from-square fa-xl"></i>
+                                    </a>
+                                    <a href="" class="" style="padding-right:18px;">
+                                        <i class="fa-regular fa-heart fa-xl"></i>
+                                    </a>
+                                    <a href="" class="">
+                                        <i class="fa-solid fa-exclamation fa-xl"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr class="mb2">
+                        </div>
+                        <div class="describe">
+                            <h5 class="">Thông tin mô tả</h5>
+                            <p>
+                                Nhà mới, đã sửa lại rất đẹp với 4 hệ tủ Laminate An Cường (~200tr). View phía trường học Vin cực chill. Tất cả các phòng đều có cửa sổ rộng, sáng. 3 PN rộng rãi, vuông vắn. Bếp liền lô gia thông thoáng. Sổ đỏ cất két, không vay. Có slot ô tô. Bán 6.5
+                                tỷ bao toàn phí có đàm phán. Lh xem nhà:
+                            </p>
+                        </div>
+                        <div class="characteristic">
+                            <h5>Đặc điểm bất động sản</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"></li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-ruler-combined fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Diện tích</div>
+
+                                                <div class="col-lg-4">120 m²</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-compass fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Hướng nhà</div>
+
+                                                <div class="col-lg-4">Bắc</div>
+                                            </div>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-bed fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Phòng ngủ</div>
+
+                                                <div class="col-lg-4">3</div>
+                                            </div>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-file-circle-check fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Pháp lý</div>
+
+                                                <div class="col-lg-4">Sổ đỏ/Sổ hồng</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item"></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"></li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-hand-holding-dollar fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Mức giá</div>
+
+                                                <div class="col-lg-4">20 Tỷ</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-house-user fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Hướng ban công</div>
+
+                                                <div class="col-lg-4">Bắc</div>
+                                            </div>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-bath fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Số toilet</div>
+
+                                                <div class="col-lg-4">3</div>
+                                            </div>
+
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <i class="fa-solid fa-kitchen-set fa-xl"></i>
+                                                </div>
+                                                <div class="col-lg-7">Nội thất</div>
+
+                                                <div class="col-lg-4">Đầy đủ</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-information">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Thông tin dự án</h5>
+                                <a href="#">Xem 14 tin đăng khác</a>
+                            </div>
+                            <div class="card mb-3" style="max-height: 100px;">
+                                <div class="row g-0">
+                                    <div class="col-md-2 p-2" style="height: 100px;">
+                                        <img src="/img/about.jpg" class="h-100" alt="...">
+                                    </div>
+                                    <div class="col-md-10" style="margin-left: -50px;">
+                                        <div class="card-body" style="font-size: 13px;">
+                                            <strong class="">Melosa Garden</strong>
+                                            <p class=""><i class="fa-solid fa-exclamation"></i> Bàn giao năm 2023</p>
+                                            <p class=""><i class="fa-regular fa-building"></i> Công ty Cổ Phần Đầu Tư và Kinh Doanh nhà Khang Điền</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maps-project">
+                            <h5>Xem trên bản đồ</h5>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.420494742025!2d105.75565247371665!3d9.982081490122432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a08906415c355f%3A0x416815a99ebd841e!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1sen!2s!4v1693556853574!5m2!1sen!2s"
+                                class="w-100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <div class="key-word">
+                            <h5>Tìm kiếm theo từ khóa</h5>
+                            <div class="row">
+                                <div class="col" style="padding: 5px;">
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                </div>
+                            </div>
+                            <hr class="mb-3">
+                        </div>
+                        <div class="Date-Submitted">
+                            <!-- <h5>Ngày đăng</h5> -->
+                            <div class="row">
+                                <div class="col">
+                                    <p>Ngày đăng</p>
+                                    <strong>17/08/2023</strong>
+                                </div>
+                                <div class="col">
+                                    <p>Ngày hết hạn</p>
+                                    <strong>17/08/2023</strong>
+                                </div>
+                                <div class="col">
+                                    <p>Loại tin</p>
+                                    <strong>Tin thường</strong>
+                                </div>
+                                <div class="col">
+                                    <p>Mã tin</p>
+                                    <strong>MT001</strong>
+                                </div>
+                            </div>
+                            <hr class="mb-3">
+                        </div>
+                    </div>
+                    <!-- Detailed article content -->
+                    <!-- Extra information -->
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-body">
+                                <div class="d-flex align-content-center justify-content-center">
+                                    <img src="/img/about.jpg" class="rounded-circle w-25" alt="...">
+
+                                </div>
+                                <p class="card-title mt-2 d-flex justify-content-center" style="font-size: 13px;">Được đăng bởi</p>
+                                <h5 class="card-title d-flex justify-content-center">Username</h5>
+                                <a href="#" class="card-text d-flex justify-content-center">Xem thêm</a>
+                                <button type="button" class="btn btn-primary w-100 mt-4">0123 456 ***. Hiện số</button>
+                                <button type="button" class="btn btn-outline-light w-100 mt-2">Gửi email</button>
+                                <button type="button" class="btn btn-outline-light w-100 mt-2">Yêu cầu liên hệ lại</button>
+                            </div>
+                        </div>
+                        <div class="more-information-1">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-secondary ">
+                                    <strong>Bán nhà biệt thự, liền kề theo dự án tại Quận 9</strong>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    <a href="#">Xem thêm <i class="fa-solid fa-angle-down"></i></a>
+                                </li>
+                            </ul>
+                            <ul class="list-group mt-3">
+                                <li class="list-group-item list-group-item-secondary ">
+                                    <strong>Bất động sản nổi bật</strong>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    Dinh thự The Rivus Elie Saab
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                    <a href="#">Xem thêm <i class="fa-solid fa-angle-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Extra information -->
+                </div>
+
+            </div>
+        </div>
+        <!-- Detail -->
+    </main>
+</body>
+
+</html>
