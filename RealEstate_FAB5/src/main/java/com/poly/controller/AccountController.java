@@ -142,7 +142,6 @@ public class AccountController {
 	}
 
 	// Đăng nhập thành công
-<<<<<<< HEAD
 //	@RequestMapping("/login/action/success")
 //	public String postLogin(Model m) {
 //
@@ -164,29 +163,29 @@ public class AccountController {
 //			return "redirect:/home";
 //		}
 //	}
-	@RequestMapping("/login/action")
-	public String login(Model m, @RequestParam("username") String username,
-			@RequestParam("passwords") String passwords) {
-		Users u = userService.findById(username);
-		if (u == null) {
-			System.out.println(u);
-			return "redirect:/login";
-		} else {
-			System.out.println(u.getPasswords() + " | " + passwordEncoder.encode(passwords));
-			if (passwordEncoder.matches(passwords, u.getPasswords())) {
-				ss.setAttribute("user", u);
-				return "redirect:/home";
-			}
-		}
-
-		return "redirect:/login";
-	}
+//	@RequestMapping("/login/action")
+//	public String login(Model m, @RequestParam("username") String username,
+//			@RequestParam("passwords") String passwords) {
+//		Users u = userService.findById(username);
+//		if (u == null) {
+//			System.out.println(u);
+//			return "redirect:/login";
+//		} else {
+//			System.out.println(u.getPasswords() + " | " + passwordEncoder.encode(passwords));
+//			if (passwordEncoder.matches(passwords, u.getPasswords())) {
+//				ss.setAttribute("user", u);
+//				return "redirect:/home";
+//			}
+//		}
+//
+//		return "redirect:/login";
+//	}
 
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
 		return "redirect:/login";
-=======
+	}
 	@RequestMapping("/login/action/success")
 	public String postLogin(Model m) {
 
@@ -226,7 +225,6 @@ public class AccountController {
 				return "redirect:/login/action/error";
 			}
 		}
->>>>>>> 013b014 (commmit post like manager)
 	}
 	// Đăng nhập
 
@@ -240,19 +238,10 @@ public class AccountController {
 		return "redirect:/home/manager/profile";
 	}
 
-<<<<<<< HEAD
 	// Đổi mật khẩu
 	@PostMapping("/profile/changePass")
 	public String ChangePassProfile(Model m, Users u, @Param("passhientai") String passhientai) {
 		Users user = (Users) ss.getAttribute("user");
-=======
-	// Đăng nhập thất bại
-	@RequestMapping("/login/action/error")
-	public String loginError(Model model) {
-		return "account/login";
-//		return "redirect:/login";
-	}
->>>>>>> 013b014 (commmit post like manager)
 
 		String passmoi = paramService.getString("passmoi", "");
 		String nhaplaipassmoi = paramService.getString("nhaplaipassmoi", "");
