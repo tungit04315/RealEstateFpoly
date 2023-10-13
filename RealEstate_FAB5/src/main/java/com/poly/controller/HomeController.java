@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -139,11 +140,18 @@ public class HomeController {
         	Long pay = p.getPay_money() + money;
         	p.setPay_money(pay);
         	payDao.save(p);
-        	return "success";
+        	
+        	return "redirect:/payment-success";
         }else {
         	return "failder";
         }
         
+	}
+	
+	@GetMapping("/payment-success")
+	public String paymentSuccess(Model m) {
+		m.addAttribute("visible", "true");
+		return "home/payNumber";
 	}
 	// Pay Page
 
@@ -155,4 +163,11 @@ public class HomeController {
 		return "home/profile";
 	}
 	// Profile Page
+	
+	//Manager Likes Post
+	@RequestMapping("manager-likes")
+	public String getManagerLikes(Model m) {
+		return "home/managerLikes";
+	}
+	//Manager Likes Post
 }

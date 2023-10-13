@@ -545,3 +545,138 @@
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(141, 141, 141, 0.3);
 }
+
+.utility-support {
+    background-color: #5858581b;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 10px;
+}
+
+.utility-support-item {
+    background-color: transparent;
+    border-color: transparent;
+    color: rgb(0, 0, 0);
+    margin-left: -10px;
+}
+
+.utility-support-item a {
+    color: rgb(0, 0, 0);
+}
+
+.utility-support-item a:hover {
+    color: rgb(116, 116, 116);
+}
+
+.manager-likes h4 {
+    margin-left: 110px;
+}
+
+.manager-likes>.row>.tatol-post {
+    margin-left: 110px;
+    width: 54%;
+}
+
+.card-post {
+    margin-left: 110px;
+    width: 87%;
+    border-radius: 5px !important;
+}
+
+.card-post img {
+    /* width: 30%; */
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.card-post .card-title-big {
+    font-weight: bold;
+    font-size: 15px;
+    color: #000000;
+}
+
+.card-post .card-title-big-2 {
+    color: #ff2323;
+}
+
+.con-like {
+    --red: rgb(255, 50, 50);
+    position: relative;
+    width: 25px;
+    height: 25px;
+}
+
+.con-like .like {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.con-like .checkmark {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.con-like .outline,
+.con-like .filled {
+    fill: var(--red);
+    position: absolute;
+}
+
+.con-like .filled {
+    animation: kfr-filled 0.5s;
+    display: none;
+}
+
+.con-like .celebrate {
+    position: absolute;
+    animation: kfr-celebrate 0.5s;
+    animation-fill-mode: forwards;
+    display: none;
+}
+
+.con-like .poly {
+    stroke: var(--red);
+    fill: var(--red);
+}
+
+.con-like .like:checked~.checkmark .filled {
+    display: block
+}
+
+.con-like .like:checked~.checkmark .celebrate {
+    display: block
+}
+
+@keyframes kfr-filled {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes kfr-celebrate {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+        display: none;
+    }
+}

@@ -24,8 +24,10 @@ public class TransactionsServiceImpl implements TransactionService{
 	@Override
 	public Transactions findById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.getTransactionByUserId(null);
 	}
+	
+	
 
 	@Override
 	public Transactions create(Transactions u) {
@@ -48,7 +50,7 @@ public class TransactionsServiceImpl implements TransactionService{
 	@Override
 	public Transactions findByUserId(String username) {
 		// TODO Auto-generated method stub
-		return dao.getTransaction(username);
+		return dao.getTransactionByUserId(username);
 	}
 
 }
