@@ -254,17 +254,13 @@ public class AccountController {
 				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Email
-
 				Random random = new Random();
-
 				StringBuilder stringNumber = new StringBuilder();
-
 				for (int i = 0; i < 4; i++) {
 					int numberRandom = random.nextInt(10);
 
 					stringNumber.append(numberRandom);
 				}
-
 				String title = "Dịch Vụ Tài Khoản";
 				String body = stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
@@ -280,17 +276,13 @@ public class AccountController {
 				return "redirect:/forget-password";
 			} else {
 				// Send ID OTP Phone
-
 				Random random = new Random();
-
 				StringBuilder stringNumber = new StringBuilder();
-
 				for (int i = 0; i < 4; i++) {
 					int numberRandom = random.nextInt(10);
 
 					stringNumber.append(numberRandom);
 				}
-
 				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
@@ -298,7 +290,6 @@ public class AccountController {
 				String phone = "+84" + email.substring(1);
 				System.out.println(phone);
 				smsService.sendSms(phone, body);
-
 				return "redirect:/OTP";
 			}
 		}
