@@ -7,7 +7,7 @@ import com.poly.bean.Likes;
 public interface LikeService {
 	public List<Likes> getAll();
 
-	public List<Likes> getTop4PostLikes();
+	public List<Likes> getTop4PostLikes(String username);
 
 	public Likes Create(Likes l);
 

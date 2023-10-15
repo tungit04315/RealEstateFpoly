@@ -50,7 +50,7 @@ public class Users implements Serializable{/**
 	private String addresss;
 	private int fail_login = 0;
 	private boolean active = true;
-	private boolean gender;
+	private boolean gender = true;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_block")

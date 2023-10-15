@@ -22,9 +22,9 @@ public class LikesServiceImpl implements LikeService{
 	}
 
 	@Override
-	public List<Likes> getTop4PostLikes() {
+	public List<Likes> getTop4PostLikes(String username) {
 		// TODO Auto-generated method stub
-		List<Likes> Likes = dao.getTop4PostLikes();
+		List<Likes> Likes = dao.getTop4PostLikes(username);
 		if(Likes != null) {
 			return Likes;
 		}else {

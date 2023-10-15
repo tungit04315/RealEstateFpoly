@@ -33,7 +33,7 @@ public class Likes implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long likes_id;
-	private int likes_count = 0;
+	private boolean likes_status = true;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "likes_date")
