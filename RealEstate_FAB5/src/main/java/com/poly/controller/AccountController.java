@@ -126,11 +126,8 @@ public class AccountController {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("secret", recaptchaSecret);
 		map.add("response", gRecaptchaResponse);
-
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
 		ResponseEntity<String> response = restTemplate.postForEntity(recaptchaSeverURL, request, String.class);
-
 		System.out.println(response);
 	}
 	// Đăng ký - Captcha
@@ -177,7 +174,6 @@ public class AccountController {
 				return "redirect:/home";
 			}
 		}
-
 		return "redirect:/login";
 	}
 
@@ -242,8 +238,7 @@ public class AccountController {
 	public String getForgetPassword() {
 		return "account/forgetPassword";
 	}
-
-	// Gửi mail xác nhận
+		// Gửi mail xác nhận
 	@PostMapping("/forget-password-action")
 	public String getForgetPasswordAction(Model m, @RequestParam("email") String email) throws Exception {
 		if (validator.isEmailValid(email)) {
@@ -294,7 +289,7 @@ public class AccountController {
 			}
 		}
 	}
-	// Gửi mail xác nhận
+		// Gửi mail xác nhận
 	// Quên mật khẩu
 
 	// OTP
@@ -341,5 +336,4 @@ public class AccountController {
 		}
 	}
 	// Đổi mật khẩu
-	
 }
