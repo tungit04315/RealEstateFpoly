@@ -198,7 +198,7 @@ public class AccountController {
 		return "redirect:/home/manager/profile";
 	}
 
-	// Đổi mật khẩu
+		// Đổi mật khẩu
 	@PostMapping("/profile/changePass")
 	public String ChangePassProfile(Model m, Users u, @Param("passhientai") String passhientai) {
 		Users user = (Users) ss.getAttribute("user");
@@ -211,19 +211,6 @@ public class AccountController {
 
 		if (passwordEncoder.matches(passhientai, user.getPasswords())) {
 			if (passmoi.equalsIgnoreCase(nhaplaipassmoi)) {
-				u.setUsername(user.getUsername());
-				u.setEmail(user.getEmail());
-				u.setGender(user.isGender());
-				u.setPhone(user.getPhone());
-				u.setFullname(user.getFullname());
-				u.setAvatar(user.getAvatar());
-				u.setAddresss(user.getAddresss());
-				u.setFail_login(user.getFail_login());
-				u.setActive(user.isActive());
-				u.setCreate_block(user.getCreate_block());
-				u.setRanks_id(user.getRanks_id());
-				u.setPay_id(user.getPay_id());
-
 				u.setPasswords(passwordEncoder.encode(passmoi));// db
 				user.setPasswords(passwordEncoder.encode(passmoi));// session
 				userService.update(user);
@@ -238,12 +225,14 @@ public class AccountController {
 			return "redirect:/home";
 		}
 	}
-	// Đổi mật khẩu
+		// Đổi mật khẩu
 	// Cập nhật thông tin tài khoản
 
 	// Đăng xuất
 	@RequestMapping("/logout/success")
 	public String logoutSuccess() {
+		ss.removeAttribute("user");
+		ss.removeAttribute("user");
 		return "redirect:/login";
 	}
 	// Đăng xuất
