@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poly.bean.Likes;
 import com.poly.dao.LikesDAO;
 import com.poly.service.LikeService;
@@ -61,5 +64,32 @@ public class LikesServiceImpl implements LikeService{
 			return null;
 		}
 	}
+
+	@Override
+	public Likes findByUserIDAndPostID(String user, Integer post) {
+		// TODO Auto-generated method stub
+		return dao.getPostLikeByUserIDAndPostID(user, post);
+	}
+
+	@Override
+	public List<Likes> getAllPostLikes(String username) {
+		// TODO Auto-generated method stub
+		return dao.getAllPostLikes(username);
+	}
+
+	@Override
+	public void DeleteByUserIDAndPostID(Integer post) {
+		dao.deleteByUserIdAndPostId(post);
+	}
+
+	@Override
+	public Likes CreateJsonNode(JsonNode likeData) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Likes l = mapper.convertValue(likeData, Likes.class);
+		return dao.save(l);
+	}
+
+
 
 }

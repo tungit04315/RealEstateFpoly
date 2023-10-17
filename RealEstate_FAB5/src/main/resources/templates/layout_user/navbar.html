@@ -22,14 +22,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto">
-                    <a href="index.html" class="nav-item nav-link active">Nhà đất bán</a>
+                    <a href="index.html" class="nav-item nav-link">Nhà đất bán</a>
                     <a href="about.html" class="nav-item nav-link">Nhà đất thuê</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dự án</a>
                         <div class="dropdown-menu rounded-0 m-0" style="padding: 10px;">
-                            <a href="property-list.html" class="dropdown-item">Căn hộ chung cư</a>
-                            <a href="property-type.html" class="dropdown-item">Cao ốc văn phòng</a>
-                            <a href="property-agent.html" class="dropdown-item">Trung tâm thương mại</a>
+                            <a href="#" ng-repeat="type in types" class="dropdown-item">{{type.types_name}}</a>
                         </div>
                     </div>
 
