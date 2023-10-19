@@ -111,7 +111,7 @@ public class AccountController {
 
 			Auth uAuth = new Auth();
 			uAuth.setUsers(u);
-			uAuth.setRoles(roleService.findbyId("user"));
+			uAuth.setRoles(roleService.findbyId("admin"));
 			authService.create(uAuth);
 
 			m.addAttribute("successRegister", "true");
@@ -194,15 +194,17 @@ public class AccountController {
 
 		// Check if the user is authenticated
 		if (authentication != null && authentication.isAuthenticated()) {
+			System.out.println(authentication.getName() + "197");
 			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
-
+			System.out.println(roleNames);
+			
 			for (String roleName : roleNames) {
 				authList.add("ROLE_" + roleName);
 			}
 		}
-
+		System.out.println("TỚI");
 		if (authList.contains("ROLE_ADMIN")) {
-			return "/admin";
+			return "redirect:/admin";
 		} else {
 			return "redirect:/home";
 		}

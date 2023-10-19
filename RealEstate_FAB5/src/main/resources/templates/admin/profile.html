@@ -1,115 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{index_admin::areas(~{::.container-fluid})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_admin::areas(~{::.container-fluid})}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
 </head>
+
 <body>
-	<main>
-		<div class="container-fluid">
-			<div class="tabs">
-				<div class="tab-2">
-					<label for="tab2-1">Cập nhật thông tin</label> <input id="tab2-1"
-						name="tabs-two" type="radio" checked="checked">
-					<div>
-						<h4 class="text-title text-center mb-3">Thông tin cá nhân</h4>
-						<form action="#" method="post" class="form">
-							<div class="row mb-3">
-								<div class="col">
-									<input type="text" class="form-control" placeholder="Họ và tên"
-										aria-label="First name">
-								</div>
-								<div class="col">
-									<input type="text" class="form-control"
-										placeholder="Tên đăng nhập" aria-label="Last name">
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col">
-									<input type="text" class="form-control" placeholder="Mật khẩu"
-										aria-label="First name">
-								</div>
-								<div class="col">
-									<input type="text" class="form-control" placeholder="Email"
-										aria-label="Last name">
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col">
-									<input type="text" class="form-control"
-										placeholder="Số điện thoại" aria-label="First name">
-								</div>
-								<div class="col">
-									<input type="text" class="form-control" placeholder="Địa chỉ"
-										aria-label="Last name">
-								</div>
-							</div>
-							<div class="mb-3">
-								<div class="col" style="margin-left: 15px;">
-									<div class="radio-button-container">
-										<div class="radio-button">
-											<input type="radio" class="radio-button__input" id="radio1"
-												name="radio-group"> <label
-												class="radio-button__label" for="radio1"> <span
+    <main>
+        <div class="container-fluid">
+            <div class="tabs">
+                <div class="tab-2">
+                    <label for="tab2-1">Cập nhật thông tin</label> <input id="tab2-1" name="tabs-two" type="checkbox" checked>
+                    <div>
+                        <h4 class="text-title text-center mb-3">Thông tin cá nhân</h4>
+                        <form action="/admin/profile-edit" th:object="${u}" method="post" class="form">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Họ và tên" name="fullname" th:value="*{fullname}">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username" th:value="*{username}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="passwords" th:value="*{passwords}" readonly>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Email" name="email" th:value="*{email}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Số điện thoại" name="phone" th:value="*{phone}">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Địa chỉ" name="addresss" th:value="*{addresss}">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="col" style="margin-left: 15px;">
+                                    <div class="radio-button-container">
+                                        <div class="radio-button">
+                                            <input type="radio" class="radio-button__input" id="radio1" name="gender" th:value="true" th:checked="*{gender}">
+                                            <label class="radio-button__label" for="radio1"> <span
 												class="radio-button__custom"></span> Nam
 											</label>
-										</div>
-										<div class="radio-button">
-											<input type="radio" class="radio-button__input" id="radio2"
-												name="radio-group"> <label
-												class="radio-button__label" for="radio2"> <span
+                                        </div>
+                                        <div class="radio-button">
+                                            <input type="radio" class="radio-button__input" id="radio2" name="gender" th:value="false" th:checked="*{gender ? false: true}">
+                                            <label class="radio-button__label" for="radio2"> <span
 												class="radio-button__custom"></span> Nữ
 											</label>
-										</div>
-									</div>
-								</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-							</div>
-							<div class="row mb-3">
-								<button class="btn btn-primary">Cập nhật</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div class="tab-2">
-					<label for="tab2-2">Đổi mật khẩu</label> <input id="tab2-2"
-						name="tabs-two" type="radio">
-					<div>
-						<h4 class="text-title text-center mb-3">Đổi mật khẩu</h4>
-						<form action="#" method="post" class="form">
-							<div class="row mb-3">
-								<div class="col">
-									<input type="text" class="form-control"
-										placeholder="Mật khẩu mới" aria-label="First name">
-									<div class="form-text">
-										<i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật
-										khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt
-										biệt.
-									</div>
-									<div class="form-text">
-										<i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật
-										khẩu xác nhận phải khớp với mật khẩu mới.
-									</div>
-									<div class="form-text">
-										<i class="fa-solid fa-check" style="color: #6bff7c;"></i>
-										Không sử dụng lại mật khẩu cũ.
-									</div>
-								</div>
-								<div class="col">
-									<input type="text" class="form-control"
-										placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
-								</div>
-							</div>
-							<div class="row mb-3">
-								<button class="btn btn-primary">Đổi mật khẩu</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				<!-- Main Content End -->
-			</div>
-		</div>
-	</main>
+                            </div>
+                            <div class="row mb-3">
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-2">
+                    <label for="tab2-2">Đổi mật khẩu</label> <input id="tab2-2" name="tabs-two" type="checkbox" checked>
+                    <div>
+                        <h4 class="text-title text-center mb-3">Đổi mật khẩu</h4>
+                        <form action="#" method="post" class="form">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Mật khẩu mới" aria-label="First name">
+                                    <div class="form-text">
+                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.
+                                    </div>
+                                    <div class="form-text">
+                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật khẩu xác nhận phải khớp với mật khẩu mới.
+                                    </div>
+                                    <div class="form-text">
+                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Không sử dụng lại mật khẩu cũ.
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Main Content End -->
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>
