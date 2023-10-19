@@ -66,6 +66,10 @@ public class Users implements Serializable{/**
 	@JoinColumn(name = "pay_id")
 	private Pay pay_id;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birthday")
+	private Date birthday;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	List<Auth> auth;

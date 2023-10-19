@@ -7,19 +7,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MailInfo {
+public class MailHappyBirthday {
 	String from;
 	String to;
 	String[] cc;
 	String[] bcc;
 	String subject;
-	String body;
 	String[] attachments;
-
-	public MailInfo(String to, String subject, String body) {
+	String fullName;
+	String old;
+	
+	public MailHappyBirthday(String to, String subject, String fullName, String old) {
 		this.from = "Real Estate <fab5@gmail.com.vn>";
 		this.to = to;
 		this.subject = subject;
-		this.body = body;
+		this.fullName = fullName;
+		this.old = old;
 	}
 }
