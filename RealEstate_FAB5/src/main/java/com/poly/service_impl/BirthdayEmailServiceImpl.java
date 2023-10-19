@@ -25,7 +25,7 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
 	@Autowired
 	MailerService mailService;
 
-	@Scheduled(cron = "0 30 21 * * ?")
+	@Scheduled(cron = "0 0 12 * * ?")
 	@Override
 	public void sendEmailBirthday() {
 		List<Users> users = uService.findAll();
