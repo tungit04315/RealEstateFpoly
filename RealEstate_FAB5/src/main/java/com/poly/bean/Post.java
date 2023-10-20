@@ -70,7 +70,4 @@ public class Post {
 	@OneToMany(mappedBy = "post_id")
 	List<Albums> albums;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "post_id")
-	List<DetailTransactions> detail;
 }

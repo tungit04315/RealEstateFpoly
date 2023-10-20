@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			username -> {
 				try {
 					Users user = userService.findById(username);
-					String passwords = pe.encode(user.getPasswords());
+					//String passwords = pe.encode(user.getPasswords());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -61,7 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
-					return User.withUsername(username).password(passwords).roles(roles).build();
+					
+					System.out.println(username + "Username");
+					System.out.println(user.getPasswords() + "Password");
+					
+					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
 				}
@@ -82,15 +86,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.authorizeRequests()
-		.antMatchers("/post/**","/user/**").authenticated()
+		.antMatchers("/home/**","/post/**","/user/**").authenticated()
 		.antMatchers("/admin-2/**").hasAnyRole("ADMIN")
 		.antMatchers("/rest/authorities").hasRole("USER")
 		.anyRequest().permitAll();
 		
-//		http.formLogin().loginPage("/login")
-//		.loginProcessingUrl("/login/action")
-//		.defaultSuccessUrl("/login/action/success", false)
-//		.failureUrl("/login/action/error");
+		http.formLogin().loginPage("/login")
+		.loginProcessingUrl("/login/action-test")
+		.defaultSuccessUrl("/login/action/success", false)
+		.failureUrl("/login/action/error");
 		
 		http.rememberMe().tokenValiditySeconds(86400);
 		

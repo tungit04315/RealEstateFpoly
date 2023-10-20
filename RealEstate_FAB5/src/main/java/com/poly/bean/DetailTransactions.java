@@ -23,13 +23,10 @@ public class DetailTransactions {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int detail_id;
 	private double price;
+	private boolean transactions_type;
 	
 	@ManyToOne
 	@JoinColumn(name = "transactions_id")
 	private Transactions transactions_id;
-	
-	@ManyToOne
-	@JoinColumn(name = "post_id")
-	private Post post_id;
 	
 }
