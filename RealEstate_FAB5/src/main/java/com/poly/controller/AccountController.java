@@ -160,7 +160,7 @@ public class AccountController {
 			System.out.println(authentication.getName() + "197");
 			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
 			System.out.println(roleNames);
-			//
+			
 			for (String roleName : roleNames) {
 				authList.add("ROLE_" + roleName);
 			}
