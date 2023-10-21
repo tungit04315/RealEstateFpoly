@@ -14,7 +14,6 @@
 				<table class="table tbl-edit">
 					<thead>
 						<tr>
-							<th scope="col">STT</th>
 							<th scope="col">Tên đăng nhập</th>
 							<th scope="col">Họ và tên</th>
 							<th scope="col">Email</th>
@@ -23,23 +22,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Tô Quốc Tùng</td>
-							<td>Lucas</td>
-							<td>adc@gmail.com</td>
-							<td>500.000</td>
-							<td><a type="button" href="#" class="btn btn-primary"><i
-									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-									Chi tiết</a></td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Tô Quốc Tùng</td>
-							<td>Lucas</td>
-							<td>adc@gmail.com</td>
-							<td>500.000</td>
-							<td><a type="button" href="#" class="btn btn-primary"><i
+						<tr th:each="w: ${pays}">
+							<td th:utext="${w.username}"></td>
+							<td th:utext="${w.fullname}"></td>
+							<td th:utext="${w.email}"></td>
+							<td th:utext="${w.pay_id.pay_money}"></td>
+							<td><a type="button" th:href="@{/find/users/{username}(username = ${w.username})}" class="btn btn-primary"><i
 									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
 									Chi tiết</a></td>
 						</tr>
@@ -62,7 +50,7 @@
 				</div>
 			</div>
 			<div class="col-lg-12 mb-3">
-				<form action="#" class="form-edit-user-list">
+				<form action="#" class="form-edit-user-list" th:object="${user}">
 					<div class="mb-3 mt-2 mr-2 d-flex justify-content-end">
 						<div class="input-wrapper">
 							<button class="icon" type="button">
@@ -83,7 +71,7 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">
 							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+								<input required="" th:value="*{username}" type="text"> <label> <span
 									style="transition-delay: 350ms">T</span> <span
 									style="transition-delay: 300ms">ê</span> <span
 									style="transition-delay: 250ms">n</span> <span
@@ -102,7 +90,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+								<input required="" th:value="*{pay_id.pay_money}"  type="text">  <label> <span
 									style="transition-delay: 350ms">S</span> <span
 									style="transition-delay: 300ms">ố</span> <span
 									style="transition-delay: 250ms"></span> <span

@@ -1,9 +1,13 @@
 package com.poly.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poly.bean.Users;
@@ -59,8 +63,19 @@ public class AdminController {
 	// Wallet List
 	@RequestMapping({"/admin/wallet","/admin/wallet-list"})
 	public String getWalletList(Model m) {
+		List<Users> u = userService.findAll();
+		m.addAttribute("pays", u);
 		return "admin/wallet";
 	}
+	@RequestMapping("/find/users/{id}")
+	public String getWalletList(Model m,@PathVariable("id") String username) {
+		List<Users> u= userService.findAll();
+		m.addAttribute("pays", u);
+		
+		Users user = userService.findById(username);
+		m.addAttribute("user", user);
+		return "admin/wallet";
+}
 	// Wallet List
 	
 	// Profile User (Admin)
