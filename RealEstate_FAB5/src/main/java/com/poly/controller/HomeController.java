@@ -137,6 +137,7 @@ public class HomeController {
 		smsService.sendSms(phoneVN, body);
 		return "home/contact";
 	}
+	// TEST COMMIT
 	// Contact Page
 
 	// Messager Page
