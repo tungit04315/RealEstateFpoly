@@ -92,9 +92,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //		.defaultSuccessUrl("/login/action/success", false)
 //		.failureUrl("/login/action/error");
 		
+		
 		http.rememberMe().tokenValiditySeconds(86400);
 		
 		http.exceptionHandling().accessDeniedPage("/home/error");
+// 		OAuth2- Đăng nhâp từ mang xã hôi
+		http.oauth2Login().loginPage("/login")
+			.defaultSuccessUrl("/oauth2/login/success", true)
+			.failureUrl("/auth/login/error")
+			.authorizationEndpoint()
+			.baseUri("/oauth2/authorization");
+		
 		
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/logout/success");
 	}

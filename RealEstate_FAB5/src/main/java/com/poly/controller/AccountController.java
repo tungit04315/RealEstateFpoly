@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -181,6 +182,12 @@ public class AccountController {
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
 		return "redirect:/login";
+	}
+	//Đăng nhập bằng Google
+	@RequestMapping("/oauth2/login/success")
+	public String success(OAuth2AuthenticationToken oauth2) {
+		userService.loginFromOAuth2(oauth2);
+		return "forward:/home";
 	}
 	// Đăng nhập
 
