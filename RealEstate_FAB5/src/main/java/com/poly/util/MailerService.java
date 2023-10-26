@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.poly.bean.MailContact;
 import com.poly.bean.MailHappyBirthday;
 import com.poly.bean.MailInfo;
+import com.poly.bean.MailPostExpired;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -36,6 +38,48 @@ public class MailerService{
 		Context context = new Context();
         context.setVariable("content", mail.getBody());
         String html = templateEngine.process("email/index", context);
+
+		
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setSubject(mail.getSubject());
+		helper.setText(html, true);
+		helper.setReplyTo(mail.getFrom());
+
+		String[] cc = mail.getCc();
+		if (cc != null && cc.length > 0) {
+			helper.setCc(cc);
+		}
+
+		String[] bcc = mail.getBcc();
+		if (bcc != null && bcc.length > 0) {
+			helper.setBcc(bcc);
+		}
+
+		String[] attachments = mail.getAttachments();
+		if (attachments != null && attachments.length > 0) {
+			for (String path : attachments) {
+				File file = new File(path);
+				helper.addAttachment(file.getName(), file);
+			}
+		}
+
+		sender.send(message);
+	}
+	
+	public void sendContact(MailContact mail) throws MessagingException {
+		MimeMessage message = sender.createMimeMessage();
+
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		
+		Context context = new Context();
+		context.setVariable("fullNameTo", mail.getFullNameTo());
+		context.setVariable("fullNameFrom", mail.getFullNameFrom());
+		context.setVariable("email", mail.getTo());
+		context.setVariable("phone", mail.getPhone());
+		context.setVariable("content", mail.getBody());
+        
+        String html = templateEngine.process("email/emailContact", context);
 
 		
 		helper.setFrom(mail.getFrom());
@@ -104,13 +148,60 @@ public class MailerService{
 		sender.send(message);
 	}
 
+	public void sendPostExpired(MailPostExpired mail) throws MessagingException {
+		MimeMessage message = sender.createMimeMessage();
+
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		
+		Context context = new Context();
+		context.setVariable("fullName", mail.getFullName());
+		context.setVariable("title", mail.getTitle());
+		context.setVariable("end_date", mail.getEnd_date());
+        String html = templateEngine.process("email/emailPostExpired", context);
+
+		
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setSubject(mail.getSubject());
+		helper.setText(html, true);
+		helper.setReplyTo(mail.getFrom());
+
+		String[] cc = mail.getCc();
+		
+		if (cc != null && cc.length > 0) {
+			helper.setCc(cc);
+		}
+
+		String[] bcc = mail.getBcc();
+		if (bcc != null && bcc.length > 0) {
+			helper.setBcc(bcc);
+		}
+
+		String[] attachments = mail.getAttachments();
+		if (attachments != null && attachments.length > 0) {
+			for (String path : attachments) {
+				File file = new File(path);
+				helper.addAttachment(file.getName(), file);
+			}
+		}
+
+		sender.send(message);
+	}
 	
 	public void send(String to, String subject, String body) throws MessagingException {
 		this.send(new MailInfo(to, subject, body));
 	}
 	
+	public void sendEmailContact(String to, String subject, String body, String fullNameTo, String fullNameFrom, String phone) throws MessagingException {
+		this.sendContact(new MailContact(to , subject, body, fullNameTo, fullNameFrom, phone));
+	}
+	
 	public void sendMailHappyBirthday(String to, String subject, String fullName, String old) throws MessagingException {
 		this.sendHappyBirthday(new MailHappyBirthday(to, subject, fullName, old));
+	}
+	
+	public void sendPostExpired(String to, String subject, String fullName, String title,String old) throws MessagingException {
+		this.sendPostExpired(new MailPostExpired(to, subject, fullName, title,old));
 	}
 
 	List<MailInfo> list = new ArrayList<>();
