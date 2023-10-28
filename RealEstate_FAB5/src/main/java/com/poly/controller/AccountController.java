@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.poly.bean.Auth;
 import com.poly.bean.Pay;
+import com.poly.bean.Ranks;
 import com.poly.bean.Roles;
 import com.poly.bean.Users;
 import com.poly.util.MailerService;
@@ -42,6 +43,7 @@ import ch.qos.logback.core.joran.conditional.IfAction;
 
 import com.poly.service.AuthService;
 import com.poly.service.PaymentService;
+import com.poly.service.RanksService;
 import com.poly.service.RoleService;
 import com.poly.service.UsersService;
 //Ok la
@@ -50,6 +52,9 @@ public class AccountController {
 	@Autowired
 	RoleService roleService;
 
+	@Autowired
+	RanksService rankService;
+	
 	@Autowired
 	AuthService authService;
 
@@ -100,13 +105,19 @@ public class AccountController {
 		if (ufind != null) {
 			m.addAttribute("errorUsername", "true");
 		} else {
+			//payment
 			Pay newpay = new Pay();
 			newpay.setPay_money((long)0.00);
-			//payService
+			payService.Create(newpay);
+			Pay payFind =  payService.findByTop1Desc();
+			
 			//rank
+			Ranks rank = rankService.findById(1);
 			//OTP dangky, xac nhan email
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
+			u.setPay_id(payFind);
+			u.setRanks_id(rank);
 			userService.create(u);
 
 			Auth uAuth = new Auth();

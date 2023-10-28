@@ -40,6 +40,7 @@ app.run(function($rootScope, $http) {
     $http.get(`/rest/user`).then(resp => {
         if (resp.data) {
             $rootScope.$u = resp.data;
+            console.log(resp.data);
         }
     });
 

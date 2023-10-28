@@ -6861,6 +6861,10 @@ fieldset:disabled .btn {
     top: 0 !important
 }
 
+.top-10 {
+    top: 25% !important
+}
+
 .top-50 {
     top: 50% !important
 }
@@ -7015,6 +7019,10 @@ fieldset:disabled .btn {
 
 .w-25 {
     width: 25% !important
+}
+
+.h-25 {
+    height: 25% !important
 }
 
 .w-50 {
