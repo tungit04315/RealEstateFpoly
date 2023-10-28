@@ -18,4 +18,16 @@ public class AuthServiceImpl implements AuthService{
 		return dao.save(auth);
 	}
 
+	@Override
+	public Auth findByUserID(String username) {
+		// TODO Auto-generated method stub
+		return dao.selectByUserId(username);
+	}
+
+	@Override
+	public void delete(String username) {
+		dao.deleteByUserId(username);
+		
+	}
+
 }

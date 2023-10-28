@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poly.bean.Auth;
 import com.poly.bean.Users;
+import com.poly.service.AuthService;
 import com.poly.service.UsersService;
 import com.poly.util.ParamService;
 import com.poly.util.SessionService;
@@ -29,11 +32,13 @@ public class AdminController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AuthService authService;
 
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
-		
 		return "admin/index";
 	}
 	// Home
@@ -41,10 +46,30 @@ public class AdminController {
 	// User List
 	@RequestMapping({"/admin/users","/admin/user-list"})
 	public String getUsers(Model m) {
+		m.addAttribute("users",userService.findAll());
 		
+
 		return "admin/users";
 	}
-	// User List
+	
+	//delete
+	@RequestMapping("/admin/user-delete")
+	public String deleteUsers(Model m, @RequestParam("id") String username) {
+		authService.delete(username);
+		userService.delete(username);
+		return "redirect:/admin/users";
+	}
+	
+	//chi tiết
+	@RequestMapping("/admin/user-detail")
+	public String fillUser(Model m, @RequestParam("id") String username) {
+		Users user = userService.findById(username);
+		Auth auth = authService.findByUserID(username);
+		m.addAttribute("user", user);
+		m.addAttribute("roles", auth.getRoles().getRoles_id());
+		m.addAttribute("users",userService.findAll());
+		return "admin/users";
+	}
 	
 	// Post List
 	@RequestMapping({"/admin/post","/admin/post-list"})
