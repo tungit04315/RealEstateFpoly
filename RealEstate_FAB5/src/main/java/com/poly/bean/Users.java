@@ -50,7 +50,7 @@ public class Users implements Serializable{/**
 	private String addresss;
 	private int fail_login = 0;
 	private boolean active = true;
-	private boolean gender;
+	private boolean gender = true;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_block")
@@ -66,9 +66,17 @@ public class Users implements Serializable{/**
 	@JoinColumn(name = "pay_id")
 	private Pay pay_id;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birthday")
+	private Date birthday;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	List<Auth> auth;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "users_id")
+	List<Post> post;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "users")

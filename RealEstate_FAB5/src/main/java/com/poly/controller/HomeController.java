@@ -1,23 +1,36 @@
 package com.poly.controller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poly.bean.Albums;
+import com.poly.bean.DetailTransactions;
 import com.poly.bean.Pay;
+import com.poly.bean.Post;
 import com.poly.bean.Transactions;
 import com.poly.bean.Users;
 import com.poly.dao.PayDAO;
+import com.poly.service.AlbumsService;
+import com.poly.service.DetailTransactionService;
 import com.poly.service.PaymentService;
+import com.poly.service.PostService;
 import com.poly.service.TransactionService;
 import com.poly.service.UsersService;
+import com.poly.util.MailerService;
+import com.poly.util.ParamService;
 import com.poly.util.SessionService;
+import com.poly.util.SmsService;
 
 @Controller
 public class HomeController {
@@ -39,7 +52,24 @@ public class HomeController {
 
 	@Autowired
 	TransactionService transactionService;
+	
+	@Autowired
+	DetailTransactionService detailTransactionService;
+	
+	@Autowired
+	PostService postService;
+	
+	@Autowired
+	AlbumsService albumService;
+	
+	@Autowired
+	ParamService paramService;
+	
+	@Autowired
+	MailerService mailService;
 
+	@Autowired
+	SmsService smsService;
 	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
@@ -58,6 +88,10 @@ public class HomeController {
 	// Post Detail Page
 	@RequestMapping("/home/detail")
 	public String getPostDetail(Model m) {
+		Post p = postService.getFindByid(8);
+		List<Albums> albums = albumService.findAlbumsByPostID(p.getPost_id());
+		m.addAttribute("post", p);
+		m.addAttribute("albums", albums);
 		return "home/detail";
 	}
 	// Post Detail Page
@@ -70,14 +104,43 @@ public class HomeController {
 	// Error Page
 
 	// Contact Page
-	@RequestMapping("/home/contact")
+	@RequestMapping("/home/manager/contact")
 	public String getContact(Model m) {
+		return "home/contact";
+	}
+	
+	@RequestMapping("/home/contact-email")
+	public String getContactEmail(Model m) {
+		String to = paramService.getString("to", "");
+		String fullNameTo = paramService.getString("fullNameTo", "");
+		String phone = paramService.getString("phone", "");
+		String fullNameFrom = paramService.getString("fullNameFrom", "");
+		String subject = paramService.getString("subject", "");
+		String content = paramService.getString("content", "");
+		
+		try {
+			mailService.sendEmailContact(to, subject, content, fullNameTo, fullNameFrom, phone);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return "home/contact";
+	}
+	
+	@RequestMapping("/home/contact-sms")
+	public String getContactSms(Model m) {
+		String fullName = paramService.getString("fullname", "");
+		String content = paramService.getString("content", "");
+		String phone = paramService.getString("phone", "");
+		
+		String phoneVN = "+84" + phone.substring(1);
+		String body = "Xin chào anh, tôi là " + fullName + ", " + content;
+		smsService.sendSms(phoneVN, body);
 		return "home/contact";
 	}
 	// Contact Page
 
 	// Messager Page
-	@RequestMapping("/home/messager")
+	@RequestMapping("/home/manager/messager")
 	public String getMessager(Model m) {
 		return "home/messager";
 	}
@@ -104,11 +167,11 @@ public class HomeController {
 		Transactions transaction = new Transactions();
 		transaction.setUsers(u);
 		transaction.setCreate_at(new Date());
-
+		
 		transactionService.create(transaction);
 
 		
-		Transactions transactionFind = transactionService.findByUserId("user1");
+		Transactions transactionFind = transactionService.findByUserId(u.getUsername());
 		m.addAttribute("orderInfo", transactionFind.getTransactions_id());
 		return "home/payNumber";
 	}
@@ -117,6 +180,15 @@ public class HomeController {
 	public String getCreate(@RequestParam("amount") Integer amount
 			,@RequestParam("orderInfo") String orderInfo) {
 
+		Transactions transaction = transactionService.findById(Integer.parseInt(orderInfo));
+		
+		DetailTransactions detail = new DetailTransactions();
+		detail.setPrice(amount);
+		detail.setTransactions_id(transaction);
+		detail.setTransactions_type(true);
+		
+		detailTransactionService.create(detail);
+		
 		String baseUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
 		String payURL = payService.createOrder(amount, orderInfo, baseUrl);
 		return "redirect:" + payURL;
@@ -139,11 +211,18 @@ public class HomeController {
         	Long pay = p.getPay_money() + money;
         	p.setPay_money(pay);
         	payDao.save(p);
-        	return "success";
+        	
+        	return "redirect:/payment-success";
         }else {
         	return "failder";
         }
         
+	}
+	
+	@GetMapping("/payment-success")
+	public String paymentSuccess(Model m) {
+		m.addAttribute("visible", "true");
+		return "home/payNumber";
 	}
 	// Pay Page
 
@@ -155,4 +234,21 @@ public class HomeController {
 		return "home/profile";
 	}
 	// Profile Page
+	
+	//Manager Likes Post
+	@RequestMapping("/home/manager/likes")
+	public String getManagerLikes(Model m) {
+		return "home/managerLikes";
+	}
+	//Manager Likes Post
+	
+	//Post deadline extension
+	@RequestMapping("/home/manager/post-deadline-extension")
+	public String setPostDeadlineExtension(Model m) {
+		List<Post> post_list = postService.getPostExpired();
+		
+		m.addAttribute("post_list", post_list);
+		return "home/managerPostExpired";
+	}
+	//Post deadline extension
 }

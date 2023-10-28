@@ -9,14 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import com.poly.bean.Users;
 import com.poly.service.UsersService;
@@ -48,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			username -> {
 				try {
 					Users user = userService.findById(username);
-					String passwords = pe.encode(user.getPasswords());
+					//String passwords = pe.encode(user.getPasswords());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -61,7 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
-					return User.withUsername(username).password(passwords).roles(roles).build();
+					
+					System.out.println(username + "Username");
+					System.out.println(user.getPasswords() + "Password");
+					
+					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
 				}
@@ -82,15 +91,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.authorizeRequests()
-		.antMatchers("/post/**","/user/**").authenticated()
+		.antMatchers("/post/**","/user/**","/home/manager/**").authenticated()
 		.antMatchers("/admin-2/**").hasAnyRole("ADMIN")
 		.antMatchers("/rest/authorities").hasRole("USER")
 		.anyRequest().permitAll();
 		
-//		http.formLogin().loginPage("/login")
-//		.loginProcessingUrl("/login/action")
-//		.defaultSuccessUrl("/login/action/success", false)
-//		.failureUrl("/login/action/error");
+		http.formLogin().loginPage("/login")
+		.loginProcessingUrl("/login/action-test")
+		.defaultSuccessUrl("/login/action/success", false)
+		.failureUrl("/login/action/error");
 		
 		
 		http.rememberMe().tokenValiditySeconds(86400);
@@ -106,7 +115,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/logout/success");
 	}
-	
-	
-	
 }

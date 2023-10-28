@@ -38,10 +38,10 @@ public class Post {
 	@Column(name = "create_at")
 	private Date create_at;
 	@Temporal(TemporalType.DATE)
-	@Column(name = "end_at")
+	@Column(name = "end_date")
 	private Date end_date;
 	
-	private int acreage;
+	private double acreage;
 	private Long price;
 	private String addresss;
 	private String linkVideo;
@@ -53,6 +53,17 @@ public class Post {
 	@ManyToOne
 	@JoinColumn(name = "types_id")
 	private TypePropertys types_id;
+	private String direction;
+	private Integer bed;
+	private String juridical;
+	private String balcony;
+	private Integer toilet;
+	private String interior;
+	private boolean active = true;
+	
+	@ManyToOne
+	@JoinColumn(name = "users_id")
+	private Users users_id;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "post_id")
@@ -70,7 +81,4 @@ public class Post {
 	@OneToMany(mappedBy = "post_id")
 	List<Albums> albums;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "post_id")
-	List<DetailTransactions> detail;
 }

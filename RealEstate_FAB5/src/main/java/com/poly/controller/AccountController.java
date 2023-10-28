@@ -31,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.poly.bean.Auth;
 import com.poly.bean.Pay;
+import com.poly.bean.Ranks;
 import com.poly.bean.Roles;
 import com.poly.bean.Users;
 import com.poly.util.MailerService;
@@ -43,6 +44,7 @@ import ch.qos.logback.core.joran.conditional.IfAction;
 
 import com.poly.service.AuthService;
 import com.poly.service.PaymentService;
+import com.poly.service.RanksService;
 import com.poly.service.RoleService;
 import com.poly.service.UsersService;
 @Controller
@@ -50,6 +52,9 @@ public class AccountController {
 	@Autowired
 	RoleService roleService;
 
+	@Autowired
+	RanksService rankService;
+	
 	@Autowired
 	AuthService authService;
 
@@ -101,18 +106,24 @@ public class AccountController {
 		if (ufind != null) {
 			m.addAttribute("errorUsername", "true");
 		} else {
+			//payment
 			Pay newpay = new Pay();
 			newpay.setPay_money((long)0.00);
-			//payService
+			payService.Create(newpay);
+			Pay payFind =  payService.findByTop1Desc();
+			
 			//rank
-			//OTP dangky, xac nhan email
+			Ranks rank = rankService.findById(1);
+
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
+			u.setPay_id(payFind);
+			u.setRanks_id(rank);
 			userService.create(u);
 
 			Auth uAuth = new Auth();
 			uAuth.setUsers(u);
-			uAuth.setRoles(roleService.findbyId("user"));
+			uAuth.setRoles(roleService.findbyId("admin"));
 			authService.create(uAuth);
 
 			m.addAttribute("successRegister", "true");
@@ -138,6 +149,7 @@ public class AccountController {
 	public String getLogin() {
 		return "account/login";
 	}
+
 
 	// Đăng nhập thành công
 //	@RequestMapping("/login/action/success")
@@ -178,17 +190,64 @@ public class AccountController {
 		return "redirect:/login";
 	}
 
+
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
-		return "redirect:/login";
+		return "account/login";
 	}
+
 	//Đăng nhập bằng Google
 	@RequestMapping("/oauth2/login/success")
 	public String success(OAuth2AuthenticationToken oauth2) {
 		userService.loginFromOAuth2(oauth2);
 		return "forward:/home";
 	}
+
+	@RequestMapping("/login/action/success")
+	public String postLogin(Model m) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		List<String> authList = new ArrayList<>();
+
+		// Check if the user is authenticated
+		if (authentication != null && authentication.isAuthenticated()) {
+			System.out.println(authentication+ "197");
+			System.out.println(authentication.isAuthenticated() + "197");
+			System.out.println(authentication.getName() + "197");
+			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
+			System.out.println(roleNames);
+			
+			for (String roleName : roleNames) {
+				authList.add("ROLE_" + roleName);
+			}
+		}
+		System.out.println(authList);
+		if (authList.contains("ROLE_admin")) {
+			return "redirect:/admin";
+		} else {
+			return "redirect:/home";
+		}
+	}
+
+//	@PostMapping("/login/action")
+//	public String login(Model m, @RequestParam("username") String username, @RequestParam("passwords") String passwords) {
+//		
+//		Users u = userService.findById(username);
+//		if(u == null) {
+//			System.out.println(u);
+//			return "redirect:/login/action/error";
+//		}else {
+//			
+//			if(passwordEncoder.matches(passwords, u.getPasswords())) {
+//				ss.setAttribute("user", u);
+//				return "redirect:/login/action/success";
+//			}else {
+//				System.out.println("Password Failded");
+//				return "redirect:/login/action/error";
+//			}
+//		}
+//	}
 	// Đăng nhập
 
 	// Cập nhật thông tin tài khoản

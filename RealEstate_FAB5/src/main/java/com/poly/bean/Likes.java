@@ -1,7 +1,9 @@
 package com.poly.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,14 +23,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "likes")
-public class Likes {
+public class Likes implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int likes_id;
-	private int likes_count = 0;
+	private Long likes_id;
+	private boolean likes_status = true;
 	
 	@Temporal(TemporalType.DATE)
+	@Column(name = "likes_date")
 	private Date likes_date = new Date();
 	
 	@ManyToOne

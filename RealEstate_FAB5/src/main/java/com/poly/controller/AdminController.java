@@ -1,12 +1,23 @@
 package com.poly.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.poly.bean.Users;
+import com.poly.service.UsersService;
+import com.poly.util.SessionService;
+
 @Controller
 public class AdminController {
 
+	@Autowired
+	UsersService userService;
+	
+	@Autowired
+	SessionService ss;
+	
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
@@ -45,7 +56,15 @@ public class AdminController {
 	// Profile User (Admin)
 	@RequestMapping("/admin/profile")
 	public String getProfile(Model m) {
+		m.addAttribute("u", userService.findById("tungngayngo")); 
 		return "admin/profile";
+	}
+	
+	@RequestMapping("/admin/profile-edit")
+	public String setProfile(Model m, Users u) {
+		userService.update(u);
+		ss.setAttribute("user", u);
+		return "redirect:/admin/profile";
 	}
 	// Profile User (Admin)
 }

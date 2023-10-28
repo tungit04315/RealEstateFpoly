@@ -89,7 +89,7 @@ hr{
     background-color: #f0f0f0;
     margin: 11px 0;
     height: 55px;
-    border-radius: 55px;
+    border-radius: 7px;
     display: grid;
   	grid-template-areas:
     'i input input input input'
@@ -180,7 +180,7 @@ hr{
     border: none;
     outline: none;
     height: 49px;
-    border-radius: 49px;
+    border-radius: 10px;
     color: #fff;
     text-transform: uppercase;
     font-weight: 600;

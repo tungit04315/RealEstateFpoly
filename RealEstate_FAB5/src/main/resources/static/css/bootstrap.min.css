@@ -3635,7 +3635,8 @@ fieldset:disabled .btn {
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 5px
+    border-radius: 5px;
+    left: -100px;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -5518,7 +5519,7 @@ fieldset:disabled .btn {
 
 .btn-close:focus {
     outline: 0;
-    box-shadow: 0 0 0 .25rem rgba(0, 185, 142, 0.25);
+    box-shadow: 0 0 0 .25rem rgb(229, 124, 35, .5);
     opacity: 1
 }
 
@@ -5534,7 +5535,7 @@ fieldset:disabled .btn {
 }
 
 .toast {
-    width: 350px;
+    width: 400px;
     max-width: 100%;
     font-size: .875rem;
     pointer-events: auto;
@@ -5547,7 +5548,7 @@ fieldset:disabled .btn {
 }
 
 .toast:not(.showing):not(.show) {
-    opacity: 0
+    opacity: 1;
 }
 
 .toast.hide {
@@ -6860,6 +6861,10 @@ fieldset:disabled .btn {
     top: 0 !important
 }
 
+.top-10 {
+    top: 25% !important
+}
+
 .top-50 {
     top: 50% !important
 }
@@ -7014,6 +7019,10 @@ fieldset:disabled .btn {
 
 .w-25 {
     width: 25% !important
+}
+
+.h-25 {
+    height: 25% !important
 }
 
 .w-50 {
