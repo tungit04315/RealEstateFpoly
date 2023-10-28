@@ -60,7 +60,7 @@ public class AdminController {
 		return "redirect:/admin/users";
 	}
 	
-	//chi tiết
+	//chi tiết-123
 	@RequestMapping("/admin/user-detail")
 	public String fillUser(Model m, @RequestParam("id") String username) {
 		Users user = userService.findById(username);
@@ -69,7 +69,7 @@ public class AdminController {
 		m.addAttribute("roles", auth.getRoles().getRoles_id());
 		m.addAttribute("users",userService.findAll());
 		return "admin/users";
-	}
+	} 
 	
 	// Post List
 	@RequestMapping({"/admin/post","/admin/post-list"})
