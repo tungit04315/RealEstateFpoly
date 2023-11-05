@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_user::areas(~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-xxl py-5">
+            <div class="container row">
+                <div th:replace="~{/layout_user/aside :: .aside}"></div>
+                <div class="col-lg-9">
+                    <div class="content">
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table table-striped custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Mã giao dịch</th>
+                                            <th scope="col">Thời gian</th>
+                                            <th scope="col">Ngày</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr scope="row" th:each="s,state : ${list}">
+                                            <td th:utext="${state.index + 1}">
+
+                                            </td>
+                                            <td>
+                                                <a href="#" th:utext="${s.transactions_id.transactions_id}"></a>
+                                            </td>
+                                            <td th:utext="${s.timer}">
+
+                                            </td>
+                                            <td th:utext="${s.transactions_id.create_at}"></td>
+                                            <td th:utext="${s.price}"></td>
+                                            <td>
+                                                <a href="#" type="button" class="more" data-bs-toggle="modal" data-bs-whatever="@mdo" th:attr="data-bs-target='#exampleModal-' + ${state.index}"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                            </td>
+                                            <div th:id="'exampleModal-' + ${state.index}" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Thông tin chi tiết</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" style="padding: 20px;">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="col">Mã giao dịch: <span th:utext="${s.transactions_id.transactions_id}"></span></div>
+                                                                    <div class="col">Thời gian: <span th:utext="${s.timer}"></span></div>
+                                                                    <div class="col">Ngày giao dịch: <span th:utext="${s.transactions_id.create_at}"></span></div>
+                                                                    <div class="col">Loại giao dịch: <span th:utext="${s.transactions_type ? 'Nạp tiền':'Đăng bài'}"></span></div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="col">Tài khoản nhận: <span th:utext="${s.transactions_id.users.username}"></span></div>
+                                                                    <div class="col">Ví RE: <span th:utext="${s.transactions_id.users.pay_id.pay_id}"></span></div>
+                                                                    <div class="col">Người nhận: <span th:utext="${s.fullname_get}"></span></div>
+                                                                    <div class="col">Ngân hàng nguồn: <span th:utext="${s.bank_code}"></span></div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

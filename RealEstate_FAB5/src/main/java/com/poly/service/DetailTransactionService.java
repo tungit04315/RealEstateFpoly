@@ -6,6 +6,8 @@ import com.poly.bean.*;
 
 public interface DetailTransactionService {
 	public List<DetailTransactions> findAll();
+	
+	public List<DetailTransactions> findAllByUser(String username);
 
 	public DetailTransactions findById(Integer id);
 	

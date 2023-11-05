@@ -3,6 +3,7 @@ package com.poly.rest;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.poly.bean.Post;
 import com.poly.service.AlbumsService;
 import com.poly.service.PostService;
@@ -21,5 +22,8 @@ public class PostRestController {
 		return postService.getFindByid(id);
 	}
 	
-	
+	@RequestMapping("/create-post")
+	public Post Create(@RequestBody JsonNode p){
+		return postService.Create(p);
+	}
 }

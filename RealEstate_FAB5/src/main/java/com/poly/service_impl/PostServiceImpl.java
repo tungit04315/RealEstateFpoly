@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poly.bean.Post;
 import com.poly.dao.PostDAO;
 import com.poly.service.PostService;
@@ -24,11 +27,6 @@ public class PostServiceImpl implements PostService{
 	@Autowired
 	MailerService mailService;
 	
-	@Override
-	public List<Post> getPostLikes() {
-		// TODO Auto-generated method stub
-		return dao.getPostsLike();
-	}
 
 	@Override
 	public Post getFindByid(Integer id) {
@@ -42,9 +40,12 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post Create(Post p) {
+	public Post Create(JsonNode p) {
 		// TODO Auto-generated method stub
-		return dao.save(p);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Post post = mapper.convertValue(p, Post.class);
+		return dao.save(post);
 	}
 
 	@Override
@@ -96,9 +97,21 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<Post> getPostExpired() {
+	public List<Post> getPostExpired(String username) {
 		// TODO Auto-generated method stub
-		return dao.getPostsExpired();
+		return dao.getPostsExpired(username);
+	}
+
+	@Override
+	public Integer SoftDeletePost(Integer id) {
+		// TODO Auto-generated method stub
+		return dao.softDeletePost(id);
+	}
+
+	@Override
+	public List<Post> getPostDelete(String username) {
+		// TODO Auto-generated method stub
+		return dao.getPostsDelete(username);
 	}
 
 }

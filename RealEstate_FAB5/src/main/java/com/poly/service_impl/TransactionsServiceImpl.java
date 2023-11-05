@@ -24,7 +24,8 @@ public class TransactionsServiceImpl implements TransactionService{
 	@Override
 	public Transactions findById(Integer id) {
 		// TODO Auto-generated method stub
-		return dao.getTransactionByUserId(null);
+//		return dao.getTransactionByUserId(null);
+		return dao.findById(id).get();
 	}
 	
 	

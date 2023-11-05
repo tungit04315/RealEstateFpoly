@@ -37,6 +37,8 @@
                             <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="false">Đổi mật khẩu</button>
 
                             <button class="nav-link active" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="true">Quản lý tin đăng</button>
+                            <a href="/home/manager/history-transactions" class="nav-link text-center">Lịch sử giao dịch</a>
+                            <a href="#" class="nav-link text-center">Lịch sử bài viết đã xóa</a>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Cài đặt</button>
                         </div>
                     </div>
@@ -77,16 +79,37 @@
                                         </p>
                                         <hr>
                                         <div class="d-flex">
-                                            <a class="btn btn-primary" style="margin-right: 10px;" href="">
-                                                <i class="fa-solid fa-xmark"></i> Hủy
-                                            </a>
-                                            <a class="btn btn-primary" href="">
-                                                <i class="fa-solid fa-check"></i> Gia hạn
+                                            <a href="#myModal" class="btn btn-primary" data-toggle="modal" style="margin-right: 10px;"><i class="fa-solid fa-xmark"></i> Hủy bỏ</a>
+                                            <a class="btn btn-primary" th:href="@{'/home/manager/post-deadline-extension-action?id=' + ${post.post_id}}">
+                                                <i class="fa-solid fa-check"></i> Gia hạn ngay
                                             </a>
                                         </div>
                                     </div>
+                                    <div id="myModal" class="modal fade">
+                                        <div class="modal-dialog modal-confirm">
+                                            <div class="modal-content">
+                                                <div class="modal-header flex-column">
+                                                    <div class="icon-box">
+                                                        <i class="fa-solid fa-xmark" style="font-size: 50px; color:red;"></i>
+                                                    </div>
+                                                    <h4 class="modal-title w-100" style="color: red;">Bạn có chắc không?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                        <i class="fa-regular fa-circle-xmark" style="font-size: 25px;"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có chắc chắn muốn hủy gia hạn bài viết này không?</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-center">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                                    <a class="btn btn-danger" th:href="@{'/home/manager/delete-post?id=' + ${post.post_id}}">
+                                                        Đồng ý
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

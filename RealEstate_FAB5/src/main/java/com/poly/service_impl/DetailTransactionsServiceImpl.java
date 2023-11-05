@@ -51,4 +51,10 @@ public class DetailTransactionsServiceImpl implements DetailTransactionService{
 		dao.deleteById(id);
 	}
 
+	@Override
+	public List<DetailTransactions> findAllByUser(String username) {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionsByUser(username);
+	}
+
 }
