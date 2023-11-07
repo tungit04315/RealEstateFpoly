@@ -147,6 +147,44 @@ public class MailerService{
 
 		sender.send(message);
 	}
+	
+	public void sendMailConfirm(MailHappyBirthday mail) throws MessagingException {
+		MimeMessage message = sender.createMimeMessage();
+
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		
+		Context context = new Context();
+		context.setVariable("fullname", mail.getFullName());
+        String html = templateEngine.process("email/otp_xacnhan", context);
+
+		
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setSubject(mail.getSubject());
+		helper.setText(html, true);
+		helper.setReplyTo(mail.getFrom());
+
+		String[] cc = mail.getCc();
+		
+		if (cc != null && cc.length > 0) {
+			helper.setCc(cc);
+		}
+
+		String[] bcc = mail.getBcc();
+		if (bcc != null && bcc.length > 0) {
+			helper.setBcc(bcc);
+		}
+
+		String[] attachments = mail.getAttachments();
+		if (attachments != null && attachments.length > 0) {
+			for (String path : attachments) {
+				File file = new File(path);
+				helper.addAttachment(file.getName(), file);
+			}
+		}
+
+		sender.send(message);
+	}
 
 	public void sendPostExpired(MailPostExpired mail) throws MessagingException {
 		MimeMessage message = sender.createMimeMessage();
@@ -198,6 +236,10 @@ public class MailerService{
 	
 	public void sendMailHappyBirthday(String to, String subject, String fullName, String old) throws MessagingException {
 		this.sendHappyBirthday(new MailHappyBirthday(to, subject, fullName, old));
+	}
+	
+	public void sendMailConfirm(String to, String subject, String fullName, String old) throws MessagingException {
+		this.sendMailConfirm(new MailHappyBirthday(to, subject, fullName, old));
 	}
 	
 	public void sendPostExpired(String to, String subject, String fullName, String title,String old) throws MessagingException {

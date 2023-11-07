@@ -42,15 +42,16 @@ function Validator(options) {
 				}
             });
             if(isFormValid){
-				console.log('Không có lỗi')
-				Swal.fire(
+				console.log('Không có lỗi');
+				formElement.submit();
+/*				Swal.fire(
   							'Thành công!',
   							'',
   							'success'
 							)
 		        setTimeout(function() {
 					formElement.submit();
-		        }, 1100);		
+		        }, 1100);*/		
 			}
         }
         options.rules.forEach(function(rule) {

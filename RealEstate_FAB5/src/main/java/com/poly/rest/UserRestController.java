@@ -28,7 +28,7 @@ public class UserRestController {
 		Users u = (Users) ss.getAttribute("user");
 		return uService.findById(u.getUsername());
 	}
-	
+
 	@RequestMapping("/login-test")
 	public String Users() {
 		

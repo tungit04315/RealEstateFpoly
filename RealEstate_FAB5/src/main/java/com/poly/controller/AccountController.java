@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,7 +101,7 @@ public class AccountController {
 
 	// Đăng ký - Captcha
 	@PostMapping("signup/action")
-	public String Register(Model m, Users u, @Param("username") String username) {
+	public String Register(Model m, Users u, @Param("username") String username) throws MessagingException {
 		// System.out.println("xuất mẫu:"+userService.findById(username));
 		Users ufind = userService.findById(username);
 		if (ufind != null) {
@@ -119,18 +120,34 @@ public class AccountController {
 			u.setPasswords(passwordEncoder.encode(password));
 			u.setPay_id(payFind);
 			u.setRanks_id(rank);
+			u.setActive(false);
 			userService.create(u);
 
 			Auth uAuth = new Auth();
 			uAuth.setUsers(u);
 			uAuth.setRoles(roleService.findbyId("admin"));
 			authService.create(uAuth);
+			ss.setAttribute("usermail", u.getEmail());
 
+			//gui mail kich hoat tai khoan
+			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
+			//gui mail kich hoat tai khoan
+			
 			m.addAttribute("successRegister", "true");
 		}
 		return "redirect:/login";
 	}
 
+	@GetMapping("/account/cofirm")
+	public String GetAccountCofirm() {
+		String email = ss.getAttribute("usermail");
+		Users users = userService.findByEmailOrPhone(email, null);
+		users.setActive(true);
+		userService.update(users);
+		
+		return "redirect:/login";
+		}
+	
 	private void verifyReCAPTCHA(String gRecaptchaResponse) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

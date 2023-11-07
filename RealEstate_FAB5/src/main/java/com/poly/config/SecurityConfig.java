@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,6 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			username -> {
 				try {
 					Users user = userService.findById(username);
+					if(!user.isActive()) {
+						throw new DisabledException("Tài khoản chưa kích hoạt");
+					}
+					System.out.println("ac ti ve"+user.isActive());
 					//String passwords = pe.encode(user.getPasswords());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
@@ -67,8 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
 					
-					System.out.println(username + "Username");
-					System.out.println(user.getPasswords() + "Password");
+//					System.out.println(username + "Username");
+//					System.out.println(user.getPasswords() + "Password");
 					
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
