@@ -420,7 +420,7 @@
                                                     <p>Loại tin</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    Tin thường
+                                                    {{$scope.service.services_name}}
                                                 </div>
 
                                             </div>
@@ -429,7 +429,7 @@
                                                     <p>Đơn giá/ngày</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    2.300 đ
+                                                    {{service.services_price * 1000}} đ
                                                 </div>
 
                                             </div>
@@ -438,8 +438,8 @@
                                                     <p>Thời gian</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    10 ngày
-                                                    <p style="font-size: 10px;">5/9/2023 - 15/9/2023</p>
+                                                    {{inputNumber}} ngày
+                                                    <p style="font-size: 10px;">{{currentDate | date:'dd/MM/yyyy'}} - {{ currentEndDate | date:'dd/MM/yyyy' }}</p>
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -448,7 +448,7 @@
                                                     <p>Phí đăng tin</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    23.000 đ
+                                                    {{service.services_price * 1000}} đ
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -457,7 +457,7 @@
                                                     <strong>Tổng tiền</strong>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <strong>23.000</strong> đ
+                                                    <strong>{{service.services_price * 1000}}</strong> đ
                                                 </div>
 
                                             </div>

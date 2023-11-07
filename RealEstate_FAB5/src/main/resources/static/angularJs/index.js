@@ -76,6 +76,7 @@ app.run(function($rootScope, $http) {
         return $rootScope.pack[0].services_id === id;
     }
 
+
 });
 
 app.controller("mycontroller", function($scope, $http, $rootScope) {
@@ -85,6 +86,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
     $scope.selectedWard = '';
     $scope.street = '';
     $scope.inputNumber = 0;
+    $scope.currentDate = new Date();
 
     $scope.loadDistricts = function() {
         $http.get(`/rest/district?id=` + $scope.selectedProvince)
@@ -225,16 +227,16 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
         }
     };
 
-    function endDate() {
-        $scope.currentDate = new Date();
-        //var nthDay = parseInt($scope.end_date, 10);
-        //console.log($scope.inputNumber);
-        if (!isNaN($scope.inputNumber) && $scope.inputNumber >= 0) {
+    $scope.endDate = function() {
+        var testType = typeof $scope.inputNumber;
+        console.log("End Date kiểu dữ liệu: " + testType);
+        var nday = parseInt($scope.inputNumber, 10);
+        if (!isNaN(nday) && nday >= 0) {
             var currentDate = new Date($scope.currentDate);
-            currentDate.setDate(currentDate.getDate() + $scope.inputNumber);
-            return $scope.inputNumber = currentDate;
+            currentDate.setDate(currentDate.getDate() + nday);
+            return $scope.currentEndDate = currentDate;
         } else {
-            return $scope.inputNumber = "Số ngày không hợp lệ.";
+            return $scope.currentEndDate = "Số ngày không hợp lệ.";
         }
     }
 
@@ -266,13 +268,11 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
                 console.log(resp.data);
             }
         });
-        console.log($rootScope.type);
-        //$scope.type = { "types_id": 1, "types_name": "Nhà riêng" };
         var post = {
             post_title: $scope.post_title,
             post_content: $scope.post_content,
             create_at: new Date(),
-            end_date: endDate(),
+            end_date: $scope.endDate(),
             acreage: $scope.acreage,
             price: $scope.price,
             addresss: $scope.addresss,
@@ -289,16 +289,20 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
             users_id: $rootScope.$u,
             deletedAt: false
         };
+        $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.post(`/create-post`, post)
+                .then(function(response) {
+                    swal("Good job!", "Đăng bài thành công!", "success");
+                }, function(error) {
+                    alert('Đã có lỗi xảy ra: ' + error.data.message);
+                    swal("Error!", "Đăng bài thất bại!", "error");
+                });
 
-        $http.post(`/create-post`, post)
-            .then(function(response) {
-                // Xử lý thành công
-                swal("Good job!", "Đăng bài thành công!", "success");
-            }, function(error) {
-                // Xử lý lỗi
-                alert('Đã có lỗi xảy ra: ' + error.data.message);
-                swal("Error!", "Đăng bài thất bại!", "error");
-            });
+        }, function(error) {
+            alert('Đã có lỗi xảy ra: ' + error.data.message);
+            swal("Error!", "Lỗi ví tiền của bạn!", "error");
+        });
+
     }
 
 });
