@@ -114,4 +114,19 @@ public class PostServiceImpl implements PostService{
 		return dao.getPostsDelete(username);
 	}
 
+	@Override
+	public Post UpdateJson(JsonNode p) {
+		// TODO Auto-generated method stub
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Post post = mapper.convertValue(p, Post.class);
+		return dao.save(post);
+	}
+
+	@Override
+	public Post getPostDesc() {
+		// TODO Auto-generated method stub
+		return dao.getPostDesc();
+	}
+
 }

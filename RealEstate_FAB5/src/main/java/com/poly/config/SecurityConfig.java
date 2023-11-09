@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -49,6 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				try {
 					Users user = userService.findById(username);
 					//String passwords = pe.encode(user.getPasswords());
+					
+					if (!user.isActive()) {
+					    throw new DisabledException("Account is not active");
+					}
+					
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -61,9 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
-					
-					System.out.println(username + "Username");
-					System.out.println(user.getPasswords() + "Password");
 					
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {

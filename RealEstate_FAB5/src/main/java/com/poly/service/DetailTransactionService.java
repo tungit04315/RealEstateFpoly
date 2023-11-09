@@ -2,6 +2,7 @@ package com.poly.service;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.poly.bean.*;
 
 public interface DetailTransactionService {
@@ -14,6 +15,8 @@ public interface DetailTransactionService {
 	public DetailTransactions findByTransactionId(String username);
 
 	public DetailTransactions create(DetailTransactions u);
+	
+	public DetailTransactions createJson(JsonNode data);
 
 	public DetailTransactions update(DetailTransactions u);
 

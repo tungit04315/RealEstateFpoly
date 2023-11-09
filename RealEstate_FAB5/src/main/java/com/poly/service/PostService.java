@@ -12,10 +12,14 @@ public interface PostService {
 	public List<Post> getPostExpired(String username);
 	
 	public List<Post> getPostDelete(String username);
+	
+	public Post getPostDesc();
 
 	public Post getFindByid(Integer id);
 
 	public Post Create(JsonNode p);
+	
+	public Post UpdateJson(JsonNode p);
 
 	public Post Update(Post p);
 

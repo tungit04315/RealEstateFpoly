@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poly.bean.Albums;
 import com.poly.dao.AlbumsDAO;
 import com.poly.service.AlbumsService;
@@ -37,6 +40,20 @@ public class AlbumsServiceImpl implements AlbumsService{
 	public void Delete(Integer id) {
 		// TODO Auto-generated method stub
 		dao.deleteById(id);
+	}
+
+	@Override
+	public Albums CreateJson(JsonNode data) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Albums a = mapper.convertValue(data, Albums.class);
+		return dao.save(a);
+	}
+
+	@Override
+	public Albums UpdateJson(JsonNode data) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

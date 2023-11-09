@@ -62,6 +62,8 @@ public class HomeController {
 	// Post Page
 	@RequestMapping("/home/post")
 	public String getPost(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "home/post";
 	}
 	// Post Page
