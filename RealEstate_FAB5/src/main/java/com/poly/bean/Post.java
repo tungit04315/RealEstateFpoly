@@ -1,5 +1,6 @@
 package com.poly.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +28,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int post_id;
@@ -38,10 +44,10 @@ public class Post {
 	@Column(name = "create_at")
 	private Date create_at;
 	@Temporal(TemporalType.DATE)
-	@Column(name = "end_at")
+	@Column(name = "end_date")
 	private Date end_date;
 	
-	private int acreage;
+	private double acreage;
 	private Long price;
 	private String addresss;
 	private String linkVideo;
@@ -49,10 +55,24 @@ public class Post {
 	@ManyToOne
 	@JoinColumn(name = "services_id")
 	private ServicePack services_id;
-	
+	//com.microsoft.sqlserver.jdbc.SQLServerException: Cannot insert the value NULL into column 'services_id', table 'BatDongSanFpoly.dbo.post'; column does not allow nulls. INSERT fails.
 	@ManyToOne
 	@JoinColumn(name = "types_id")
 	private TypePropertys types_id;
+	
+	private String direction;
+	private Integer bed;
+	private String juridical;
+	private String balcony;
+	private Integer toilet;
+	private String interior;
+	private boolean active = true;
+	
+	@ManyToOne
+	@JoinColumn(name = "users_id")
+	private Users users_id;
+	@Column(nullable = false)
+    private boolean deletedAt = false;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "post_id")

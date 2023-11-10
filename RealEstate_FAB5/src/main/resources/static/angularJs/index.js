@@ -21,7 +21,6 @@ app.run(function($rootScope, $http) {
         return Math.floor(diff / (1000 * 60 * 60 * 24));
     }
 
-
     $http.get(`/likes`).then(response => {
         if (response.data) {
             $rootScope.likes = response.data;
@@ -40,6 +39,7 @@ app.run(function($rootScope, $http) {
     $http.get(`/rest/user`).then(resp => {
         if (resp.data) {
             $rootScope.$u = resp.data;
+            console.log(resp.data);
         }
     });
 
@@ -57,9 +57,93 @@ app.run(function($rootScope, $http) {
         }
     });
 
-})
+    $http.get(`/rest/province`).then(resp => {
+        if (resp.data) {
+            $rootScope.provinces = resp.data;
+            console.log($rootScope.provinces);
+        }
+    });
+
+    $http.get(`/rest/service-pack`).then(resp => {
+        if (resp.data) {
+            $rootScope.pack = resp.data;
+
+            console.log($rootScope.pack[0].services_id === 1);
+
+        }
+    });
+    $rootScope.checked = function(id) {
+        return $rootScope.pack[0].services_id === id;
+    }
+
+});
 
 app.controller("mycontroller", function($scope, $http, $rootScope) {
+
+    $scope.selectedProvince = '';
+    $scope.selectedDistrict = '';
+    $scope.selectedWard = '';
+    $scope.street = '';
+    $scope.inputNumber = 0;
+
+    $scope.loadDistricts = function() {
+        $http.get(`/rest/district?id=` + $scope.selectedProvince)
+            .then(resp => {
+                if (resp.data) {
+                    $rootScope.districts = resp.data;
+                    console.log($rootScope.districts);
+                }
+            });
+    };
+
+    $scope.loadWards = function() {
+        $http.get(`/rest/wards?id=` + $scope.selectedDistrict)
+            .then(function(response) {
+                $scope.wards = response.data;
+            });
+    };
+
+    $scope.updateAddress = function() {
+        var provinceName = $scope.provinces.find(function(province) {
+            var number = parseInt($scope.selectedProvince, 10);
+
+            var provinceIdType = typeof province.province_id;
+            var selectedProvinceType = typeof $scope.selectedProvince;
+
+            // console.log("Kiểu dữ liệu của province.province_id: " + provinceIdType);
+            // console.log("Kiểu dữ liệu của $scope.selectedProvince: " + selectedProvinceType);
+
+            // console.log(province.province_id + ' đầu')
+            // console.log(number + ' đầu1')
+
+            // console.log(province.province_id === number)
+            if (province.province_id === number) {
+                return province.name;
+            }
+            return null;
+        });
+        var districtName = $scope.districts.find(function(district) {
+            var number = parseInt($scope.selectedDistrict, 10);
+            if (district.district_id === number) {
+                return district.name;
+            }
+            return null;
+        });
+        var wardName = $scope.wards.find(function(ward) {
+            var number = parseInt($scope.selectedWard, 10);
+            if (ward.wards_id === number) {
+                return ward.name;
+            }
+            return null;
+        });
+
+        $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+    };
+
+    $http.get(`/rest/province`)
+        .then(function(response) {
+            $scope.provinces = response.data;
+        });
 
     $scope.toggleLike = function(post_id) {
         $http.get(`/find-by-post-likes`)
@@ -94,48 +178,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
                     $scope.likes = {
                         likes_status: true,
                         likes_date: new Date(),
-                        post_id: {
-                            post_id: null,
-                            post_title: null,
-                            post_content: null,
-                            create_at: null,
-                            end_date: null,
-
-                            acreage: null,
-                            price: null,
-                            addresss: null,
-                            linkVideo: null,
-                            services_id: {
-                                services_id: null,
-                                services_name: null,
-                                services_price: null,
-                                services_location: null
-                            },
-                            types_id: {
-                                types_id: null,
-                                types_name: null
-                            }
-                        },
-                        users: {
-                            username: null,
-                            passwords: null,
-                            email: null,
-                            phone: null,
-                            fullname: null,
-                            avatar: null,
-                            addresss: null,
-                            fail_login: null,
-                            active: null,
-                            gender: null,
-                            create_block: null,
-                            ranks_id: {
-
-                            },
-                            pay_id: {
-                                pay_id: null,
-                                pay_money: null
-                            }
-                        }
+                        post_id: $scope.post,
+                        users: $rootScope.$u
                     };
                     var like = $scope.likes;
                     $http.post('/likes-add', like)
@@ -151,5 +195,110 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
                 console.error("Lỗi truy vấn danh sách yêu thích:", error);
             });
     };
+
+
+    $scope.bed = 1;
+
+    $scope.increaseBedroomCount = function() {
+        if ($scope.bed < 100) {
+            $scope.bed++;
+        }
+    };
+
+    $scope.decreaseBedroomCount = function() {
+        if ($scope.bed > 1) {
+            $scope.bed--;
+        }
+    };
+
+    $scope.toilet = 1;
+
+    $scope.increaseToiletCount = function() {
+        if ($scope.toilet < 100) {
+            $scope.toilet++;
+        }
+    };
+
+    $scope.decreaseToiletCount = function() {
+        if ($scope.toilet > 1) {
+            $scope.toilet--;
+        }
+    };
+
+    function endDate() {
+        $scope.currentDate = new Date();
+        //var nthDay = parseInt($scope.end_date, 10);
+        //console.log($scope.inputNumber);
+        if (!isNaN($scope.inputNumber) && $scope.inputNumber >= 0) {
+            var currentDate = new Date($scope.currentDate);
+            currentDate.setDate(currentDate.getDate() + $scope.inputNumber);
+            return $scope.inputNumber = currentDate;
+        } else {
+            return $scope.inputNumber = "Số ngày không hợp lệ.";
+        }
+    }
+
+    $scope.getService = function(id) {
+        $http.get(`/rest/service-pack-findById?id=` + id).then(resp => {
+            if (resp.data) {
+                console.log(id);
+                $scope.service = resp.data;
+            }
+        });
+    }
+
+    $scope.searchType = function() {
+        $http.get(`/type-property-findById?id=` + $scope.types_id).then(resp => {
+            if (resp.data) {
+                $rootScope.type = resp.data;
+                console.log($rootScope.type);
+            }
+        });
+    }
+
+
+    // Create Post
+    $scope.createPost = function() {
+        console.log($scope.service);
+        $http.get(`/rest/user`).then(resp => {
+            if (resp.data) {
+                $rootScope.$u = resp.data;
+                console.log(resp.data);
+            }
+        });
+        console.log($rootScope.type);
+        //$scope.type = { "types_id": 1, "types_name": "Nhà riêng" };
+        var post = {
+            post_title: $scope.post_title,
+            post_content: $scope.post_content,
+            create_at: new Date(),
+            end_date: endDate(),
+            acreage: $scope.acreage,
+            price: $scope.price,
+            addresss: $scope.addresss,
+            linkVideo: $scope.linkVideo,
+            services_id: $scope.service,
+            types_id: $scope.type,
+            direction: $scope.direction,
+            bed: $scope.bed,
+            juridical: $scope.juridical,
+            balcony: $scope.balcony,
+            toilet: $scope.toilet,
+            interior: $scope.interior,
+            active: true,
+            users_id: $rootScope.$u,
+            deletedAt: false
+        };
+
+        $http.post(`/create-post`, post)
+            .then(function(response) {
+                // Xử lý thành công
+                swal("Good job!", "Đăng bài thành công!", "success");
+            }, function(error) {
+                // Xử lý lỗi
+                alert('Đã có lỗi xảy ra: ' + error.data.message);
+                swal("Error!", "Đăng bài thất bại!", "error");
+            });
+    }
 
 });

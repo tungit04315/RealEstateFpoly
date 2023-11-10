@@ -69,26 +69,20 @@
         <!-- Search End -->
 
         <!-- Detail -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-5" th:object="${post}">
             <div class="container wow fadeInUp" data-wow-delay="0.1s">
                 <div class="row g-4">
                     <!-- Detailed article content -->
                     <div class="col-lg-9 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
+                            <!-- <div class="carousel-indicators">
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
+                            </div> -->
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="/img/carousel-1.jpg" class="d-block w-100 h-100" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/img/carousel-2.jpg" class="d-block w-100 h-100" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/img/header.jpg" class="d-block w-100 h-100" alt="...">
+                                <div th:each="a,state : ${albums}" th:class="${state.index == 0 ?'carousel-item active' : 'carousel-item'}">
+                                    <img th:src="${a.albums_name}" class="d-block w-100 h-100" alt="${a.albums_name}">
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -107,25 +101,25 @@
                             </ol>
                         </nav>
                         <div class="title">
-                            <h4>Tôi chủ nhà cần bán nhanh căn góc 4 phòng ngủ tòa Park 8, tầng trung đẹp, giá 10,5 tỷ 0702 098 ***</h4>
-                            <p>Dự án Times City - Park Hill, Đường Minh Khai, Phường Vĩnh Tuy, Hai Bà Trưng, Hà Nội</p>
+                            <h4 th:utext="*{post_title}"></h4>
+                            <p th:utext="*{addresss}"></p>
                             <hr class="mb2">
                         </div>
                         <div class="room-space">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-2">
                                     <p class="mb-1">Mức giá</p>
-                                    <strong class="text-dark">10,5 Tỷ</strong>
+                                    <strong class="text-dark" th:utext="*{price}"></strong>
                                     <p style="font-size:13px;">~72,41 triệu/m²</p>
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
                                     <p class="mb-1">Diện tích</p>
-                                    <strong class="text-dark">10,5 m²</strong>
+                                    <strong class="text-dark" th:utext="*{acreage}"></strong>
                                     <p style="font-size:13px;"></p>
                                 </div>
                                 <div class="col-lg-5 col-sm-5">
                                     <p class="mb-1">Phòng ngủ</p>
-                                    <strong class="text-dark">3 PN</strong>
+                                    <strong class="text-dark" th:utext="*{bed}"></strong>
                                     <p style="font-size:13px;"></p>
                                 </div>
                                 <div class="col-lg-3 col-sm-3 mt-4" style="padding-left: 100px; display: flex;">
@@ -163,9 +157,7 @@
                         </div>
                         <div class="describe">
                             <h5 class="">Thông tin mô tả</h5>
-                            <p>
-                                Nhà mới, đã sửa lại rất đẹp với 4 hệ tủ Laminate An Cường (~200tr). View phía trường học Vin cực chill. Tất cả các phòng đều có cửa sổ rộng, sáng. 3 PN rộng rãi, vuông vắn. Bếp liền lô gia thông thoáng. Sổ đỏ cất két, không vay. Có slot ô tô. Bán 6.5
-                                tỷ bao toàn phí có đàm phán. Lh xem nhà:
+                            <p th:utext="*{post_content}">
                             </p>
                         </div>
                         <div class="characteristic">
@@ -181,7 +173,8 @@
                                                 </div>
                                                 <div class="col-lg-7">Diện tích</div>
 
-                                                <div class="col-lg-4">120 m²</div>
+                                                <div class="col-lg-4">
+                                                    <div th:utext="*{acreage}"></div> m²</div>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
@@ -191,7 +184,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Hướng nhà</div>
 
-                                                <div class="col-lg-4">Bắc</div>
+                                                <div class="col-lg-4" th:utext="*{direction}"></div>
                                             </div>
 
                                         </li>
@@ -202,7 +195,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Phòng ngủ</div>
 
-                                                <div class="col-lg-4">3</div>
+                                                <div class="col-lg-4" th:utext="*{bed}"></div>
                                             </div>
 
                                         </li>
@@ -213,7 +206,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Pháp lý</div>
 
-                                                <div class="col-lg-4">Sổ đỏ/Sổ hồng</div>
+                                                <div class="col-lg-4" th:utext="*{juridical}"></div>
                                             </div>
                                         </li>
                                         <li class="list-group-item"></li>
@@ -229,7 +222,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Mức giá</div>
 
-                                                <div class="col-lg-4">20 Tỷ</div>
+                                                <div class="col-lg-4" th:utext="*{price}"></div>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
@@ -239,7 +232,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Hướng ban công</div>
 
-                                                <div class="col-lg-4">Bắc</div>
+                                                <div class="col-lg-4" th:utext="*{balcony}"></div>
                                             </div>
 
                                         </li>
@@ -250,7 +243,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Số toilet</div>
 
-                                                <div class="col-lg-4">3</div>
+                                                <div class="col-lg-4" th:utext="*{toilet}"></div>
                                             </div>
 
                                         </li>
@@ -261,7 +254,7 @@
                                                 </div>
                                                 <div class="col-lg-7">Nội thất</div>
 
-                                                <div class="col-lg-4">Đầy đủ</div>
+                                                <div class="col-lg-4" th:utext="*{interior}"></div>
                                             </div>
                                         </li>
                                         <li class="list-group-item"></li>
@@ -319,19 +312,19 @@
                             <div class="row">
                                 <div class="col">
                                     <p>Ngày đăng</p>
-                                    <strong>17/08/2023</strong>
+                                    <strong th:text="*{create_at}"></strong>
                                 </div>
                                 <div class="col">
                                     <p>Ngày hết hạn</p>
-                                    <strong>17/08/2023</strong>
+                                    <strong th:text="*{end_date}"></strong>
                                 </div>
                                 <div class="col">
                                     <p>Loại tin</p>
-                                    <strong>Tin thường</strong>
+                                    <strong th:text="*{services_id.services_name}"></strong>
                                 </div>
                                 <div class="col">
                                     <p>Mã tin</p>
-                                    <strong>MT001</strong>
+                                    <strong th:text="*{post_id}"></strong>
                                 </div>
                             </div>
                             <hr class="mb-3">
@@ -343,16 +336,42 @@
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-body">
                                 <div class="d-flex align-content-center justify-content-center">
-                                    <img src="/img/about.jpg" class="rounded-circle w-25" alt="...">
+                                    <img src="{{$u.avatar}}" class="rounded-circle w-25" alt="...">
 
                                 </div>
                                 <p class="card-title mt-2 d-flex justify-content-center" style="font-size: 13px;">Được đăng bởi</p>
-                                <h5 class="card-title d-flex justify-content-center">Username</h5>
+                                <h5 class="card-title d-flex justify-content-center">{{$u.fullname}}</h5>
                                 <a href="#" class="card-text d-flex justify-content-center">Xem thêm</a>
-                                <button type="button" class="btn btn-primary w-100 mt-4">0123 456 ***. Hiện số</button>
-                                <button type="button" class="btn btn-outline-light w-100 mt-2">Gửi email</button>
-                                <button type="button" class="btn btn-outline-light w-100 mt-2">Yêu cầu liên hệ lại</button>
+
+                                <input type="button" class="btn btn-primary w-100 mt-4" value="{{$u.phone.substr(0, $u.phone.length - 4) + '****'}} Hiện số" id="togglePhoneButton">
+                                <button type="button" class="btn btn-outline-light w-100 mt-2" id="contact">Gửi email</button>
+                                <button type="button" class="btn btn-outline-light w-100 mt-2" id="contact-two">Yêu cầu liên hệ lại</button>
                             </div>
+                        </div>
+                        <div id="contactForm">
+                            <h1 style="color: #025464">Gửi Email!</h1>
+                            <small>Tin nhắn của bạn sẽ được gửi đi trong vài phút!</small>
+                            <form action="/home/contact-email" method="post">
+                                <input type="text" name="to" th:value="*{users_id.email}" hidden>
+                                <input type="text" name="fullNameTo" th:value="*{users_id.fullname}" hidden>
+                                <input placeholder="Họ và tên" name="fullNameFrom" type="text" required />
+                                <input placeholder="Số điện thoại" name="phone" type="text" required />
+                                <input placeholder="Tiêu đề" name="subject" type="text" required />
+                                <textarea placeholder="Nội dung" name="content"></textarea>
+                                <input class="formBtn" type="submit" value="Gửi" />
+                                <input class="formBtn" type="reset" value="Hủy" />
+                            </form>
+                        </div>
+                        <div id="contactForm-two">
+                            <h1 style="color: #025464">Gửi SMS!</h1>
+                            <small>Tin nhắn của bạn sẽ được gửi đi trong vài phút!</small>
+                            <form action="/home/contact-sms" method="post">
+                                <input placeholder="Họ và tên" name="fullname" type="text" required />
+                                <input placeholder="Số điện thoại" name="phone" th:value="*{users_id.phone}" type="text" hidden/>
+                                <textarea placeholder="Nội dung" name="content"></textarea>
+                                <input class="formBtn" type="submit" value="Gửi" />
+                                <input class="formBtn" type="reset" value="Hủy" />
+                            </form>
                         </div>
                         <div class="more-information-1">
                             <ul class="list-group">

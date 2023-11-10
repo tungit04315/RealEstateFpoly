@@ -1,55 +1,33 @@
 package com.poly.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import java.util.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.*;
+import org.springframework.security.core.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.poly.bean.Auth;
-import com.poly.bean.Pay;
-import com.poly.bean.Roles;
-import com.poly.bean.Users;
-import com.poly.util.MailerService;
-import com.poly.util.ParamService;
-import com.poly.util.SessionService;
-import com.poly.util.SmsService;
-import com.poly.util.ValidatorUtil;
+import com.poly.bean.*;
+import com.poly.util.*;
+import com.poly.service.*;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
-
-import com.poly.service.AuthService;
-import com.poly.service.PaymentService;
-import com.poly.service.RoleService;
-import com.poly.service.UsersService;
-//Ok la
 @Controller
 public class AccountController {
 	@Autowired
 	RoleService roleService;
 
+	@Autowired
+	RanksService rankService;
+	
 	@Autowired
 	AuthService authService;
 
@@ -100,13 +78,19 @@ public class AccountController {
 		if (ufind != null) {
 			m.addAttribute("errorUsername", "true");
 		} else {
+			//payment
 			Pay newpay = new Pay();
 			newpay.setPay_money((long)0.00);
-			//payService
+			payService.Create(newpay);
+			Pay payFind =  payService.findByTop1Desc();
+			
 			//rank
+			Ranks rank = rankService.findById(1);
 			//OTP dangky, xac nhan email
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
+			u.setPay_id(payFind);
+			u.setRanks_id(rank);
 			userService.create(u);
 
 			Auth uAuth = new Auth();
@@ -172,25 +156,6 @@ public class AccountController {
 			return "redirect:/home";
 		}
 	}
-
-//	@PostMapping("/login/action")
-//	public String login(Model m, @RequestParam("username") String username, @RequestParam("passwords") String passwords) {
-//		
-//		Users u = userService.findById(username);
-//		if(u == null) {
-//			System.out.println(u);
-//			return "redirect:/login/action/error";
-//		}else {
-//			
-//			if(passwordEncoder.matches(passwords, u.getPasswords())) {
-//				ss.setAttribute("user", u);
-//				return "redirect:/login/action/success";
-//			}else {
-//				System.out.println("Password Failded");
-//				return "redirect:/login/action/error";
-//			}
-//		}
-//	}
 	// Đăng nhập
 
 	// Cập nhật thông tin tài khoản
@@ -285,7 +250,7 @@ public class AccountController {
 				String body = stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-
+				ss.setAttribute("type", "email của bạn " + email.substring(0, email.length() - 14) + "******");
 				mailService.send(email, title, body);
 				return "redirect:/OTP";
 			}
@@ -308,11 +273,11 @@ public class AccountController {
 				}
 
 				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
+				String phone = "+84" + email.substring(1);
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-
-				String phone = "+84" + email.substring(1);
-				System.out.println(phone);
+				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");				
+				
 				smsService.sendSms(phone, body);
 
 				return "redirect:/OTP";
@@ -324,7 +289,8 @@ public class AccountController {
 
 	// OTP
 	@GetMapping("/OTP")
-	public String getOTP() {
+	public String getOTP(Model m) {
+		m.addAttribute("type", ss.getAttribute("type"));
 		return "account/otp";
 	}
 

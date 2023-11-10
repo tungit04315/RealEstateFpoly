@@ -151,5 +151,28 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 	}
 
+	@Override
+	public Pay findByTop1Desc() {
+		// TODO Auto-generated method stub
+		return dao.getTop1PayDesc();
+	}
+
+	@Override
+	public Pay Create(Pay p) {
+		// TODO Auto-generated method stub
+		return dao.save(p);
+	}
+
+	@Override
+	public Pay Update(Pay p) {
+		// TODO Auto-generated method stub
+		return dao.save(p);
+	}
+
+	@Override
+	public void Delete(Integer id) {
+		dao.deleteById(id);
+	}
+
 
 }

@@ -75,6 +75,10 @@ public class Users implements Serializable{/**
 	List<Auth> auth;
 	
 	@JsonIgnore
+	@OneToMany(mappedBy = "users_id")
+	List<Post> post;
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "users")
 	List<Likes> likes;
 	
