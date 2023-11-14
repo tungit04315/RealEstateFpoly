@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,8 +71,8 @@ public class HomeController {
 
 	// Post Detail Page
 	@RequestMapping("/home/detail")
-	public String getPostDetail(Model m) {
-		Post p = postService.getFindByid(8);
+	public String getPostDetail(Model m, @Param("id") Integer id) {
+		Post p = postService.getFindByid(id);
 		List<Albums> albums = albumService.findAlbumsByPostID(p.getPost_id());
 		m.addAttribute("post", p);
 		m.addAttribute("albums", albums);
@@ -228,6 +229,13 @@ public class HomeController {
 	// Profile Page
 	@RequestMapping("/home/manager/profile")
 	public String getManagerProfile(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
+		return "home/profile";
+	}
+	
+	@RequestMapping("/home/manager/profile-action")
+	public String getManagerProfileAction(Model m) {
 		Users u = (Users) ss.getAttribute("user");
 		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "home/profile";

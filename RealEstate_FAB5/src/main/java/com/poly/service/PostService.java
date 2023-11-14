@@ -16,6 +16,8 @@ public interface PostService {
 	public Post getPostDesc();
 
 	public Post getFindByid(Integer id);
+	
+	public Post getFindPostAddNew();
 
 	public Post Create(JsonNode p);
 	
@@ -26,6 +28,12 @@ public interface PostService {
 	public void Delete(Integer id);
 	
 	public List<Post> getAll();
+	
+	public List<Post> getAllDiamond();
+	
+	public List<Post> getAllPostsForYou();
+	
+	public List<Post> getAllByUserId(String username);
 	
 	public void checkPostExpired() throws MessagingException;
 	

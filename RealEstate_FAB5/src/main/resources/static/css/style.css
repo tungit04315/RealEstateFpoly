@@ -968,3 +968,8 @@ textarea {
     display: inline-block;
     margin: 100px auto;
 }
+
+.avatar {
+    width: 100px;
+    height: 100px;
+}

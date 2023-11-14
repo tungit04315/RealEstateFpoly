@@ -22,9 +22,9 @@
                                     <!-- left column -->
                                     <div class="col-lg-3 wow slideInLeft" data-wow-delay="0.1s">
                                         <div class="text-center">
-                                            <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                                            <img src="{{urlAvt($u.avatar)}}" class="avatar img-circle" alt="avatar">
                                             <h6 style="font-size: 15px;">Tải lên một bức ảnh khác...</h6>
-                                            <input type="file" class="form-control">
+                                            <input type="file" class="form-control" accept="image/*" multiple onchange="angular.element(this).scope().uploadAvatar(this.files)">
                                         </div>
                                     </div>
 

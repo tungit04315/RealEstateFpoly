@@ -11,4 +11,10 @@ public interface DetailTransactionsDAO extends JpaRepository<DetailTransactions,
 
 	@Query(value="select * from detail_transactions d where d.transactions_id in (select t.transactions_id from transactions t where t.users = ?1)", nativeQuery = true)
 	public List<DetailTransactions> getDetailTransactionsByUser(String username);
+	
+	@Query(value="select * from detail_transactions where transactions_type = 'true' order by transactions_id desc", nativeQuery = true)
+	public List<DetailTransactions> getDetailTransactionPay();
+	
+	@Query(value="select * from detail_transactions where transactions_type = 'false' order by transactions_id desc", nativeQuery = true)
+	public List<DetailTransactions> getDetailTransactionPost();
 }

@@ -1,11 +1,16 @@
 package com.poly.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.poly.bean.DetailTransactions;
 import com.poly.bean.Users;
+import com.poly.service.DetailTransactionService;
 import com.poly.service.UsersService;
 import com.poly.util.SessionService;
 
@@ -16,11 +21,20 @@ public class AdminController {
 	UsersService userService;
 	
 	@Autowired
+	DetailTransactionService detailTransactionService;
+	
+	@Autowired
 	SessionService ss;
 	
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
+		List<DetailTransactions> listPay = detailTransactionService.findAllDetailTransactionPay();
+		List<DetailTransactions> listPost = detailTransactionService.findAllDetailTransactionPost();
+		 
+		m.addAttribute("details", listPay);
+		m.addAttribute("detailPost", listPost);
+		m.addAttribute("u", ss.getAttribute("user"));
 		return "admin/index";
 	}
 	// Home

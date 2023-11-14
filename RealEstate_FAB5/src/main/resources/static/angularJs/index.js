@@ -76,12 +76,127 @@ app.run(function($rootScope, $http) {
         return $rootScope.pack[0].services_id === id;
     }
 
+    $http.get(`/rest/list-post`).then(function(respPostAll) {
+        if (respPostAll.data) {
+            $rootScope.listPost = respPostAll.data;
+        }
+    });
 
+    $http.get(`/rest/list-post-diamond`).then(function(respPostAll) {
+        if (respPostAll.data) {
+            $rootScope.listPostDiamond = respPostAll.data;
+            $rootScope.listPostDiamond.forEach(function(post) {
+                $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                    if (respAlbums.data && respAlbums.data.length > 0) {
+                        console.log(respAlbums.data);
+                        console.log(respAlbums.data[0].albums_name);
+                        post.firstImage = respAlbums.data[0].albums_name;
+                    }
+                    console.log(typeof post.price);
+                    var priceString = post.price.toString();
+                    if (post.price && priceString.length === 7) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 8) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 9) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 10) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 11) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 12) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' tỷ';
+                    } else {
+                        post.price = post.price;
+                    }
+                });
+
+
+            });
+        }
+    });
+
+    $http.get(`/rest/new-post`).then(function(respPost) {
+        if (respPost.data) {
+            $rootScope.PostAddNew = respPost.data;
+            console.log($rootScope.PostAddNew);
+            $http.get(`/rest/find-albums?id=` + $rootScope.PostAddNew.post_id).then(function(respAlbums) {
+                if (respAlbums.data) {
+                    $rootScope.albumsPost = respAlbums.data;
+                    console.log($rootScope.albumsPost[0].albums_name);
+                }
+
+            });
+        }
+    });
+
+    $http.get(`/type-property-suggest`).then(function(response) {
+        if (response.data) {
+            $rootScope.suggest = response.data;
+        }
+    });
+
+    $http.get(`/rest/post-for-you`).then(function(response) {
+        if (response.data) {
+            $rootScope.postForYou = response.data;
+            $rootScope.postForYou.forEach(function(post) {
+                $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                    if (respAlbums.data && respAlbums.data.length > 0) {
+                        console.log(respAlbums.data);
+                        console.log(respAlbums.data[0].albums_name);
+                        post.firstImage = respAlbums.data[0].albums_name;
+                    }
+                    console.log(typeof post.price);
+                    var priceString = post.price.toString();
+                    if (post.price && priceString.length === 7) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 8) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 9) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 10) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 11) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 12) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' tỷ';
+                    } else {
+                        post.price = post.price;
+                    }
+                });
+
+
+            });
+        }
+    })
 });
 
 app.controller("mycontroller", function($scope, $http, $rootScope) {
 
     const url = `http://localhost:8080/rest/files/img`;
+    const urlAvt = `http://localhost:8080/rest/files/avatar`;
     $scope.sizeError = false;
     $scope.duplicateError = false;
     $scope.containsHumanError = false;
@@ -99,8 +214,17 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
     // Upload file
 
     $scope.url = function(filename) {
-        $scope.hide = true;
+
         return `${url}/${filename}`;
+    }
+
+    $scope.urlAvt = function(filename) {
+        if (filename != '') {
+            return `${urlAvt}/${filename}`;
+        } else {
+            return `${urlAvt}/profile.png`;
+        }
+
     }
 
     $scope.list = function() {
@@ -234,6 +358,33 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
         }).catch(err => {
             console.error(err)
         })
+    }
+
+    // Upload Avatar
+    $scope.uploadAvatar = function(files) {
+        const form = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            form.append("files", file);
+
+            $http.post(`http://localhost:8080/rest/files/avatar`, form, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined }
+            }).then(response => {
+                console.log(response.data);
+                var image = response.data[0].split('.')[0] + '.' + response.data[0].split('.')[1];
+
+                console.log(image);
+                $http.put(`/rest/update-avatar-user?avt=` + image).then(function(response) {
+                    console.log(response.data.avatar);
+                    $rootScope.$u.avatar = response.data.avatar;
+                })
+            }).catch(err => {
+                console.error(err)
+            })
+        }
+
+
     }
 
     $scope.delete = function(filename) {

@@ -1,0 +1,27 @@
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.app-header.dark-header-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+body.app-header.light-header-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body {
+    transition: background-color 0.3s ease;
+}
+
+.app-header {
+    transition: background-color 0.3s ease;
+}

@@ -68,4 +68,16 @@ public class DetailTransactionsServiceImpl implements DetailTransactionService{
 		return dao.save(d);
 	}
 
+	@Override
+	public List<DetailTransactions> findAllDetailTransactionPay() {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionPay();
+	}
+
+	@Override
+	public List<DetailTransactions> findAllDetailTransactionPost() {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionPost();
+	}
+
 }

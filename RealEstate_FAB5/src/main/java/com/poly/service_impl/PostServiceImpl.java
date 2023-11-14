@@ -62,7 +62,7 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public List<Post> getAll() {
 		// TODO Auto-generated method stub
-		return dao.findAll();
+		return dao.getPostsAll();
 	}
 
 	@Scheduled(cron = "0 0 12 * * *")
@@ -127,6 +127,30 @@ public class PostServiceImpl implements PostService{
 	public Post getPostDesc() {
 		// TODO Auto-generated method stub
 		return dao.getPostDesc();
+	}
+
+	@Override
+	public List<Post> getAllByUserId(String username) {
+		// TODO Auto-generated method stub
+		return dao.getPostsByUserId(username);
+	}
+
+	@Override
+	public Post getFindPostAddNew() {
+		// TODO Auto-generated method stub
+		return dao.getPostsAddNew();
+	}
+
+	@Override
+	public List<Post> getAllDiamond() {
+		// TODO Auto-generated method stub
+		return dao.getPostsDiamond();
+	}
+
+	@Override
+	public List<Post> getAllPostsForYou() {
+		// TODO Auto-generated method stub
+		return dao.getPostsForYou();
 	}
 
 }

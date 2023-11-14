@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.poly.bean.Auth;
 import com.poly.bean.Users;
@@ -91,6 +92,27 @@ public class UsersServiceImpl implements UsersService{
 	public Users findByEmailOrPhone(String email, String phone) {
 		// TODO Auto-generated method stub
 		return dao.getUserFindByPhoneOrEmail(email, phone);
+	}
+
+	@Override
+	public String updateAvatar(String username, MultipartFile file) {
+//		Optional<Users> user = dao.findById(username);
+//		
+//		if (user != null) {
+//            String fileName = "avatar_" + username + "_" + System.currentTimeMillis() + ".png";
+//            String uploadDir = "/path/to/upload/directory"; 
+//            // Thay đổi đường dẫn thư mục lưu ảnh của bạn
+//
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//
+//            // Cập nhật đường dẫn avatar trong cơ sở dữ liệu
+//            user.setAvatar(fileName);
+//            userRepository.save(user);
+//
+//            return fileName;
+//        }
+
+		return null;
 	}
 
 }
