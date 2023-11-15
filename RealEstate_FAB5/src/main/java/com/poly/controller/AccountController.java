@@ -125,7 +125,7 @@ public class AccountController {
 
 			Auth uAuth = new Auth();
 			uAuth.setUsers(u);
-			uAuth.setRoles(roleService.findbyId("admin"));
+			uAuth.setRoles(roleService.findbyId("user"));
 			authService.create(uAuth);
 			ss.setAttribute("usermail", u.getEmail());
 
@@ -167,47 +167,6 @@ public class AccountController {
 		return "account/login";
 	}
 
-
-	// Đăng nhập thành công
-//	@RequestMapping("/login/action/success")
-//	public String postLogin(Model m) {
-//
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		List<String> authList = new ArrayList<>();
-//
-//		// Check if the user is authenticated
-//		if (authentication != null && authentication.isAuthenticated()) {
-//			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
-//
-//			for (String roleName : roleNames) {
-//				authList.add("ROLE_" + roleName);
-//			}
-//		}
-//
-//		if (authList.contains("ROLE_ADMIN")) {
-//			return "/admin";
-//		} else {
-//			return "redirect:/home";
-//		}
-//	}
-	@RequestMapping("/login/action")
-	public String login(Model m, @RequestParam("username") String username,
-			@RequestParam("passwords") String passwords) {
-		Users u = userService.findById(username);
-		if (u == null) {
-			System.out.println(u);
-			return "redirect:/login";
-		} else {
-			System.out.println(u.getPasswords() + " | " + passwordEncoder.encode(passwords));
-			if (passwordEncoder.matches(passwords, u.getPasswords())) {
-				ss.setAttribute("user", u);
-				return "redirect:/home";
-			}
-		}
-		return "redirect:/login";
-	}
-
-
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
@@ -246,34 +205,20 @@ public class AccountController {
 			return "redirect:/home";
 		}
 	}
-
-//	@PostMapping("/login/action")
-//	public String login(Model m, @RequestParam("username") String username, @RequestParam("passwords") String passwords) {
-//		
-//		Users u = userService.findById(username);
-//		if(u == null) {
-//			System.out.println(u);
-//			return "redirect:/login/action/error";
-//		}else {
-//			
-//			if(passwordEncoder.matches(passwords, u.getPasswords())) {
-//				ss.setAttribute("user", u);
-//				return "redirect:/login/action/success";
-//			}else {
-//				System.out.println("Password Failded");
-//				return "redirect:/login/action/error";
-//			}
-//		}
-//	}
 	// Đăng nhập
 
 	// Cập nhật thông tin tài khoản
 	@PostMapping("/profile/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
-		userService.update(u);
-		ss.setAttribute("user", u);
 //		Users user = (Users) ss.getAttribute("users");
 //		m.addAttribute("u", userService.findById(user.getUsername()));
+		Users us = userService.findById(u.getUsername());
+		Pay p = payService.findByID(us.getPay_id().getPay_id());
+		Ranks r = rankService.findById(us.getRanks_id().getRanks_id());
+		u.setPay_id(p);
+		u.setRanks_id(r);
+		userService.update(u);
+		ss.setAttribute("user", u);
 		return "redirect:/home/manager/profile";
 	}
 

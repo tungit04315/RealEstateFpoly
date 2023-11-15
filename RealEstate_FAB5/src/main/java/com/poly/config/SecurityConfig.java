@@ -51,14 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(
-			username -> {
+				username -> {
 				try {
 					Users user = userService.findById(username);
 					if(!user.isActive()) {
+						System.out.println("Tài khoản chưa kích hoạt");
 						throw new DisabledException("Tài khoản chưa kích hoạt");
 					}
-					System.out.println("ac ti ve"+user.isActive());
-					//String passwords = pe.encode(user.getPasswords());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -72,8 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
 					
-//					System.out.println(username + "Username");
-//					System.out.println(user.getPasswords() + "Password");
+					System.out.println(username + "Username");
+					System.out.println();
+					System.out.println(user.getPasswords() + "Password");
 					
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
