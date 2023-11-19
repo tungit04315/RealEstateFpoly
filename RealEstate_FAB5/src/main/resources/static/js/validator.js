@@ -1,4 +1,4 @@
-    function recaptchaCallback() {
+function recaptchaCallback() {
         var captchaAlert = document.getElementById("captcha-alert");
         
         if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse().length > 0) {
@@ -24,6 +24,8 @@
                 document.getElementById("captcha-alert").style.display = "block";
             }
         }
+
+
 
 function Validator(options) {
     var selectorRules = {};
@@ -124,4 +126,7 @@ Validator.isConfirmed = function(selector, getConfirmValue, message) {
             return value === getConfirmValue() ? undefined : message || 'Trường không khớp';
         }
     }
+}
+Validator.isUsed = function(selector){
+	
 }
