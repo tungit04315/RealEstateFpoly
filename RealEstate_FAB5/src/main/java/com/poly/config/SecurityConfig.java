@@ -1,6 +1,7 @@
 package com.poly.config;
 
 import java.util.Base64;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 
 import com.poly.bean.Users;
@@ -54,10 +56,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				username -> {
 				try {
 					Users user = userService.findById(username);
-					if(!user.isActive()) {
-						System.out.println("Tài khoản chưa kích hoạt");
-						throw new DisabledException("Tài khoản chưa kích hoạt");
+					if(user.isActive()==false) {
+						session.setAttribute("usermail", user.getEmail());
+						session.setAttribute("visible", true);
+						session.setAttribute("thongbao", "Tên đăng nhập đã được đăng ký");
+					throw new DisabledException("Tài khoản chưa kích hoạt");
 					}
+					session.setAttribute("visible", false);
+					session.setAttribute("loidangnhap", true);
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -70,13 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
-					
-					System.out.println(username + "Username");
-					System.out.println();
-					System.out.println(user.getPasswords() + "Password");
-					
+					session.setAttribute("userfail", false);
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
+					session.setAttribute("userfail", true);
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
 				}
 			}

@@ -13,6 +13,101 @@
     <link rel="stylesheet" href="/css/login.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style type="text/css">
+    .toast {
+    position: absolute;
+    top: 650px;
+    right: 5px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* transform: translateX(calc(100% + 30px)); */
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    z-index: 7;
+    opacity: 0 !important;
+}
+
+.toast.active {
+    transform: translateX(0%);
+    opacity: 1 !important;
+}
+
+.toast .toast-content {
+    display: flex;
+    align-items: center;
+}
+
+.toast-content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    min-width: 35px;
+    background-color: #27ff44;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.message .text.text-1 {
+    font-weight: 600;
+    color: #333;
+}
+
+.toast .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.toast .close:hover {
+    opacity: 1;
+}
+
+.toast .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+}
+
+.toast .progress:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #27ff44;
+}
+
+.progress.active:before {
+    animation: progress 5s linear forwards;
+}
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+    </style>
 </head>
 
 <body>
@@ -48,7 +143,7 @@
                     <div class="qmk"> <a href="/forget-password">Quên mật khẩu?</a></div>
                 </form>
 
-                <form action="signup/action" method="post" class="sign-up-form" 
+                <form action="/signup/action" method="post" class="sign-up-form" 
                 onsubmit="return validateFormSignUp()" name="dky" id="dangky">
                     <h2 class="title">Đăng ký</h2>
 	                <div class="input-field">
@@ -114,7 +209,18 @@
             </div>
         </div>
     </div>
+                        <div th:if="${visible == 'true'}">
+			            <div class="toast active">
+			                <div class="toast-content">
+			                    <div class="message">
+			                        <span class="text text-1" th:utext="${thongbao}"></span>
+			                    </div>
+			                </div>
+			                <div class="progress active"></div>
+			            </div>
+        			</div>
     <!-- JavaScript -->
+    <script src="/js/toast.js"></script>
     <script src="/js/login.js"></script>
     <script src="/js/validator.js"></script>
     <!-- Captcha -->
@@ -125,6 +231,7 @@
         rules: [
             Validator.isRequired('#fullname', 'Vui lòng nhập họ tên'),
             Validator.isRequired('#phone', 'Vui lòng nhập số điện thoại'),
+            Validator.isPhone('#phone'),
             Validator.isRequired('#username', 'Vui lòng nhập tên tài khoản'),
             Validator.isRequired('#email', 'Vui lòng nhập email'),
             Validator.isEmail('#email'),

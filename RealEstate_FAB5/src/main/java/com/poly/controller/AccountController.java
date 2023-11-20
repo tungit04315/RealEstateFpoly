@@ -100,13 +100,24 @@ public class AccountController {
 	// Captcha
 
 	// Đăng ký - Captcha
-	@PostMapping("signup/action")
-	public String Register(Model m, Users u, @Param("username") String username) throws MessagingException {
+	@PostMapping("/signup/action")
+	public String Register(Model m, Users u, @Param("username") String username, @Param("email") String email,@Param("phone") String phone) throws MessagingException {
 		// System.out.println("xuất mẫu:"+userService.findById(username));
-		Users ufind = userService.findById(username);
+		Users ufind = userService.findByEmailOrPhone(email, null);
+		Users ufindsdt = userService.findByEmailOrPhone(null, phone);
+		Users findID = userService.findById(username);
+		if(findID!=null) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tên đăng nhập đã được đăng ký");
+		}else
+		if(ufindsdt != null) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Số điện thoại đã được sử dụng");
+		}else
 		if (ufind != null) {
-			m.addAttribute("errorUsername", "true");
-		} else {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Email đã được đăng ký");
+		}else {
 			//payment
 			Pay newpay = new Pay();
 			newpay.setPay_money((long)0.00);
@@ -133,9 +144,10 @@ public class AccountController {
 			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
 			//gui mail kich hoat tai khoan
 			
-			m.addAttribute("successRegister", "true");
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Đăng ký thành công!!");
 		}
-		return "redirect:/login";
+		return "account/login";
 	}
 
 	@GetMapping("/account/cofirm")
@@ -169,7 +181,28 @@ public class AccountController {
 
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
-	public String loginError(Model model) {
+	public String loginError(Model m) throws MessagingException {
+		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
+		boolean visible =ss.getAttribute("visible");
+		boolean loidangnhap = ss.getAttribute("loidangnhap");
+		boolean userfail = ss.getAttribute("userfail");
+		if(loidangnhap==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Sai mật khẩu");
+		}
+		if(userfail==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+		}
+		
+		if(visible==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tài khoản chưa được kích hoạt bằng email");
+			
+			//gui mail kich hoat tai khoan
+			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
+			//gui mail kich hoat tai khoan
+		}
 		return "account/login";
 	}
 
