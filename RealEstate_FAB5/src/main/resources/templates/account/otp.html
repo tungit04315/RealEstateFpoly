@@ -2,43 +2,78 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate Fpoly</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/Real_Estate.png" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Estate Fpoly</title>
+<!-- Favicon -->
+<link rel="shortcut icon" href="/img/Real_Estate.png"
+	type="image/x-icon">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/css/otp.css">
-
+<!-- CSS -->
+<link rel="stylesheet" href="/css/otp.css">
 </head>
 
 <body>
-    <form class="container" action="/OTP/action" method="post">
-        <h2>Nhập mã xác minh</h2>
-        <p>Chúng tôi đã gửi mã OTP đến Email ***@gmail.com</p>
-        <hr>
-        <p>Nhập mã OTP vào bên dưới</p>
-        <div class="code-container">
-            <input name="so1" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so2" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so3" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so4" type="number" class="code" placeholder="0" min="0" max="9" required>
-        </div>
+	<form class="container" action="/OTP/action" method="post">
+		<h2>Nhập mã xác minh</h2>
+		<p>Chúng tôi đã gửi mã OTP đến Email ***@gmail.com</p>
+		<hr>
+		<p>Nhập mã OTP vào bên dưới</p>
+		<div class="code-container">
+			<input autofocus="autofocus" name="so1" type="number" class="code" placeholder="0" min="0"
+				max="9" required maxlength="1" oninput="handleInput(this, 1)" onkeyup="handleKeyUp(this, event)"> 
+			<input name="so2" type="number"
+				class="code" placeholder="0" min="0" max="9" required maxlength="1" oninput="handleInput(this, 2)" onkeyup="handleKeyUp(this, event)"> 
+			<input
+				name="so3" type="number" class="code" placeholder="0" min="0"
+				max="9" required maxlength="1" oninput="handleInput(this, 3)" onkeyup="handleKeyUp(this, event)"> 
+			<input name="so4" type="number"
+				class="code" placeholder="0" min="0" max="9" required maxlength="1" oninput="handleInput(this, 4)" onkeyup="handleKeyUp(this, event)">
+		</div>
 
-        <div>
-            <button type="submit" class="btn btn-primary">Xác thực</button>
-        </div>
+		<div>
+			<button type="submit" class="btn btn-primary">Xác thực</button>
+		</div>
 
-        <small>
-            <div>Thời gian còn lại: <span id="timer"></span>
-                <button class="resend" disabled>Gửi lại mã</button>
-            </div>
-            Nếu bạn không nhận được mã!! <strong>Gửi lại</strong>
-        </small>
+		<small>
+			<div>
+				Thời gian còn lại: <span id="timer"></span>
+				<button class="resend" disabled>Gửi lại mã</button>
+			</div> Nếu bạn không nhận được mã!! <strong>Gửi lại</strong>
+		</small>
 
-    </form>
-    <!-- JavaScript -->
+	</form>
 </body>
+<!-- JavaScript -->
+<script src="/js/toast.js"></script>
+<script>
+function handleInput(input, nextInputIndex) {
+    // Check if the input is a number
+    if (!/^[0-9]$/.test(input.value)) {
+      input.value = ""; // Clear the input if it's not a number
+      return;
+    }
 
+    // Move to the next input
+    if (nextInputIndex <= 4) {
+        var nextInput = document.querySelector('input:nth-of-type(' + (nextInputIndex + 1) + ')');
+        if (nextInput) {
+          nextInput.focus();
+        }
+    }
+  }
+
+function handleKeyUp(input, event) {
+    // Check if the Backspace key is pressed and the input is empty
+    if (event.key === 'Backspace' && input.value === "") {
+      // Move to the previous input
+      setTimeout(function () {
+        var previousInput = input.previousElementSibling;
+        if (previousInput) {
+          previousInput.focus();
+        }
+      }, 0);
+    }
+  }
+</script>
 </html>

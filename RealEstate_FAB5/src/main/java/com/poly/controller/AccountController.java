@@ -183,27 +183,44 @@ public class AccountController {
 	@RequestMapping("/login/action/error")
 	public String loginError(Model m) throws MessagingException {
 		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
-		boolean visible =ss.getAttribute("visible");
-		boolean loidangnhap = ss.getAttribute("loidangnhap");
-		boolean userfail = ss.getAttribute("userfail");
-		if(loidangnhap==true) {
-			m.addAttribute("visible", "true");
-			m.addAttribute("thongbao", "Sai mật khẩu");
-		}
-		if(userfail==true) {
+		boolean chkUser = ss.getAttribute("checkUser");
+		if(chkUser==false) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+			return "account/login";
+		}else {
+			boolean chkPass = ss.getAttribute("checkPass");
+			if(chkPass==false) {
+					m.addAttribute("visible", "true");
+					m.addAttribute("thongbao", "Sai mật khẩu");
+					u.setFail_login(u.getFail_login()+1);
+					userService.update(u);
+				return "account/login";
+			}
+		boolean blckAc =ss.getAttribute("BlockAcc");
+		//System.out.println(chkUser);
+		if (blckAc==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tài khoản của bạn đã bị khoá! Hãy chọn quên mật khẩu!");
+			return "account/login";
 		}
-		
-		if(visible==true) {
+		boolean chkActive =ss.getAttribute("checkActive");
+		if(chkActive==false && chkUser==true) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Tài khoản chưa được kích hoạt bằng email");
 			
+			ss.setAttribute("checkUser", false);
+			ss.setAttribute("checkActive", true);
 			//gui mail kich hoat tai khoan
 			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
 			//gui mail kich hoat tai khoan
+			return "account/login";
+			}else {
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+				return "account/login";
+			}
 		}
-		return "account/login";
 	}
 
 	//Đăng nhập bằng Google
@@ -221,17 +238,22 @@ public class AccountController {
 
 		// Check if the user is authenticated
 		if (authentication != null && authentication.isAuthenticated()) {
-			System.out.println(authentication+ "197");
-			System.out.println(authentication.isAuthenticated() + "197");
-			System.out.println(authentication.getName() + "197");
+			//System.out.println(authentication+ "197");
+			//System.out.println(authentication.isAuthenticated() + "197");
+			//System.out.println(authentication.getName() + "197");
 			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
-			System.out.println(roleNames);
+			//System.out.println(roleNames);
 			
 			for (String roleName : roleNames) {
 				authList.add("ROLE_" + roleName);
 			}
 		}
-		System.out.println(authList);
+		//Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
+		//u.setFail_login(u.getFail_login()+1);
+		//System.out.println(authList);
+		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
+		u.setFail_login(0);
+		userService.update(u);
 		if (authList.contains("ROLE_admin")) {
 			return "redirect:/admin";
 		} else {
@@ -344,7 +366,7 @@ public class AccountController {
 				ss.setAttribute("otp", body);
 
 				String phone = "+84" + email.substring(1);
-				System.out.println(phone);
+				//System.out.println(phone);
 				smsService.sendSms(phone, body);
 				return "redirect:/OTP";
 			}
@@ -384,12 +406,17 @@ public class AccountController {
 		Users u = ss.getAttribute("UFind");
 		if (!nhaplaimkmoi.equalsIgnoreCase(mkmoi)) {
 			System.out.println("mk nhap lai khong trung");
-			return "redirect:/change-password";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Kiểm tra lại mật khẩu");
+			return "account/changePassword";
 		} else {
 			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
 				System.out.println("mk moi trung vs mk cu");
-				return "redirect:/change-password";
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Vui lòng nhập mật khẩu chưa từng sử dụng!");
+				return "account/changePassword";
 			}else {
+				u.setFail_login(0);
 				u.setPasswords(passwordEncoder.encode(mkmoi));
 				userService.update(u);
 				return "redirect:/login";

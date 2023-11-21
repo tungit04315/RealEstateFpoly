@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public BCryptPasswordEncoder getpaBCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	boolean chckUser =false;
 	// Provide login data
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,12 +58,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					Users user = userService.findById(username);
 					if(user.isActive()==false) {
 						session.setAttribute("usermail", user.getEmail());
-						session.setAttribute("visible", true);
-						session.setAttribute("thongbao", "Tên đăng nhập đã được đăng ký");
+						session.setAttribute("checkActive", false);
+						session.setAttribute("checkPass", true);
+						chckUser = true;
+						session.setAttribute("checkUser", chckUser);
+						session.setAttribute("BlockAcc", false);
 					throw new DisabledException("Tài khoản chưa kích hoạt");
 					}
-					session.setAttribute("visible", false);
-					session.setAttribute("loidangnhap", true);
+					if(user.getFail_login()==5) {
+						chckUser = true;
+						session.setAttribute("checkUser", chckUser);
+						session.setAttribute("BlockAcc", true);
+						session.setAttribute("checkPass", true);
+						throw new DisabledException("Tài khoản bị khoá");
+					}
+					session.setAttribute("BlockAcc", false);
+					session.setAttribute("checkActive", true);
+					session.setAttribute("checkUser", true);
+					session.setAttribute("checkPass", false);
+					session.setAttribute("usermail", user.getEmail());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
 					
@@ -76,10 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					session.setAttribute("user", user);
 					session.setAttribute("authentication", authentication);
 					//Lưu tài khoản vào session
-					session.setAttribute("userfail", false);
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
-					session.setAttribute("userfail", true);
+					session.setAttribute("checkUser", chckUser);
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
 				}
 			}
