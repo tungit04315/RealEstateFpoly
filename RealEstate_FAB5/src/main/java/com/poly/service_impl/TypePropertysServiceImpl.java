@@ -45,4 +45,16 @@ public class TypePropertysServiceImpl implements TypePropertyService{
 		dao.deleteById(id);
 	}
 
+	@Override
+	public List<TypePropertys> findSuggest() {
+		// TODO Auto-generated method stub
+		return dao.getRandomSuggestRealEstate();
+	}
+
+	@Override
+	public List<TypePropertys> findSelectTop6() {
+		// TODO Auto-generated method stub
+		return dao.getTop6Type();
+	}
+
 }

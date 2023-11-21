@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -54,6 +56,7 @@ public class Users implements Serializable{/**
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_block")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date create_block;
 	
 	@JsonIgnore
@@ -68,6 +71,7 @@ public class Users implements Serializable{/**
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	
 	@JsonIgnore

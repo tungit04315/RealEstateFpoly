@@ -833,6 +833,20 @@
     -webkit-transform: translate(-50%, -50%)
 }
 
+#editPostForm {
+    display: none;
+    border: 6px solid #025464;
+    padding: 2em;
+    width: 400px;
+    text-align: center;
+    background: #fff;
+    position: fixed;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%)
+}
+
 input,
 textarea {
     margin: .8em auto;
@@ -967,4 +981,9 @@ textarea {
 .trigger-btn {
     display: inline-block;
     margin: 100px auto;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
 }
