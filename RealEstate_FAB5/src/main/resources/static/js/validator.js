@@ -11,6 +11,7 @@ function recaptchaCallback() {
             captchaAlert.style.display = "block";
         }
     }
+    var captcha = true;
      function validateFormSignUp() {
             if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse().length > 0) {
                 // Người dùng đã xác nhận CAPTCHA.
@@ -18,10 +19,14 @@ function recaptchaCallback() {
 
                 // Ẩn thông báo
                 document.getElementById("captcha-alert").style.display = "none";
+                captcha = true;
+                return true;
             } else {
                 // Người dùng chưa xác nhận CAPTCHA.
                 // Hiển thị thông báo
+                captcha = false;
                 document.getElementById("captcha-alert").style.display = "block";
+                return false;
             }
         }
 
@@ -40,13 +45,21 @@ function Validator(options) {
             options.rules.forEach(function(rule) {
                 var inputElement = formElement.querySelector(rule.selector);
                 var isValid = validate(inputElement, rule);
-                if(!isValid){
-					isFormValid = false;
+                if(options.form=='#dangky'){
+					validateFormSignUp();
+					if(!captcha&&!isValid){
+						isFormValid = false;
+						captcha = false;
+					}
+				}else{
+	                if(!isValid){
+						isFormValid = false;
+					}
 				}
             });
-            if(isFormValid){
+            if(isFormValid && captcha){
 				console.log('Không có lỗi');
-				formElement.submit();
+					formElement.submit();
 /*				Swal.fire(
   							'Thành công!',
   							'',
