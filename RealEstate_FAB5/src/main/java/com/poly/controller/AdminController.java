@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poly.bean.DetailTransactions;
@@ -42,7 +45,23 @@ public class AdminController {
 	// User List
 	@RequestMapping({"/admin/users","/admin/user-list"})
 	public String getUsers(Model m) {
+		m.addAttribute("users", userService.findAll());
 		return "admin/users";
+	}
+	
+	@RequestMapping("/admin/user/findBy/{username}")
+	public String getUsers(Model m, @PathVariable String username) {
+		m.addAttribute("users", userService.findAll());
+		m.addAttribute("u", userService.findById(username));
+		return "admin/users";
+	}
+	
+	@PostMapping("/admin/user/update")
+	public String getUsersUpdate(Model m, Users u) {
+		m.addAttribute("users", userService.findAll());
+		userService.update(u);
+		m.addAttribute("u", userService.findById(u.getUsername()));
+		return "redirect:/admin/user/findBy/" + u.getUsername();
 	}
 	// User List
 	

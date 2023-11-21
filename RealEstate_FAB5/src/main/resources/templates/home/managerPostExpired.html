@@ -17,7 +17,7 @@
                             <div class="card border-light mb-3" style="max-width: 18rem;">
                                 <div class="card-body">
                                     <div class="d-flex align-content-center justify-content-center">
-                                        <img src="{{$u.avatar}}" class="rounded-circle" width="80" height="80" alt="...">
+                                        <img src="{{urlAvt($u.avatar)}}" class="rounded-circle" width="80" height="80" alt="...">
 
                                     </div>
 
@@ -50,7 +50,7 @@
                                 <div class="card" th:each="post : ${post_list}">
                                     <div class="d-flex justify-content-between p-2 px-3">
                                         <div class="d-flex flex-row align-items-center">
-                                            <img th:src="*{{post.users_id.avatar}}" width="50" height="50" class="rounded-circle">
+                                            <img th:src="@{'/files/avatar/' + ${post.users_id.avatar}}" width="50" height="50" class="rounded-circle">
                                             <div class="d-flex flex-column ml-2">
                                                 <span style="font-weight: bold; margin-left: 10px;" th:utext="*{post.users_id.fullname}"></span>
                                             </div>
@@ -67,13 +67,16 @@
                                                         <h3 class="title mb-0">Cài đặt</h3>
                                                     </div>
                                                     <ul class="custom-notifications" style="height: 100%;">
-                                                        <a href="#" style="color: black;"><i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa bài viết</a>
+                                                        <a th:href="@{/home/post-update?id={id}(id=${post.post_id})}" style="color: black;">
+                                                            <i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa bài viết
+                                                        </a>
                                                     </ul>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <img th:src="*{post.albums[0].albums_name}" class="img-fluid">
+                                    <img th:src="@{'/files/img/' + ${post.albums[0].albums_name}}" class="img-fluid">
                                     <div class="p-2">
                                         <p class="text-justify" th:utext="*{post.post_title}">
                                         </p>

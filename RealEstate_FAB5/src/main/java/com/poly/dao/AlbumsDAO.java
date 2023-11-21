@@ -11,4 +11,7 @@ public interface AlbumsDAO extends JpaRepository<Albums, Integer>{
 
 	@Query(value="select * from albums where post_id = ?1", nativeQuery = true)
 	List<Albums> getAlbums(Integer id);
+	
+	@Query(value="select * from albums where albums_name = ?1 and post_id = ?2", nativeQuery = true)
+	Albums getAlbum(String name,Integer id);
 }

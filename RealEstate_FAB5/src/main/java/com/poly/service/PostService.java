@@ -13,6 +13,8 @@ public interface PostService {
 	
 	public List<Post> getPostDelete(String username);
 	
+	public List<Post> searchPost(String title, String address, String province, Integer type);
+	
 	public Post getPostDesc();
 
 	public Post getFindByid(Integer id);

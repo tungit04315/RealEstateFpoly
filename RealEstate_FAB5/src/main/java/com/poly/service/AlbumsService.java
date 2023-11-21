@@ -11,6 +11,8 @@ public interface AlbumsService {
 
 	public Albums Create(Albums album);
 	
+	public Albums FindBy(String name, Integer id);
+	
 	public Albums CreateJson(JsonNode data);
 	
 	public Albums UpdateJson(JsonNode data);

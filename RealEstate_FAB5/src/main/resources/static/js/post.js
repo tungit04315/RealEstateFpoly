@@ -37,6 +37,18 @@ function nextPrev(n) {
     showTab(currentTab);
 }
 
+function nextPrevUpdate(n) {
+    var x = document.getElementsByClassName("step");
+    //if (n == 1 && !validateForm()) return false;
+    x[currentTab].style.display = "none";
+    currentTab = currentTab + n;
+    if (currentTab >= x.length) {
+        document.getElementById("signUpForm").submit();
+        return false;
+    }
+    showTab(currentTab);
+}
+
 // function validateForm() {
 //     var x, y, i, valid = true;
 //     x = document.getElementsByClassName("step");
@@ -67,7 +79,7 @@ function validateForm() {
         if (y[i].value == "") {
             y[i].className += " invalid";
             valid = false;
-            swal("Error!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi A!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 
@@ -77,7 +89,7 @@ function validateForm() {
         if (selects[i].value == "") {
             selects[i].className += " invalid";
             valid = false;
-            swal("Error!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi B!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 
@@ -86,7 +98,7 @@ function validateForm() {
     for (i = 0; i < radioGroups.length; i++) {
         if (radioGroups[i].type === "radio" && !isChecked(radioGroups[i].name)) {
             valid = false;
-            swal("Error!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi C!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 

@@ -52,8 +52,16 @@ public class AlbumsServiceImpl implements AlbumsService{
 
 	@Override
 	public Albums UpdateJson(JsonNode data) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Albums a = mapper.convertValue(data, Albums.class);
+		return dao.save(a);
+	}
+
+	@Override
+	public Albums FindBy(String name, Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.getAlbum(name, id);
 	}
 
 }

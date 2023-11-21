@@ -193,7 +193,7 @@ app.run(function($rootScope, $http) {
     })
 });
 
-app.controller("mycontroller", function($scope, $http, $rootScope) {
+app.controller("mycontroller", function($scope, $http, $rootScope, $location, $window) {
 
     const url = `http://localhost:8080/rest/files/img`;
     const urlAvt = `http://localhost:8080/rest/files/avatar`;
@@ -208,6 +208,9 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
     $scope.selectedDistrict = '';
     $scope.selectedWard = '';
     $scope.street = '';
+    $scope.key = '';
+    $scope.province = '';
+
     //$scope.inputNumber = 0;
     $scope.currentDate = new Date();
 
@@ -225,6 +228,52 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
             return `${urlAvt}/profile.png`;
         }
 
+    }
+
+    $scope.searchPosts = function() {
+        $http.get(`/rest/search-post?title=` + $scope.key + `&address=` + $scope.key + `&province=` + $scope.province)
+            .then(function(response) {
+                $scope.listPostDiamond = response.data;
+                $rootScope.listPostDiamond.forEach(function(post) {
+                    $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                        if (respAlbums.data && respAlbums.data.length > 0) {
+                            console.log(respAlbums.data);
+                            console.log(respAlbums.data[0].albums_name);
+                            post.firstImage = respAlbums.data[0].albums_name;
+                        }
+                        console.log(typeof post.price);
+                        var priceString = post.price.toString();
+                        if (post.price && priceString.length === 7) {
+                            var millions = priceString.slice(0, 1);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 8) {
+                            var millions = priceString.slice(0, 2);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 9) {
+                            var millions = priceString.slice(0, 3);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 10) {
+                            var millions = priceString.slice(0, 1);
+                            post.price = millions + ' tỷ';
+                        }
+                        if (post.price && priceString.length === 11) {
+                            var millions = priceString.slice(0, 2);
+                            post.price = millions + ' tỷ';
+                        }
+                        if (post.price && priceString.length === 12) {
+                            var millions = priceString.slice(0, 3);
+                            post.price = millions + ' tỷ';
+                        } else {
+                            post.price = post.price;
+                        }
+                    });
+
+
+                });
+            });
     }
 
     $scope.list = function() {
@@ -360,6 +409,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
         })
     }
 
+
+
     // Upload Avatar
     $scope.uploadAvatar = function(files) {
         const form = new FormData();
@@ -397,6 +448,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
             console.error(err)
         })
     }
+
 
     function containsHuman(file, callback) {
         var apiKey = 'AIzaSyCcG1NcZu65SFi9uxG3MDekuI_SWV6dMwg';
@@ -653,7 +705,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
         $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
             $http.post(`/create-post`, post)
                 .then(function(responsePost) {
-                    swal("Good job!", "Đăng bài thành công!", "success");
+                    swal("Thành Công!", "Đăng bài thành công!", "success");
                     $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                         const today = new Date();
                         var detailTransaction = {
@@ -687,21 +739,289 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
 
                         }, function(error) {
                             alert('Đã có lỗi xảy ra: ' + error.data.message);
-                            swal("Error!", "Thêm Ảnh Thất Bại!", "error");
+                            swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
                         })
                     }
                 }, function(error) {
                     alert('Đã có lỗi xảy ra: ' + error.data.message);
-                    swal("Error!", "Đăng bài thất bại!", "error");
+                    swal("Lỗi!", "Đăng bài thất bại!", "error");
                 });
 
         }, function(error) {
             alert('Đã có lỗi xảy ra: ' + error.data.message);
-            swal("Error!", "Lỗi ví tiền của bạn!", "error");
+            swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
         });
 
     }
 
+    var searchParams = new URLSearchParams($window.location.search);
+    var postIdFromQueryString = searchParams.get('id');
+    console.log(postIdFromQueryString);
+    $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
+        $scope.post = response.data;
+        console.log($scope.post);
+        $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
+            if (response.data) {
+                $scope.filenamesUpdate = [];
+                for (let i = 0; i < response.data.length; i++) {
+                    $scope.filenamesUpdate.push(response.data[i].albums_name);
+                }
+                console.log($scope.filenamesUpdate);
+            }
+        });
+    });
+
+    $scope.deleteUpdate = function(filename) {
+        $http.get(`/rest/find-by?name=` + filename + `&id=` + $scope.post.post_id).then(function(response) {
+            console.log(response.data);
+            $scope.albums_id = response.data.albums_id;
+            $http.delete(`/rest/delete-albums?id=` + $scope.albums_id).then(function(response) {
+                $http.delete(`${url}/${filename}`).then(response => {
+                    let i = $scope.filenamesUpdate.findIndex(name => name === filename);
+                    $scope.filenamesUpdate.splice(i, 1);
+                    uploadedFileHashes.splice(i, 1);
+                    console.log(uploadedFileHashes.splice(i, 1) + "delete array hash")
+                }).catch(err => {
+                    console.error(err)
+                })
+            })
+        })
+    }
+
+    function updateFiles(file, form) {
+        console.log("Đẩy lên form hình ảnh")
+        form.append("files", file);
+
+        $http.post(url, form, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        }).then(response => {
+            console.log(response.data);
+            [$scope.filenamesUpdate].push(...response.data)
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+
+    function loadImgUpdates() {
+        $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
+            $scope.post = response.data;
+            console.log($scope.post);
+            $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
+                if (response.data) {
+                    $scope.filenamesUpdate = [];
+                    for (let i = 0; i < response.data.length; i++) {
+                        $scope.filenamesUpdate.push(response.data[i].albums_name);
+                    }
+                    console.log($scope.filenamesUpdate);
+                }
+            });
+        });
+    }
+
+    $scope.uploadUpdate = function(files) {
+
+        const form = new FormData();
+        $scope.sizeError = false;
+        $scope.dimensionError = false;
+
+        // Mảng lưu trữ các giá trị hash của các tệp ảnh mới tải lên
+        var newFileHashes = [];
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var fileName = files[i].name;
+            console.log(fileName);
+            // Index 3
+            // calculateFileHash(file, function(hash) {
+            //     console.log(hash + " ,index = 3.1");
+            //     var img = new Image();
+            //     img.src = URL.createObjectURL(file);
+            //     img.onload = function() {
+            //         containsHuman(file, function(containsHuman) {
+            //             if (containsHuman) {
+            //                 $scope.containsHumanError = true;
+            //                 $scope.$apply();
+            //                 console.log("Ảnh Mờ")
+            //                 return;
+            //             }
+            //             console.log("Kiểm tra img lớn hơn 100KB" + " ,index = 3.2");
+            //             if ((file.size / 1024) > 100) {
+            //                 $scope.sizeError = true;
+            //                 $scope.$apply();
+            //                 console.log($scope.sizeError);
+            //                 console.log(file.size / 1024);
+            //                 console.log((600 * 400 * 24) / 1024)
+            //                 return;
+            //             }
+            //             console.log("Kiểm tra img w:600 - h:400" + " ,index = 3.3");
+            //             if (img.width !== 600 || img.height !== 400) {
+            //                 $scope.dimensionError = true;
+            //                 $scope.$apply();
+            //                 console.log("img w-h");
+            //                 return;
+            //             }
+            //             console.log("Kiểm tra img co bị trùng lặp hay không" + " ,index = 3.4");
+            //             // if (uploadedFileHashes.includes(hash)) {
+            //             //     $scope.duplicateError = true;
+            //             //     $scope.$apply();
+            //             //     console.log("Trùng lặp hình ảnh tải lên");
+            //             //     return;
+            //             // } else {
+            //             //     console.log("ELSE HASH")
+            //             //     uploadedFileHashes.push(hash);
+            //             // }
 
 
+            //         })
+            //     };
+
+            // });
+            // updateFiles(file, form);
+            form.append("files", file);
+            $http.post(url, form, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined }
+            }).then(response => {
+                console.log(response.data);
+                //[$scope.filenamesUpdate].push(...response.data)
+                [$scope.filenamesUpdate] = response.data;
+                for (let i = 0; i < [$scope.filenamesUpdate].length; i++) {
+                    console.log([$scope.filenamesUpdate])
+                    console.log([$scope.filenamesUpdate][i].split('.')[0] + '.' + [$scope.filenamesUpdate][i].split('.')[1]);
+                    var image = [$scope.filenamesUpdate][i].split('.')[0] + '.' + [$scope.filenamesUpdate][i].split('.')[1];
+                    $http.get(`/rest/find-by?name=` + image + `&id=` + $scope.post.post_id).then(function(response) {
+                        if (response.data) {
+                            console.log("Cập nhật hình 820");
+                            $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
+                                if (response.data) {
+                                    for (let i = 0; i < response.data.length; i++) {
+                                        $scope.albums_id = [response.data[i].albums_id];
+                                        console.log($scope.filenamesUpdate);
+                                    }
+                                }
+                            });
+
+                            for (let i = 0; i < $scope.albums_id.length; i++) {
+                                $http.get('/post-id/' + $scope.post.post_id).then(function(response) {
+                                    $scope.post = response.data;
+                                });
+                                var album = {
+                                    albums_id: $scope.albums_id[i],
+                                    albums_name: image,
+                                    post_id: $scope.post
+                                }
+
+                                $http.put(`/rest/update-albums`, album).then(function(response) {
+                                    console.log(response.data);
+                                    loadImgUpdates();
+                                }, function(error) {
+                                    alert('Đã có lỗi xảy ra: ' + error.data.message);
+                                    swal("Lỗi!", "Cập nhật ảnh thất bại!", "error");
+                                });
+                            }
+                        } else {
+                            console.log("Thêm hình 842");
+                            $http.get('/post-id/' + $scope.post.post_id).then(function(response) {
+                                $scope.post = response.data;
+                            });
+                            var album = {
+                                albums_name: image,
+                                post_id: $scope.post
+                            }
+
+                            $http.post(`/rest/create-albums`, album).then(function(response) {
+                                if (response.data) {
+                                    loadImgUpdates();
+                                }
+
+                            }, function(error) {
+                                alert('Đã có lỗi xảy ra: ' + error.data.message);
+                                swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
+                            })
+                        }
+                    });
+
+                }
+
+            }).catch(err => {
+                console.error(err)
+            })
+
+        }
+
+
+    }
+    $scope.searchType = function() {
+        $http.get(`/type-property-findById?id=` + $scope.post.types_id.types_id).then(resp => {
+            if (resp.data) {
+                $rootScope.typeUpdate = resp.data;
+                console.log($rootScope.typeUpdate);
+            }
+        });
+    }
+    $scope.post = {
+        post_title: "",
+        post_content: "",
+        create_at: new Date(),
+        end_date: $scope.currentEndDate,
+        acreage: "",
+        price: "",
+        addresss: "",
+        linkVideo: "",
+        services_id: $scope.service,
+        types_id: $rootScope.typeUpdate,
+        direction: "",
+        bed: "",
+        juridical: "",
+        balcony: "",
+        toilet: "",
+        interior: "",
+        active: true,
+        users_id: $rootScope.$u,
+        deletedAt: false
+    };
+
+    $scope.updatePost = function() {
+        $scope.post.active = true
+        console.log($scope.post);
+        $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.put('/update-post', $scope.post).then(function(response) {
+                swal("Thành Công!", "Bài viết đã đăng!", "success");
+                console.log(response.data);
+
+                $http.post(`/rest/create-transaction`, transaction).then(function(response) {
+                    const today = new Date();
+                    var detailTransaction = {
+                        price: $scope.price,
+                        transactions_type: false,
+                        timer: today.toLocaleTimeString("en-US"),
+                        account_get: $rootScope.$pay.pay_id,
+                        fullname_get: $rootScope.$u.fullname,
+                        bank_code: null,
+                        transactions_id: response.data
+                    };
+                    swal("Good job!", "Giao Dịch - Giao Dịch Chi Tiết!", "success");
+                    $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {
+                        swal("Good job!", "Giao Dịch - Giao Dịch Chi Tiết!", "success");
+                    }, function(err) {
+                        swal("Good job!", "Lỗi - Giao Dịch Chi Tiết!", "success");
+                        alert('Đã có lỗi xảy ra: ' + err.data.message);
+                    })
+                }, function(err) {
+                    swal("Good job!", "Lỗi - Giao Dịch!", "success");
+                    alert('Đã có lỗi xảy ra: ' + err.data.message);
+                });
+
+
+            }, function(error) {
+                swal("Lỗi!", "Lỗi đăng bài!", "error");
+                console.error('Lỗi cập nhật bài viết', error);
+            });
+        }, function(error) {
+            alert('Đã có lỗi xảy ra: ' + error.data.message);
+            swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+        });
+
+    };
 });

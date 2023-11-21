@@ -50,7 +50,9 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public Post Update(Post p) {
-		// TODO Auto-generated method stub
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Post post = mapper.convertValue(p, Post.class);
 		return dao.save(p);
 	}
 
@@ -151,6 +153,12 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getAllPostsForYou() {
 		// TODO Auto-generated method stub
 		return dao.getPostsForYou();
+	}
+
+	@Override
+	public List<Post> searchPost(String title, String address, String province, Integer type) {
+		// TODO Auto-generated method stub
+		return dao.searchPost(title, address, province, type);
 	}
 
 }
