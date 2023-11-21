@@ -840,7 +840,7 @@ textarea {
     text-transform: inherit;
     font-size: inherit;
     display: block;
-    width: 280px;
+    width: -webkit-fill-available;
     padding: .4em;
 }
 

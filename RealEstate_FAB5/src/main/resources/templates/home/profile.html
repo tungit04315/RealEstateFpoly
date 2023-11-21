@@ -61,16 +61,21 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Email:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" name="email" th:value="${u.email}">
+                                                    <input class="form-control" type="text" name="email" th:value="${u.email}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Số điện thoại:</label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control" type="text" name="phone" th:value="${u.phone}">
+                                                    <input class="form-control" type="text" name="phone" th:value="${u.phone}" readonly>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Ngày sinh</label>
+                                                <div class="col-lg-8">
+                                                	<input type="date" th:value="${u.birthday}" name="birthday">
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Địa chỉ:</label>
                                                 <div class="col-md-8">
@@ -84,9 +89,8 @@
                                                 </div>
                                             </div>
                                             <input type="text" th:value="${u.passwords}" name="passwords" hidden>
-                            <input type="text" th:value="${u.fail_login}" name="fail_login" hidden>
-                            <input type="text" th:value="*{create_block}" name="create_block" hidden>
-                            <input type="date" th:value="*{birthday}" name="birthday">
+                            				<input type="text" th:value="${u.fail_login}" name="fail_login" hidden>
+                            				<input type="text" th:value="*{create_block}" name="create_block" hidden>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label"></label>
                                                 <div class="col-md-8">

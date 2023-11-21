@@ -28,9 +28,10 @@ function recaptchaCallback() {
 
 
 function Validator(options) {
+	/*options là đối tượng Validator bên trang html*/
     var selectorRules = {};
-    //Lấy element của form cần validate
-    var formElement = document.querySelector(options.form);
+    //Lấy các thành phần của form cần validate
+    var formElement = document.querySelector(options.form);/*options.form là form #dangky hoặc #dangnhap*/
 
     if (formElement) {
         formElement.onsubmit = function(e) {
@@ -104,6 +105,7 @@ function Validator(options) {
 
 Validator.isRequired = function(selector, message) {
     return {
+		/*selector là các thẻ input #fullname,...*/
         selector: selector,
         test: function(value) {
             return value.trim() ? undefined : message || 'Vui lòng nhập trường này';
@@ -112,6 +114,7 @@ Validator.isRequired = function(selector, message) {
 }
 Validator.isEmail = function(selector) {
     return {
+				/*selector là các thẻ input #fullname,...*/
         selector: selector,
         test: function(value) {
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -121,6 +124,7 @@ Validator.isEmail = function(selector) {
 }
 Validator.isPhone = function(selector) {
     return {
+				/*selector là các thẻ input #fullname,...*/
         selector: selector,
         test: function(value) {
             var regex = /(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$/;
@@ -130,12 +134,20 @@ Validator.isPhone = function(selector) {
 }
 Validator.isConfirmed = function(selector, getConfirmValue, message) {
     return {
+				/*selector là các thẻ input #fullname,...*/
         selector: selector,
         test: function(value) {
             return value === getConfirmValue() ? undefined : message || 'Trường không khớp';
         }
     }
 }
-Validator.isUsed = function(selector){
-	
+Validator.chckPass = function(selector, message){
+    return {
+				/*selector là các thẻ input #fullname,...*/
+        selector: selector,
+        test: function(value) {
+            var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:\"<>?~`]).{6,}$/;
+            return regex.test(value) ? undefined : message||'Mật khẩu chưa đủ mạnh';
+        }
+    };
 }
