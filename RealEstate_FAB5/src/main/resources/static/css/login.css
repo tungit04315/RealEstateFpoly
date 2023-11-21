@@ -523,3 +523,12 @@ hr{
     }
 }
 /*toast*/
+/* an hien password */
+    #btn_dnhap_pass, #btn_dky_pass, #btn_dky_repass {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+/* an hien password */
