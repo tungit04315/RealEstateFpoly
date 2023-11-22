@@ -200,6 +200,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $location, $w
     $scope.sizeError = false;
     $scope.duplicateError = false;
     $scope.containsHumanError = false;
+    $scope.filenames = [];
 
     // Mảng lưu trữ các giá trị hash của các tệp ảnh đã tải lên
     var uploadedFileHashes = [];
@@ -485,7 +486,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $location, $w
         };
     }
 
-    $scope.list();
+    // $scope.list();
 
     $scope.loadDistricts = function() {
         $http.get(`/rest/district?id=` + $scope.selectedProvince)

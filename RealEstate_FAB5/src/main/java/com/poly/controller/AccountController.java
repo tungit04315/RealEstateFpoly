@@ -262,7 +262,7 @@ public class AccountController {
 				String body = stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				ss.setAttribute("type", "email của bạn " + email.substring(0, email.length() - 14) + "******");
+				
 				mailService.send(email, title, body);
 				return "redirect:/OTP";
 			}
@@ -288,7 +288,7 @@ public class AccountController {
 				String phone = "+84" + email.substring(1);
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");
+				
 
 				smsService.sendSms(phone, body);
 
