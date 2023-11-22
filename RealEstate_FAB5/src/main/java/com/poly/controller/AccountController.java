@@ -330,7 +330,8 @@ public class AccountController {
 			Users uFind = userService.findByEmailOrPhone(mail_reOTP, null);
 			if (uFind == null) {
 				// Set Notification Failed
-				m.addAttribute("notitication", false);
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
 				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Email
@@ -354,7 +355,9 @@ public class AccountController {
 			Users uFind = userService.findByEmailOrPhone(null, mail_reOTP);
 			if (uFind == null) {
 				// Set Notification Failed
-				return "redirect:/forget-password";
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
+				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Phone
 				Random random = new Random();
@@ -383,7 +386,8 @@ public class AccountController {
 			Users uFind = userService.findByEmailOrPhone(email, null);
 			if (uFind == null) {
 				// Set Notification Failed
-				m.addAttribute("notitication", false);
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
 				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Email
@@ -407,7 +411,9 @@ public class AccountController {
 			Users uFind = userService.findByEmailOrPhone(null, email);
 			if (uFind == null) {
 				// Set Notification Failed
-				return "redirect:/forget-password";
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
+				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Phone
 				Random random = new Random();
@@ -447,7 +453,9 @@ public class AccountController {
 		if (OTPss.equalsIgnoreCase(OTP)) {
 			return "redirect:/change-password";
 		} else {
-			return "redirect:/OTP";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Sai OTP");
+			return "account/otp";
 		}
 	}
 	// OTP
