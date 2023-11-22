@@ -85,7 +85,7 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Hạng thành viên:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text"  disabled>
+                                                    <input class="form-control" type="text"  readonly th:value="${rank.rank_id.rank_name}">
                                                 </div>
                                             </div>
                                             <input type="text" th:value="${u.passwords}" name="passwords" hidden>

@@ -25,6 +25,7 @@ import com.poly.service.AlbumsService;
 import com.poly.service.DetailTransactionService;
 import com.poly.service.PaymentService;
 import com.poly.service.PostService;
+import com.poly.service.RanksService;
 import com.poly.service.TransactionService;
 import com.poly.service.UsersService;
 import com.poly.util.MailerService;
@@ -70,6 +71,9 @@ public class HomeController {
 
 	@Autowired
 	SmsService smsService;
+	
+	@Autowired
+	RanksService rankservice;
 	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
@@ -231,6 +235,7 @@ public class HomeController {
 	public String getManagerProfile(Model m) {
 		Users u = (Users) ss.getAttribute("user");
 		m.addAttribute("u", userService.findById(u.getUsername()));
+		m.addAttribute("rank", rankservice.findById(u.getRanks_id().getRanks_id()));
 		return "home/profile";
 	}
 	// Profile Page

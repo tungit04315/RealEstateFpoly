@@ -321,6 +321,61 @@ public class AccountController {
 	public String getForgetPassword() {
 		return "account/forgetPassword";
 	}
+	
+	//RESEND OTP
+	@GetMapping("/resend-otp")
+	public String resendOTP(Model m) throws MessagingException {
+		String mail_reOTP = ss.getAttribute("resendOTP");
+		if (validator.isEmailValid(mail_reOTP)) {
+			Users uFind = userService.findByEmailOrPhone(mail_reOTP, null);
+			if (uFind == null) {
+				// Set Notification Failed
+				m.addAttribute("notitication", false);
+				return "account/forgetPassword";
+			} else {
+				// Send ID OTP Email
+				Random random = new Random();
+				StringBuilder stringNumber = new StringBuilder();
+				for (int i = 0; i < 4; i++) {
+					int numberRandom = random.nextInt(10);
+
+					stringNumber.append(numberRandom);
+				}
+				String title = "Dịch Vụ Tài Khoản";
+				String body = stringNumber.toString();
+				ss.setAttribute("UFind", uFind);
+				ss.setAttribute("otp", body);
+				ss.setAttribute("resendOTP", mail_reOTP);
+				
+				mailService.send(mail_reOTP, title, body);
+				return "redirect:/OTP";
+			}
+		} else {
+			Users uFind = userService.findByEmailOrPhone(null, mail_reOTP);
+			if (uFind == null) {
+				// Set Notification Failed
+				return "redirect:/forget-password";
+			} else {
+				// Send ID OTP Phone
+				Random random = new Random();
+				StringBuilder stringNumber = new StringBuilder();
+				for (int i = 0; i < 4; i++) {
+					int numberRandom = random.nextInt(10);
+
+					stringNumber.append(numberRandom);
+				}
+				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
+				ss.setAttribute("UFind", uFind);
+				ss.setAttribute("otp", body);
+				ss.setAttribute("resendOTP", mail_reOTP);
+				
+				String phone = "+84" + mail_reOTP.substring(1);
+				//System.out.println(phone);
+				smsService.sendSms(phone, body);
+				return "redirect:/OTP";
+			}
+		}
+	} 
 		// Gửi mail xác nhận
 	@PostMapping("/forget-password-action")
 	public String getForgetPasswordAction(Model m, @RequestParam("email") String email) throws Exception {
@@ -343,7 +398,8 @@ public class AccountController {
 				String body = stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-
+				ss.setAttribute("resendOTP", email);
+				
 				mailService.send(email, title, body);
 				return "redirect:/OTP";
 			}
@@ -364,13 +420,15 @@ public class AccountController {
 				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-
+				ss.setAttribute("resendOTP", email);
+				
 				String phone = "+84" + email.substring(1);
 				//System.out.println(phone);
 				smsService.sendSms(phone, body);
 				return "redirect:/OTP";
 			}
 		}
+		
 	}
 		// Gửi mail xác nhận
 	// Quên mật khẩu
