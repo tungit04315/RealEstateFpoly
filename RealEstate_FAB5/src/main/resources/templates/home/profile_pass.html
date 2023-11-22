@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="/css/changepass_profile.css">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container d-flex flex-column">
+		<div
+			class="row align-items-center justify-content-center
+          min-vh-100">
+			<div class="col-12 col-md-8 col-lg-4">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<form id="passprofile"
+							class="form-edit-change-password wow slideInLeft"
+							data-wow-delay="0.1s" action="/profile/changePass" method="post">
+							<div class="mb-3">
+								<h5>
+									Đặt một mật khẩu mới
+									</h5>
+							<div class="input-field">
+								<label for="exampleInputEmail1" class="form-label">Mật
+									khẩu hiện tại</label> <input type="password" class="form-control"
+									id="passcu" name="passhientai" required> <span
+									class="form-message item3"></span>
+									<button type="button" id="btn_passcu">Hiện</button>
+							</div>
+							<div class="input-field">
+								<label for="email" class="form-label">Mật khẩu mới</label> <input
+									type="password" id="mkmoi" class="form-control" name="passmoi"
+									placeholder="Nhập mật khẩu mới ..." required> <span
+									class="form-message item3"></span>
+									<button type="button" id="btn_passmoi">Hiện</button>
+							</div>
+							<div class="input-field">
+								<label for="email" class="form-label">Xác nhận mật khẩu
+									mới</label> <input type="password" id="REmkmoi" class="form-control"
+									name="nhaplaipassmoi" placeholder="Nhập lại mật khẩu mới ..."
+									required> <span class="form-message item3"></span>
+									<button type="button" id="btn_repassmoi">Hiện</button>
+							</div>
+							</div>
+							<button type="submit" class="btn btn-primary">Lưu</button>
+						</form>
+						
+					</div>
+					<div class="card-footer">
+					<a href="/home/manager/profile">Quay lại</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:if="${visible == 'true'}">
+		<div class="toast active">
+			<div class="toast-content">
+				<div class="message">
+					<span class="text text-1" th:utext="${thongbao}"></span>
+				</div>
+			</div>
+			<div class="progress active"></div>
+		</div>
+	</div>
+</body>
+<script src="/js/toast.js"></script>
+<script src="/js/validator.js"></script>
+<script type="text/javascript">
+	Validator({
+		form : '#passprofile',
+		errorSelector : '.form-message',
+		rules : [
+				Validator.isRequired('#mkmoi', 'Vui lòng nhập mật khẩu'),
+				Validator.isRequired('#REmkmoi', 'Vui lòng xác nhận mật khẩu'),
+				Validator.chckPass('#mkmoi',
+						'Tổi thiểu 6 ký tự số chữ thường, hoa ký tự đặc biệt'),
+				Validator.isConfirmed('#REmkmoi', function() {
+					return document.querySelector('#passprofile #mkmoi').value;
+				}, 'Nhập lại mật khẩu không khớp'), ]
+	});
+    /* ẩn hiện mật khẩu đăng nhập */
+    document.addEventListener('DOMContentLoaded', function () {
+    	  const passwordInput = document.getElementById('passcu');
+    	  const togglePasswordButton = document.getElementById('btn_passcu');
+
+    	  togglePasswordButton.addEventListener('click', function () {
+    	    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    	    passwordInput.setAttribute('type', type);
+
+    	    // Change button text based on the type
+    	    togglePasswordButton.textContent = type === 'password' ? 'Hiện' : 'Ẩn';
+    	  });
+    	});
+    
+    /* Ẩn hiện mật khẩu đăng ký */
+        document.addEventListener('DOMContentLoaded', function () {
+    	  const passwordInput = document.getElementById('mkmoi');
+    	  const togglePasswordButton = document.getElementById('btn_passmoi');
+
+    	  togglePasswordButton.addEventListener('click', function () {
+    	    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    	    passwordInput.setAttribute('type', type);
+
+    	    // Change button text based on the type
+    	    togglePasswordButton.textContent = type === 'password' ? 'Hiện' : 'Ẩn';
+    	  });
+    	});
+    
+        document.addEventListener('DOMContentLoaded', function () {
+      	  const passwordInput = document.getElementById('REmkmoi');
+      	  const togglePasswordButton = document.getElementById('btn_repassmoi');
+
+      	  togglePasswordButton.addEventListener('click', function () {
+      	    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      	    passwordInput.setAttribute('type', type);
+
+      	    // Change button text based on the type
+      	    togglePasswordButton.textContent = type === 'password' ? 'Hiện' : 'Ẩn';
+      	  });
+      	});	
+</script>
+</html>

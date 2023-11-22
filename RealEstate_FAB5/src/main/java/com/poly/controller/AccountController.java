@@ -223,12 +223,7 @@ public class AccountController {
 		}
 	}
 
-	//Đăng nhập bằng Google
-	@RequestMapping("/oauth2/login/success")
-	public String success(OAuth2AuthenticationToken oauth2) {
-		userService.loginFromOAuth2(oauth2);
-		return "forward:/home";
-	}
+
 
 	@RequestMapping("/login/action/success")
 	public String postLogin(Model m) {
@@ -261,7 +256,13 @@ public class AccountController {
 		}
 	}
 	// Đăng nhập
-
+	
+	
+	//Đổi mật khẩu trong profile
+	@GetMapping("/doimk")
+	public String doiMK() {
+		return "home/profile_pass";
+	}
 	// Cập nhật thông tin tài khoản
 	@PostMapping("/profile/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
@@ -293,15 +294,17 @@ public class AccountController {
 				u.setPasswords(passwordEncoder.encode(passmoi));// db
 				user.setPasswords(passwordEncoder.encode(passmoi));// session
 				userService.update(user);
-				m.addAttribute("successPass", true);
+				ss.setAttribute("visible", "true");
+				ss.setAttribute("thongbao", "Thành công");
 				return "redirect:/home/manager/profile";
 			} else {
 				m.addAttribute("errorPass", true);
-				return "redirect:/home/pay";
+				return "home/profile_pass";
 			}
 		} else {
-			m.addAttribute("errorPass", true);
-			return "redirect:/home";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Sai mật khẩu củ");
+			return "home/profile_pass";
 		}
 	}
 		// Đổi mật khẩu
@@ -403,7 +406,7 @@ public class AccountController {
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
 				ss.setAttribute("resendOTP", email);
-				
+				ss.setAttribute("type", "email của bạn " + email.substring(0, email.length() - 14) + "******");
 				mailService.send(email, title, body);
 				return "redirect:/OTP";
 			}
@@ -427,8 +430,8 @@ public class AccountController {
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
 				ss.setAttribute("resendOTP", email);
-				
 				String phone = "+84" + email.substring(1);
+				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");
 				//System.out.println(phone);
 				smsService.sendSms(phone, body);
 				return "redirect:/OTP";

@@ -236,6 +236,11 @@ public class HomeController {
 		Users u = (Users) ss.getAttribute("user");
 		m.addAttribute("u", userService.findById(u.getUsername()));
 		m.addAttribute("rank", rankservice.findById(u.getRanks_id().getRanks_id()));
+		String hienthi = ss.getAttribute("visible");
+		String tb = ss.getAttribute("thongbao");
+		
+		m.addAttribute("visible", hienthi);
+		m.addAttribute("thongbao", tb);
 		return "home/profile";
 	}
 	// Profile Page
