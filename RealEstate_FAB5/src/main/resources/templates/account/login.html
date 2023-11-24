@@ -16,6 +16,7 @@
 </head>
 
 <body>
+<a href="/home" class="corner-button"><i class="fa-solid fa-house fa-xl" style="color: #ea8423;"></i></a>
     <div class="container" ng-app="validation">
         <!-- Captcha -->
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -35,17 +36,8 @@
                    		<button type="button" id="btn_dnhap_pass">Hiện</button>
                         <span class="form-message item3"></span>
                     </div>
-
                     <input type="submit" value="Đăng nhập" class="btn solid btn-dnhap">
-                    <p class="social-text">hoặc Đăng nhập với MXH</p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="/oauth2/authorization/google" class="social-icon">
-                            <i class="fab fa-google"></i>
-                        </a>
-                    </div>
+                    		<hr>
                     <div class="qmk"> <a href="/forget-password">Quên mật khẩu?</a></div>
                 </form>
 
@@ -155,7 +147,7 @@
         form: '#dangnhap',
         errorSelector: '.form-message',
         rules: [
-            Validator.isRequired('#dnhap_uname', 'Vui lòng nhập Username!'),
+            Validator.isRequired('#dnhap_uname', 'Vui lòng nhập tên đăng nhập!'),
             Validator.isRequired('#dnhap_pass', 'Vui lòng nhập mật khẩu!'),
         ]
     });

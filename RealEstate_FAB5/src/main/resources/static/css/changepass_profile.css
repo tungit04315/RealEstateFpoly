@@ -3,11 +3,13 @@ body {
 	height: 100vh;
 	overflow: hidden;
 }
-.card-body{
-	height: 440px;
+.box{
+	margin-top: -40px;
 }
 form{
-	height: 400px;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
 }
 .input-field {
     width: 100%;
@@ -136,3 +138,15 @@ label{
   border: none;
 }
 /* an hien password */
+.card-footer {
+    display: flex;
+    justify-content: space-between; /* Căn giữa theo chiều ngang */
+    background-color: #f0f0f0; /* Màu nền của footer (tùy chọn) */
+    padding: 10px; /* Khoảng cách giữa các phần tử (tùy chọn) */
+}
+
+.card-footer a {
+    text-decoration: none;
+    color: #333; /* Màu chữ của các liên kết (tùy chọn) */
+    /* Không cần margin khi sử dụng space-between */
+}

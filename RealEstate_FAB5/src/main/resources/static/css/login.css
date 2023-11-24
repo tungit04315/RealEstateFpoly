@@ -64,10 +64,8 @@ hr{
 	width: 300px;
 	color: black;
 }
-.qmk{
-	padding-top: 15px;
-}
 .qmk a{
+	color: #E57C23;
 	text-decoration: none;
 }
 .title {
@@ -117,6 +115,10 @@ hr{
 }
 
 .item3{
+	font-size: 12px;
+	font-style: italic;
+	display:flex;
+	justify-content:flex-end;
 	margin-left: 5px;
 	color: red;
 }
@@ -131,7 +133,9 @@ hr{
 }
 
 .captcha-message{
-	color:red;
+	font-size: 12px;
+	font-style: italic;	
+	color: red;
 }
 
 .input-field input::placeholder {
@@ -532,3 +536,21 @@ hr{
   cursor: pointer;
 }
 /* an hien password */
+
+/*button trang chu*/
+.corner-button i{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	width:42px;
+	height: 42.5px;
+	z-index: 7;
+	border-radius:20px;
+	z-index:7;
+	background-color: white;
+    position: absolute; /* Đặt vị trí tuyệt đối */
+    top: 10px;          /* Khoảng cách từ trên xuống */
+    left: 10px;         /* Khoảng cách từ trái sang phải */
+    padding: 1	5px;      /* Để nút dễ nhấn */
+}
+/*button trang chu*/
