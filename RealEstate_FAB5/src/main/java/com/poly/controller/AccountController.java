@@ -474,13 +474,11 @@ public class AccountController {
 			@RequestParam("nhaplaimkmoi") String nhaplaimkmoi) {
 		Users u = ss.getAttribute("UFind");
 		if (!nhaplaimkmoi.equalsIgnoreCase(mkmoi)) {
-			System.out.println("mk nhap lai khong trung");
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Kiểm tra lại mật khẩu");
 			return "account/changePassword";
 		} else {
 			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
-				System.out.println("mk moi trung vs mk cu");
 				m.addAttribute("visible", "true");
 				m.addAttribute("thongbao", "Vui lòng nhập mật khẩu chưa từng sử dụng!");
 				return "account/changePassword";
