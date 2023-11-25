@@ -137,7 +137,12 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
             return null;
         });
 
-        $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+        if ($scope.street.length == 0) {
+            $scope.addresss = wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+        } else {
+            $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+        }
+
     };
 
     $http.get(`/rest/province`)

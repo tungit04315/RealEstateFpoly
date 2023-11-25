@@ -2,50 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="areas(body)">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Real Estate Dashboard</title>
-<!-- Shortcut Icon -->
-<link rel="shortcut icon" type="image/png" href="/img/dashboard.png" />
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="/css/styles.min.css" />
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<!-- CSS -->
-<link rel="stylesheet" href="/css/tabs-edit.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Real Estate Dashboard</title>
+    <!-- Shortcut Icon -->
+    <link rel="shortcut icon" type="image/png" href="/img/dashboard.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/styles.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/tabs-edit.css">
 </head>
 
 <body>
-	<!--  Body Wrapper -->
-	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
-		data-navbarbg="skin6" data-sidebartype="full"
-		data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
 
 
-		<!-- Aside Start -->
-		<div th:replace="~{/layout_admin/aside :: aside}"></div>
-		<!-- Aside End -->
+        <!-- Aside Start -->
+        <div th:replace="~{/layout_admin/aside :: aside}"></div>
+        <!-- Aside End -->
 
-		<!--  Main wrapper -->
-		<div class="body-wrapper">
-			<!-- Header Start -->
-			<div th:replace="~{/layout_admin/header :: header}"></div>
-			<!-- Header End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!-- Header Start -->
+            <div th:replace="~{/layout_admin/header :: header}"></div>
+            <!-- Header End -->
 
-			<!-- Main Content Start -->
-			<main th:replace="${body}"></main>
-			<!-- Main Content End -->
-		</div>
-	</div>
+            <!-- Main Content Start -->
+            <main th:replace="${body}"></main>
+            <!-- Main Content End -->
+        </div>
+    </div>
 
-	<script src="/lib/jquery/dist/jquery.min.js"></script>
-	<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/js/sidebarmenu.js"></script>
-	<script src="/js/app.min.js"></script>
-	<script src="/lib/apexcharts/dist/apexcharts.min.js"></script>
-	<script src="/lib/simplebar/dist/simplebar.js"></script>
-	<script src="/js/dashboard.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sidebarmenu.js"></script>
+    <script src="/js/app.min.js"></script>
+    <script src="/lib/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="/lib/simplebar/dist/simplebar.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/index.admin.js"></script>
 </body>
 
 </html>
