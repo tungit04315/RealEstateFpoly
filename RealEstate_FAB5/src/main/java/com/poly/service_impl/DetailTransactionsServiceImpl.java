@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poly.bean.DetailTransactions;
 import com.poly.dao.DetailTransactionsDAO;
 import com.poly.service.DetailTransactionService;
@@ -49,6 +52,32 @@ public class DetailTransactionsServiceImpl implements DetailTransactionService{
 	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		dao.deleteById(id);
+	}
+
+	@Override
+	public List<DetailTransactions> findAllByUser(String username) {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionsByUser(username);
+	}
+
+	@Override
+	public DetailTransactions createJson(JsonNode data) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		DetailTransactions d = mapper.convertValue(data, DetailTransactions.class);
+		return dao.save(d);
+	}
+
+	@Override
+	public List<DetailTransactions> findAllDetailTransactionPay() {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionPay();
+	}
+
+	@Override
+	public List<DetailTransactions> findAllDetailTransactionPost() {
+		// TODO Auto-generated method stub
+		return dao.getDetailTransactionPost();
 	}
 
 }

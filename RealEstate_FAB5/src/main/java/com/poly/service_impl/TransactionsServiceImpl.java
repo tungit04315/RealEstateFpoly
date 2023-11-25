@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poly.bean.Transactions;
 import com.poly.dao.TransactionsDao;
 import com.poly.service.TransactionService;
@@ -24,7 +27,8 @@ public class TransactionsServiceImpl implements TransactionService{
 	@Override
 	public Transactions findById(Integer id) {
 		// TODO Auto-generated method stub
-		return dao.getTransactionByUserId(null);
+//		return dao.getTransactionByUserId(null);
+		return dao.findById(id).get();
 	}
 	
 	
@@ -51,6 +55,32 @@ public class TransactionsServiceImpl implements TransactionService{
 	public Transactions findByUserId(String username) {
 		// TODO Auto-generated method stub
 		return dao.getTransactionByUserId(username);
+	}
+
+	@Override
+	public Transactions createJson(JsonNode data) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Transactions t = mapper.convertValue(data, Transactions.class);
+		return dao.save(t);
+	}
+
+	@Override
+	public List<Object[]> getCurrentAndPreviousMonth() {
+		List<Object[]> list = dao.getCurrentAndPreviousMonth();
+		return list;
+	}
+
+	@Override
+	public Double getTotalYear(int year) {
+		// TODO Auto-generated method stub
+		return dao.getTotalYear(year);
+	}
+
+	@Override
+	public List<Object[]> getIncomeInRecentYears() {
+		// TODO Auto-generated method stub
+		return dao.getIncomeInRecentYears();
 	}
 
 }

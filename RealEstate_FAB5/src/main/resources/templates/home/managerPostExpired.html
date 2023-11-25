@@ -17,7 +17,7 @@
                             <div class="card border-light mb-3" style="max-width: 18rem;">
                                 <div class="card-body">
                                     <div class="d-flex align-content-center justify-content-center">
-                                        <img src="{{$u.avatar}}" class="rounded-circle" width="80" height="80" alt="...">
+                                        <img src="{{urlAvt($u.avatar)}}" class="rounded-circle" width="80" height="80" alt="...">
 
                                     </div>
 
@@ -37,6 +37,8 @@
                             <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="false">Đổi mật khẩu</button>
 
                             <button class="nav-link active" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="true">Quản lý tin đăng</button>
+                            <a href="/home/manager/history-transactions" class="nav-link text-center">Lịch sử giao dịch</a>
+                            <a href="#" class="nav-link text-center">Lịch sử bài viết đã xóa</a>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Cài đặt</button>
                         </div>
                     </div>
@@ -48,7 +50,7 @@
                                 <div class="card" th:each="post : ${post_list}">
                                     <div class="d-flex justify-content-between p-2 px-3">
                                         <div class="d-flex flex-row align-items-center">
-                                            <img th:src="*{{post.users_id.avatar}}" width="50" height="50" class="rounded-circle">
+                                            <img th:src="@{'/files/avatar/' + ${post.users_id.avatar}}" width="50" height="50" class="rounded-circle">
                                             <div class="d-flex flex-column ml-2">
                                                 <span style="font-weight: bold; margin-left: 10px;" th:utext="*{post.users_id.fullname}"></span>
                                             </div>
@@ -65,28 +67,52 @@
                                                         <h3 class="title mb-0">Cài đặt</h3>
                                                     </div>
                                                     <ul class="custom-notifications" style="height: 100%;">
-                                                        <a href="#" style="color: black;"><i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa bài viết</a>
+                                                        <a th:href="@{/home/post-update?id={id}(id=${post.post_id})}" style="color: black;">
+                                                            <i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa bài viết
+                                                        </a>
                                                     </ul>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <img th:src="*{post.albums[0].albums_name}" class="img-fluid">
+                                    <img th:src="@{'/files/img/' + ${post.albums[0].albums_name}}" class="img-fluid">
                                     <div class="p-2">
                                         <p class="text-justify" th:utext="*{post.post_title}">
                                         </p>
                                         <hr>
                                         <div class="d-flex">
-                                            <a class="btn btn-primary" style="margin-right: 10px;" href="">
-                                                <i class="fa-solid fa-xmark"></i> Hủy
-                                            </a>
-                                            <a class="btn btn-primary" href="">
-                                                <i class="fa-solid fa-check"></i> Gia hạn
+                                            <a href="#myModal" class="btn btn-primary" data-toggle="modal" style="margin-right: 10px;"><i class="fa-solid fa-xmark"></i> Hủy bỏ</a>
+                                            <a class="btn btn-primary" th:href="@{'/home/manager/post-deadline-extension-action?id=' + ${post.post_id}}">
+                                                <i class="fa-solid fa-check"></i> Gia hạn ngay
                                             </a>
                                         </div>
                                     </div>
+                                    <div id="myModal" class="modal fade">
+                                        <div class="modal-dialog modal-confirm">
+                                            <div class="modal-content">
+                                                <div class="modal-header flex-column">
+                                                    <div class="icon-box">
+                                                        <i class="fa-solid fa-xmark" style="font-size: 50px; color:red;"></i>
+                                                    </div>
+                                                    <h4 class="modal-title w-100" style="color: red;">Bạn có chắc không?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                        <i class="fa-regular fa-circle-xmark" style="font-size: 25px;"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có chắc chắn muốn hủy gia hạn bài viết này không?</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-center">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                                    <a class="btn btn-danger" th:href="@{'/home/manager/delete-post?id=' + ${post.post_id}}">
+                                                        Đồng ý
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

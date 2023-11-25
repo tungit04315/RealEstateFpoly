@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.poly.bean.Auth;
 import com.poly.bean.Pay;
@@ -159,4 +159,26 @@ public class UsersServiceImpl implements UsersService{
 		Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
+
+	@Override
+	public String updateAvatar(String username, MultipartFile file) {
+//		Optional<Users> user = dao.findById(username);
+//		
+//		if (user != null) {
+//            String fileName = "avatar_" + username + "_" + System.currentTimeMillis() + ".png";
+//            String uploadDir = "/path/to/upload/directory"; 
+//            // Thay đổi đường dẫn thư mục lưu ảnh của bạn
+//
+//            FileUploadUtil.saveFile(uploadDir, fileName, file);
+//
+//            // Cập nhật đường dẫn avatar trong cơ sở dữ liệu
+//            user.setAvatar(fileName);
+//            userRepository.save(user);
+//
+//            return fileName;
+//        }
+
+		return null;
+	}
+
 }

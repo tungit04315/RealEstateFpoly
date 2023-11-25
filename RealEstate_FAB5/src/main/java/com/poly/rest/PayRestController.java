@@ -1,7 +1,9 @@
 package com.poly.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,12 +34,13 @@ public class PayRestController {
 		return payService.findByID(u.getPay_id().getPay_id());
 	}
 	
-//	@RequestMapping("/rest/pay")
-//	public Integer getPayUser() {
-//		
-//		Users u = (Users) ss.getAttribute("user");
-//		System.out.println(u);
-//		Users uFind = userService.findById(u.getUsername());
-//		return uFind.getPay_id().getPay_id();
-//	}
+	@PutMapping("/rest/set-money-pay")
+	public Long setMoneyPay(@Param("user") String user, @Param("money") Long money) {
+		Users u = userService.findById(user);
+		Pay p = payService.findByID(u.getPay_id().getPay_id());
+		Long sum = p.getPay_money() - money;
+		p.setPay_money(sum);
+		payService.Update(p);
+		return p.getPay_money();
+	}
 }

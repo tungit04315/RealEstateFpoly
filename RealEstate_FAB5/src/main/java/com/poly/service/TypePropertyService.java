@@ -7,6 +7,10 @@ import com.poly.bean.*;
 public interface TypePropertyService {
 	
 	public List<TypePropertys> findAll();
+	
+	public List<TypePropertys> findSuggest();
+	
+	public List<TypePropertys> findSelectTop6();
 
 	public TypePropertys findById(Integer id);
 

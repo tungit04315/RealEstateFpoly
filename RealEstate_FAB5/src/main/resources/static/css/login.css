@@ -16,7 +16,7 @@ input {
     height: 100%;
     background-color: #fff;
     min-height: 100vh;
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .forms-container {
@@ -59,28 +59,40 @@ form.sign-up-form {
 form.sign-in-form {
     z-index: 2;
 }
-hr{
-	margin: 15px;
-	width: 300px;
-	color: black;
+
+hr {
+    margin: 15px;
+    width: 300px;
+    color: black;
 }
-.qmk a{
-	color: #E57C23;
-	text-decoration: none;
+
+.qmk a {
+    color: #E57C23;
+    text-decoration: none;
 }
+
 .title {
     font-size: 2.2rem;
     color: #E57C23;
     margin-bottom: 10px;
 }
 
-.item1 { grid-area: i; }
-.item2 { grid-area: input; }
-.item3 { grid-area: mess; }
-
-.captcha{
-	margin: 12px 0;
+.item1 {
+    grid-area: i;
 }
+
+.item2 {
+    grid-area: input;
+}
+
+.item3 {
+    grid-area: mess;
+}
+
+.captcha {
+    margin: 12px 0;
+}
+
 .input-field {
     max-width: 380px;
     width: 100%;
@@ -89,9 +101,7 @@ hr{
     height: 55px;
     border-radius: 7px;
     display: grid;
-  	grid-template-areas:
-    'i input input input input'
-    'mess mess mess mess mess';
+    grid-template-areas: 'i input input input input' 'mess mess mess mess mess';
     padding: 0 0.4rem;
     position: relative;
 }
@@ -114,28 +124,29 @@ hr{
     color: #333;
 }
 
-.item3{
-	font-size: 12px;
-	font-style: italic;
-	display:flex;
-	justify-content:flex-end;
-	margin-left: 5px;
-	color: red;
+.item3 {
+    font-size: 12px;
+    font-style: italic;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 5px;
+    color: red;
 }
 
 .captcha {
     display: flex;
     flex-direction: column;
     align-items: center;
-/*     justify-content: center;
+    /*     justify-content: center;
     text-align: center; */
-    height: 100px; /* Điều chỉnh chiều cao theo nhu cầu */
+    height: 100px;
+    /* Điều chỉnh chiều cao theo nhu cầu */
 }
 
-.captcha-message{
-	font-size: 12px;
-	font-style: italic;	
-	color: red;
+.captcha-message {
+    font-size: 12px;
+    font-style: italic;
+    color: red;
 }
 
 .input-field input::placeholder {
@@ -192,8 +203,8 @@ hr{
     transition: 0.5s;
 }
 
-.btn-dnhap{
-	margin-top: 10px;
+.btn-dnhap {
+    margin-top: 10px;
 }
 
 .btn:hover {
@@ -354,7 +365,7 @@ hr{
         grid-row: 1 / 2;
     }
     .image {
-    	padding:10px;
+        padding: 10px;
         width: 200px;
         transition: transform 0.9s ease-in-out;
         transition-delay: 0.6s;
@@ -432,10 +443,13 @@ hr{
         left: 50%;
     }
 }
+
+
 /*toast*/
+
 .toast {
     position: absolute;
-    top: 650px;
+    top: 500px;
     right: 5px;
     border-radius: 12px;
     background: #fff;
@@ -521,36 +535,54 @@ hr{
 .progress.active:before {
     animation: progress 5s linear forwards;
 }
+
 @keyframes progress {
     100% {
         right: 100%;
     }
 }
+
+
 /*toast*/
-/* an hien password */
-    #btn_dnhap_pass, #btn_dky_pass, #btn_dky_repass {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
+
+
 /* an hien password */
 
+#btn_dnhap_pass,
+#btn_dky_pass,
+#btn_dky_repass {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+
+/* an hien password */
+
+
 /*button trang chu*/
-.corner-button i{
-	display: flex;
+
+.corner-button i {
+    display: flex;
     justify-content: center;
     align-items: center;
-	width:42px;
-	height: 42.5px;
-	z-index: 7;
-	border-radius:20px;
-	z-index:7;
-	background-color: white;
-    position: absolute; /* Đặt vị trí tuyệt đối */
-    top: 10px;          /* Khoảng cách từ trên xuống */
-    left: 10px;         /* Khoảng cách từ trái sang phải */
-    padding: 1	5px;      /* Để nút dễ nhấn */
+    width: 42px;
+    height: 42.5px;
+    z-index: 7;
+    border-radius: 20px;
+    z-index: 7;
+    background-color: white;
+    position: absolute;
+    /* Đặt vị trí tuyệt đối */
+    top: 10px;
+    /* Khoảng cách từ trên xuống */
+    left: 10px;
+    /* Khoảng cách từ trái sang phải */
+    padding: 1 5px;
+    /* Để nút dễ nhấn */
 }
+
+
 /*button trang chu*/

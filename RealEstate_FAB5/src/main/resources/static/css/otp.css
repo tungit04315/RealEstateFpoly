@@ -99,10 +99,13 @@ body {
     background-color: #ffa626;
     border-color: #ffa626;
 }
+
+
 /*toast*/
+
 .toast {
     position: absolute;
-    top: 650px;
+    top: 500px;
     right: 5px;
     border-radius: 12px;
     background: #fff;
@@ -188,9 +191,12 @@ body {
 .progress.active:before {
     animation: progress 5s linear forwards;
 }
+
 @keyframes progress {
     100% {
         right: 100%;
     }
 }
+
+
 /*toast*/

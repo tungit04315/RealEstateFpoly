@@ -12,13 +12,13 @@
         <div class="container-xxl py-5">
             <div class="container row">
                 <div th:replace="~{/layout_user/aside :: .aside}"></div>
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-post" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <div class="container">
                                 <h1 class="fs-4">Thông tin cơ bản</h1>
                                 <hr class="mb-3">
-                                <form id="signUpForm" action="#!">
+                                <form id="signUpForm" ng-submit="createPost()">
                                     <div class="row mb-3">
                                         <div class="col-lg-6 mb-3">
                                             <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
@@ -30,38 +30,34 @@
                                         </div>
                                     </div>
 
-                                    <!-- start step indicators -->
                                     <div class="form-header d-flex mb-4">
                                         <span class="stepIndicator">Thông tin</span>
                                         <span class="stepIndicator">Cấu hình tin đăng</span>
                                         <span class="stepIndicator">Xem trước</span>
                                     </div>
-                                    <!-- end step indicators -->
 
-                                    <!-- step one -->
                                     <div class="step">
                                         <div class="mb-3">
                                             <label for="disabledSelect" class="form-label">Loại bất động sản *</label>
-                                            <select id="disabledSelect" class="form-select">
-                                                  <option value="">Ví dụ: Nhà riêng</option>
-                                                  <option value="">Bán căn hộ chung cư</option>
-                                                  <option value="">Bán nhà riêng</option>
-                                                  <option value="">Bán biệt thự, liền kề</option>
-                                                  <option value="">Bán mặt phố</option>
+                                            <select id="disabledSelect" class="form-select" ng-model="types_id" ng-change="searchType()">
+                                                <option value="">--Chọn--</option>
+                                                <option ng-repeat="type in types" value="{{type.types_id}}">{{type.types_name}}</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <div class="row">
                                                 <div class="col">
                                                     <label for="disabledSelect" class="form-label">Tỉnh, thành phố *</label>
-                                                    <select id="disabledSelect" class="form-select">
+                                                    <select id="disabledSelect" class="form-select" ng-model="selectedProvince" ng-change="loadDistricts()">
                                                         <option value="">--Chọn--</option>
+                                                        <option ng-repeat="province in provinces" value="{{province.province_id}}">{{ province.name }}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col">
                                                     <label for="disabledSelect" class="form-label">Quận, huyện *</label>
-                                                    <select id="disabledSelect" class="form-select">
+                                                    <select id="disabledSelect" class="form-select" ng-model="selectedDistrict" ng-change="loadWards()">
                                                         <option value="">--Chọn--</option>
+                                                        <option ng-repeat="district in districts" value="{{district.district_id}}">{{ district.name }}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -70,49 +66,52 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <label for="disabledSelect" class="form-label">Phường, xã *</label>
-                                                    <select id="disabledSelect" class="form-select">
+                                                    <select id="disabledSelect" class="form-select" ng-model="selectedWard" ng-change="updateAddress()">
                                                         <option value="">--Chọn--</option>
+                                                        <option ng-repeat="ward in wards" value="{{ward.wards_id}}">{{ ward.name }}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col">
                                                     <label for="disabledSelect" class="form-label">Đường, phố</label>
-                                                    <select id="disabledSelect" class="form-select">
-                                                        <option value="">--Chọn--</option>
-                                                    </select>
+                                                    <input type="text" class="form-control" id="streetInput" ng-model="street" ng-change="updateAddress()" style="height: 40px; margin-top: 0px;">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3">
+                                        <!-- <div class="mb-3">
                                             <label for="disabledSelect" class="form-label">Dự án *</label>
                                             <select id="disabledSelect" class="form-select">
                                                   <option value="">--Chọn--</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="addresss" style="height: 40px;">
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
                                             <h5>Thông tin bài viết</h5>
                                             <label for="exampleInputEmail1" class="form-label">Tiêu đề *</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ví dụ: Bán nhà 50m² chính chủ tại Cầu giấy" style="height: 40px;">
+                                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post_title" placeholder="Ví dụ: Bán nhà 50m² chính chủ tại Cầu giấy" style="height: 40px;">
+                                            <span ng-show="post_title.length < 50" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
                                             <label for="exampleInputEmail1" class="form-label">Mô tả *</label>
-                                            <textarea rows="7" cols="" class="form-control" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
+                                            <textarea rows="7" cols="" class="form-control" ng-model="post_content" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
+                                            <span ng-show="post_content.length < 155" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
                                             <h5>Thông tin bất động sản</h5>
                                             <label for="exampleInputEmail1" class="form-label">Diện tích (m²)*</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
+                                            <input type="number" class="form-control" id="exampleInputEmail1" ng-model="acreage" style="height: 40px;">
+                                            <span ng-show="acreage < 0 || acreage < 50" style="color: red;">Diện tích không được phép âm (tối thiểu la 50m²)</span>
                                             <div class="row">
                                                 <div class="col-lg-9">
                                                     <label for="disabledTextInput" class="form-label">Mức giá *</label>
-                                                    <input type="text" id="disabledTextInput" class="form-control" style="height: 40px;">
+                                                    <input type="number" id="disabledTextInput" class="form-control" ng-model="price" style="height: 40px;">
+                                                    <span ng-show="acreage < 0 || acreage < 40000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 40 triệu)</span>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="disabledSelect" class="form-label">Đơn vị</label>
-                                                    <select id="disabledSelect" class="form-select">
+                                                    <select id="disabledSelect" class="form-select" style="height: 40px; margin-top: 13px;">
                                                       <option>VNĐ</option>
                                                       <option>m²</option>
                                                     </select>
@@ -122,7 +121,7 @@
                                                 <label for="exampleInputEmail1" class="form-label">Giấy tờ pháp lý *</label>
                                                 <div class="col-lg-3 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37" name="checkbox check-radio" type="radio" value="Sổ đỏ/ Sổ hồng" ng-model="juridical">
                                                         <label class="terms-label" for="terms-checkbox-37">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -137,7 +136,7 @@
                                                 </div>
                                                 <div class="col-lg-4 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37-1" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37-1" name="checkbox check-radio" type="radio" value="Hợp đồng mua bán" ng-model="juridical">
                                                         <label class="terms-label" for="terms-checkbox-37-1">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -152,7 +151,7 @@
                                                 </div>
                                                 <div class="col-lg-3 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37-2" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37-2" name="checkbox check-radio" type="radio" value="Đang chờ sổ" ng-model="juridical">
                                                         <label class="terms-label" for="terms-checkbox-37-2">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -169,7 +168,7 @@
                                                 <label for="exampleInputEmail1" class="form-label">Nội thất *</label>
                                                 <div class="col-lg-3 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37-3" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37-3" name="checkbox-one check-radio" type="radio" value="Đầy đủ" ng-model="interior">
                                                         <label class="terms-label" for="terms-checkbox-37-3">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -184,7 +183,7 @@
                                                 </div>
                                                 <div class="col-lg-3 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37-4" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37-4" name="checkbox-one check-radio" type="radio" value="Cơ bản" ng-model="interior">
                                                         <label class="terms-label" for="terms-checkbox-37-4">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -199,7 +198,7 @@
                                                 </div>
                                                 <div class="col-lg-3 mb-3">
                                                     <div class="checkbox-wrapper-37">
-                                                        <input id="terms-checkbox-37-5" name="checkbox" type="checkbox">
+                                                        <input id="terms-checkbox-37-5" name="checkbox-one check-radio" type="radio" value="không nội thất" ng-model="interior">
                                                         <label class="terms-label" for="terms-checkbox-37-5">
                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
                                                             <mask fill="white" id="path-1-inside-1_476_5-37">
@@ -220,13 +219,13 @@
                                                     <div class="col-lg-2">
                                                         <div class="d-flex">
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                                <button type="button" class="btn btn-outline-primary" ng-click="decreaseBedroomCount()">-</button>
                                                             </div>
                                                             <div class="col">
-                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 85px; margin: 0 5px;" class="form-control" id="quantityInput" value="1" ng-model="bed">
                                                             </div>
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                                <button type="button" class="btn btn-outline-primary" ng-click="increaseBedroomCount()">+</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -238,52 +237,76 @@
                                                     <div class="col-lg-2">
                                                         <div class="d-flex">
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                                <button type="button" class="btn btn-outline-primary" ng-click="decreaseToiletCount()">-</button>
                                                             </div>
                                                             <div class="col">
-                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 85px; margin: 0 5px;" class="form-control" id="quantityInput-two" value="1" ng-model="toilet">
                                                             </div>
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                                <button type="button" class="btn btn-outline-primary" ng-click="increaseToiletCount()">+</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3">
+                                                <!-- <div class="row mb-3">
                                                     <div class="col-lg-10">
                                                         <label for="" class="form-label">Số tầng</label>
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <div class="d-flex">
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="decreaseBtn">-</button>
+                                                                <button type="button" class="btn btn-outline-primary" id="decreaseBtn-three">-</button>
                                                             </div>
                                                             <div class="col">
-                                                                <input type="number" min="1" max="100" style="height: 38px; width: 60px; margin: 0 5px;" class="form-control" id="quantityInput" value="1">
+                                                                <input type="number" min="1" max="100" style="height: 38px; width: 85px; margin: 0 5px;" class="form-control" id="quantityInput-three" value="1">
                                                             </div>
                                                             <div class="col">
-                                                                <button class="btn btn-outline-primary" id="increaseBtn">+</button>
+                                                                <button type="button" class="btn btn-outline-primary" id="increaseBtn-three">+</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                                 <hr class="mb-3 mt-4">
                                                 <label for="exampleInputEmail1" class="form-label">Mô tả bổ sung</label>
                                                 <div class="mb-3">
                                                     <label for="disabledSelect" class="form-label">Hướng nhà</label>
-                                                    <select id="disabledSelect" class="form-select">
+                                                    <select id="disabledSelect" class="form-select" ng-model="direction">
                                                         <option value="">--Chọn--</option>
+                                                        <option value="Hướng Đông">Hướng Đông</option>
+                                                        <option value="Hướng Tây">Hướng Tây</option>
+                                                        <option value="Hướng Nam">Hướng Nam</option>
+                                                        <option value="Hướng Bắc">Hướng Bắc</option>
+                                                        <option value="">----</option>
+                                                        <option value="Hướng Đông Bắc">Hướng Đông Bắc</option>
+                                                        <option value="Hướng Tây Bắc">Hướng Tây Bắc</option>
+                                                        <option value="Hướng Đông Nam">Hướng Đông Nam</option>
+                                                        <option value="Hướng Tây Nam">Hướng Tây Nam</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
+                                                    <label for="disabledSelect" class="form-label">Hướng ban công</label>
+                                                    <select id="disabledSelect" class="form-select" ng-model="balcony">
+                                                        <option value="">--Chọn--</option>
+                                                        <option value="Hướng Đông">Hướng Đông</option>
+                                                        <option value="Hướng Tây">Hướng Tây</option>
+                                                        <option value="Hướng Nam">Hướng Nam</option>
+                                                        <option value="Hướng Bắc">Hướng Bắc</option>
+                                                        <option value="">----</option>
+                                                        <option value="Hướng Đông Bắc">Hướng Đông Bắc</option>
+                                                        <option value="Hướng Tây Bắc">Hướng Tây Bắc</option>
+                                                        <option value="Hướng Đông Nam">Hướng Đông Nam</option>
+                                                        <option value="Hướng Tây Nam">Hướng Tây Nam</option>
+                                                    </select>
+                                                </div>
+                                                <!-- <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Đường vào (m)</label>
                                                     <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Mặt tiền (m)</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
-                                                </div>
+                                                    <input type="text" class="form-control" ng-model="balcony" id="exampleInputEmail1" style="height: 40px;">
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -307,21 +330,33 @@
                                                 </p>
                                             </div>
                                             <div class="mb-3">
-                                                <div class="col-lg-12 ">
+                                                <div class="col-lg-12 mb-2">
+                                                    <label for="action" class="btn btn-outline-primary w-100">Upload file <i class="fa-solid fa-cloud-arrow-up"></i></label>
+                                                    <label for="action" hidden>
+                                                        <input type="file" name="" id="action" accept="image/*" multiple
+                                                        onchange="angular.element(this).scope().upload(this.files)" >
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12" ng-hide="filenames.length > 0">
                                                     <img src="//placehold.it/100" class="avatar img-circle w-100" alt="avatar">
+                                                </div>
+                                                <div class="row">
+                                                    <label for="" class="col-lg-3 mb-3" ng-repeat="filename in filenames" title="double click to delete">
+                                                        <img src="{{url(filename)}}" ng-dblclick="delete(filename)" alt="" class="w-100">
+                                                    </label>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
                                                 <p>
                                                     <i class="fa-brands fa-youtube" style="color: #E57C23;"></i>
-                                                    <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                    <a class="" data-bs-toggle="collapse" href="#collapseExample" title="Ấn vào nội dung" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                         Thêm video từ YouTube
                                                     </a>
                                                 </p>
                                                 <div class="collapse" id="collapseExample">
                                                     <div class="card card-body">
-                                                        <label for="linkYoutube" class="form-label">Link video YouTube</label>
-                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" style="height: 40px;">
+                                                        <label for="linkYoutube" class="form-label" title="Ấn vào">Link video YouTube</label>
+                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" ng-model="linkVideo" style="height: 40px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -330,79 +365,34 @@
                                             <hr class="mb-3">
                                             <h5>Thông tin liên hệ</h5>
                                             <label for="Fullname" class="form-label">Tên liên hệ *</label>
-                                            <input type="text" class="form-control" id="Fullname" style="height: 40px;">
+                                            <input type="text" class="form-control" id="Fullname" style="height: 40px;" value="{{$u.fullname}}">
                                             <label for="Phone" class="form-label">Số điện thoại *</label>
-                                            <input type="text" class="form-control" id="Phone" style="height: 40px;">
+                                            <input type="text" class="form-control" id="Phone" style="height: 40px;" value="{{$u.phone}}">
                                             <label for="Email" class="form-label">Email</label>
-                                            <input type="text" class="form-control" id="Email" style="height: 40px;">
+                                            <input type="text" class="form-control" id="Email" style="height: 40px;" value="{{$u.email}}">
                                         </div>
                                     </div>
 
-                                    <!-- step two -->
                                     <div class="step">
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Chọn loại tin</label>
                                             <div class="row">
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-3" ng-repeat="p in pack">
                                                     <div class="card w-100 p-3">
-                                                        <strong class="text-center text-black">Tin Thường</strong>
-                                                        <p class="text-center">1.500 đ/ngày</p>
+                                                        <strong class="text-center text-black">{{p.services_name}}/{{p.services_id}}</strong>
+                                                        <p class="text-center">{{p.services_price * 1000}} đ/Ngày</p>
                                                         <hr class="mb-3 color-or">
-                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
+                                                        <p class="text-center">{{p.services_location}}</p>
                                                         <hr class="mb-3 color-or">
                                                         <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
                                                         <hr class="mb-3 color-or">
                                                         <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
                                                         <hr class="mb-3 color-or">
-                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off" checked>
-                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
+                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined-{{p.services_id}}" ng-model="servicesId" value="{{p.services_id}}" ng-click="getService(p.services_id)" autocomplete="off" ng-checked="1 === p.services_id">
+                                                        <label class="btn btn-outline-primary" for="btn-check-outlined-{{p.services_id}}">Đã chọn</label><br>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <div class="card w-100 p-3">
-                                                        <strong class="text-center text-black">Tin Bạc</strong>
-                                                        <p class="text-center">1.500 đ/ngày</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
-                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="card w-100 p-3">
-                                                        <strong class="text-center text-black">Tin Vàng</strong>
-                                                        <p class="text-center">1.500 đ/ngày</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
-                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="card w-100 p-3">
-                                                        <strong class="text-center text-black">Tin Kim Cương</strong>
-                                                        <p class="text-center">1.500 đ/ngày</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center">Đứng cuối kết quả tìm kiếm</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không hiển thị</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <p class="text-center"><i class="fa-solid fa-xmark" style="color: #ff0000;"></i> Không có ưu đãi</p>
-                                                        <hr class="mb-3 color-or">
-                                                        <input type="radio" class="btn-check" name="checked" id="btn-check-outlined" autocomplete="off">
-                                                        <label class="btn btn-outline-primary" for="btn-check-outlined">Đã chọn</label><br>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <hr class="mb-3">
                                         </div>
@@ -411,19 +401,21 @@
                                             <p>Số ngày đăng</p>
                                             <div class="row">
                                                 <div class="col-lg-4">
-                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off" checked>
-                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">10 ngày <p>&nbsp; 2.300 đ/ngày</p></label><br>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off">
-                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">
-                                                        15 ngày <p>&nbsp; 2.000 đ/ngày</p> &nbsp; <span class="badge bg-secondary h-50"> -10%</span> 
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off" ng-checked="true">
+                                                    <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-two">
+                                                        10 ngày <p >&nbsp; (2.300 đ/ngày)</p>
                                                     </label><br>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined" autocomplete="off">
-                                                    <label class="btn btn-outline-primary w-100 d-flex" for="btn-check-outlined">
-                                                        30 ngày <p>&nbsp; 1.500 đ/ngày</p> &nbsp; <span class="badge bg-secondary h-50"> -20%</span> 
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-three" ng-model="inputNumber" value="15" ng-click="endDate(15)" autocomplete="off">
+                                                    <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-three">
+                                                        15 ngày <p >&nbsp; (2.000 đ/ngày)</p> &nbsp; 
+                                                    </label><br>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-four" ng-model="inputNumber" value="30" ng-click="endDate(30)" autocomplete="off">
+                                                    <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-four">
+                                                        30 ngày <p >&nbsp; (1.500 đ/ngày)</p> &nbsp; 
                                                     </label><br>
                                                 </div>
                                             </div>
@@ -442,7 +434,7 @@
                                                 <div class="col-lg-1 d-flex align-items-center justify-content-center">
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                                                        <!-- <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label> -->
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -450,7 +442,6 @@
 
                                     </div>
 
-                                    <!-- step three -->
                                     <div class="step">
                                         <label for="exampleInputEmail1" class="form-label text-black">Thanh Toán</label>
                                         <div class="pay-detail">
@@ -459,7 +450,7 @@
                                                     <p>Loại tin</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    Tin thường
+                                                    {{service.services_name}}
                                                 </div>
 
                                             </div>
@@ -468,7 +459,7 @@
                                                     <p>Đơn giá/ngày</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    2.300 đ
+                                                    {{service.services_price * 1000}} đ
                                                 </div>
 
                                             </div>
@@ -477,8 +468,8 @@
                                                     <p>Thời gian</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    10 ngày
-                                                    <p style="font-size: 10px;">5/9/2023 - 15/9/2023</p>
+                                                    {{inputNumber}} ngày
+                                                    <p style="font-size: 10px;">{{currentDate | date:'dd/MM/yyyy'}} - {{ currentEndDate | date:'dd/MM/yyyy' }}</p>
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -487,7 +478,7 @@
                                                     <p>Phí đăng tin</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    23.000 đ
+                                                    {{service.services_price * 1000}} đ
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -496,19 +487,20 @@
                                                     <strong>Tổng tiền</strong>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <strong>23.000</strong> đ
+                                                    <strong>{{service.services_price * 1000}}</strong> đ
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                     <hr class="mb-3">
-                                    <!-- start previous / next buttons -->
+
                                     <div class="form-footer d-flex">
                                         <button type="button" id="prevBtn" onclick="nextPrev(-1)">Quay lại</button>
                                         <button type="button" id="nextBtn" onclick="nextPrev(1)">Tiếp</button>
+                                        <button type="submit" id="submitBtn" style="display: none;">Đăng tin</button>
                                     </div>
-                                    <!-- end previous / next buttons -->
+
                                 </form>
                             </div>
                         </div>
@@ -530,70 +522,66 @@
                                     <div class="col-lg-9 personal-info wow slideInRight" data-wow-delay="0.1s">
                                         <h3>Thông tin cá nhân</h3>
 
-                                        <form class="form-horizontal" role="form">
+                                        <form action="/profile/changeprofile" method="post" class="form-horizontal" role="form">
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Tên đăng nhập:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value="" disabled>
+                                                    <input class="form-control" type="text" name="username" th:value="${u.username}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Họ và tên:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value="">
+                                                    <input class="form-control" type="text" name="fullname" th:value="${u.fullname}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Giới tính:</label>
                                                 <div class="col-lg-8">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" checked>
+                                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="true" checked th:field="*{u.gender}">
                                                         <label class="form-check-label" for="inlineRadio1">Nam</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false">
+                                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="false" th:field="*{u.gender}">
                                                         <label class="form-check-label" for="inlineRadio2">Nữ</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-lg-3 control-label">Mật khẩu:</label>
-                                                <div class="col-lg-8">
-                                                    <input class="form-control" type="password" value="" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
                                                 <label class="col-lg-3 control-label">Email:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value="a@gmail.com">
+                                                    <input class="form-control" type="text" name="email" th:value="${u.email}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Số điện thoại:</label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control" type="text" value="">
+                                                    <input class="form-control" type="text" name="phone" th:value="${u.phone}">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Địa chỉ:</label>
                                                 <div class="col-md-8">
-                                                    <textarea rows="" cols="" class="form-control"></textarea>
-
+                                                    <textarea rows="" cols="" class="form-control" name="addresss" th:text="${u.addresss}"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Hạng thành viên:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value="" disabled>
+                                                    <input class="form-control" type="text" disabled>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label"></label>
-                                                <div class="col-md-8">
-                                                    <input type="button" class="btn btn-primary" value="Lưu">
-                                                    <span></span>
-                                                    <input type="reset" class="btn btn-default" value="Hủy">
+                                                <div class="col-md-8 row">
+                                                    <div class="col-md-4">
+                                                        <input type="submit" class="btn btn-primary w-100" value="Lưu">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="reset" class="btn btn-default w-100" value="Hủy">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -605,22 +593,29 @@
                             <div class="container">
                                 <h1 class="wow slideInDown" data-wow-delay="0.1s">Đổi mật khẩu</h1>
                                 <hr class="mb-3">
-                                <form class="form-edit-change-password wow slideInLeft" data-wow-delay="0.1s">
+                                <form class="form-edit-change-password wow slideInLeft" data-wow-delay="0.1s" action="/profile/changePass" method="post">
                                     <div class="mb-3">
                                         <h5>Đặt một mật khẩu mới</h5>
                                         <hr>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Mật khẩu hiện tại</label>
+                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="passhientai">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="passmoi">
                                         <div id="emailHelp" class="form-text"> * Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Xác nhận lại mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <input type="password" class="form-control" id="exampleInputPassword1" name="nhaplaipassmoi">
                                     </div>
-
                                     <button type="submit" class="btn btn-primary">Lưu</button>
+                                    <div>
+                                        <div th:if="${successPass} == true" class="alert alert-success" role="alert">Thành công</div>
+                                        <div th:if="${errorPass} == true" class="alert alert-success" role="alert">Thất bại</div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

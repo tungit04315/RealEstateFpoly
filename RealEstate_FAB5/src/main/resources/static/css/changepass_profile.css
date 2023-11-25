@@ -1,16 +1,19 @@
 body {
-	background-image: linear-gradient(to bottom left, #ffa626, #fff);
-	height: 100vh;
-	overflow: hidden;
+    background-image: linear-gradient(to bottom left, #ffa626, #fff);
+    height: 100vh;
+    overflow: hidden;
 }
-.box{
-	margin-top: -40px;
+
+.box {
+    margin-top: -40px;
 }
-form{
-	display: flex;
-	flex-direction:column;
-	justify-content: center;
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
 .input-field {
     width: 100%;
     margin: 35px 0;
@@ -19,24 +22,30 @@ form{
     padding: 5px;
     position: relative;
 }
-.btn{
-	margin-top: 10px;
+
+.btn {
+    margin-top: 10px;
 }
-.item3{
-	font-size: 12px;
-	font-style: italic;
-	display:flex;
-	justify-content:flex-end;
-	margin-left: 5px;
-	color: red;
+
+.item3 {
+    font-size: 12px;
+    font-style: italic;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 5px;
+    color: red;
 }
-label{
-	font-size: 20px;
+
+label {
+    font-size: 20px;
 }
+
+
 /*toast*/
+
 .toast {
     position: absolute;
-    top: 650px;
+    top: 500px;
     right: 5px;
     border-radius: 12px;
     background: #fff;
@@ -122,31 +131,46 @@ label{
 .progress.active:before {
     animation: progress 5s linear forwards;
 }
+
 @keyframes progress {
     100% {
         right: 100%;
     }
 }
+
+
 /*toast*/
+
+
 /* an hien password */
-    #btn_passcu, #btn_passmoi, #btn_repassmoi {
-  position: absolute;
-  top: 110%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  border: none;
+
+#btn_passcu,
+#btn_passmoi,
+#btn_repassmoi {
+    position: absolute;
+    top: 110%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
 }
+
+
 /* an hien password */
+
 .card-footer {
     display: flex;
-    justify-content: space-between; /* Căn giữa theo chiều ngang */
-    background-color: #f0f0f0; /* Màu nền của footer (tùy chọn) */
-    padding: 10px; /* Khoảng cách giữa các phần tử (tùy chọn) */
+    justify-content: space-between;
+    /* Căn giữa theo chiều ngang */
+    background-color: #f0f0f0;
+    /* Màu nền của footer (tùy chọn) */
+    padding: 10px;
+    /* Khoảng cách giữa các phần tử (tùy chọn) */
 }
 
 .card-footer a {
     text-decoration: none;
-    color: #333; /* Màu chữ của các liên kết (tùy chọn) */
+    color: #333;
+    /* Màu chữ của các liên kết (tùy chọn) */
     /* Không cần margin khi sử dụng space-between */
 }
