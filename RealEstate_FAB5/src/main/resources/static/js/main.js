@@ -119,18 +119,4 @@
             }
         });
     });
-
-    $(function() {
-        $('#editPost').click(function() {
-            $('#editPostForm').fadeToggle();
-        })
-        $(document).mouseup(function(e) {
-            var container = $("#editPostForm");
-
-            if (!container.is(e.target) &&
-                container.has(e.target).length === 0) {
-                container.fadeOut();
-            }
-        });
-    });
 })(jQuery);

@@ -50,9 +50,7 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public Post Update(Post p) {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		Post post = mapper.convertValue(p, Post.class);
+		// TODO Auto-generated method stub
 		return dao.save(p);
 	}
 
@@ -64,7 +62,7 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public List<Post> getAll() {
 		// TODO Auto-generated method stub
-		return dao.getPostsAll();
+		return dao.findAll();
 	}
 
 	@Scheduled(cron = "0 0 12 * * *")
@@ -114,51 +112,6 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getPostDelete(String username) {
 		// TODO Auto-generated method stub
 		return dao.getPostsDelete(username);
-	}
-
-	@Override
-	public Post UpdateJson(JsonNode p) {
-		// TODO Auto-generated method stub
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		Post post = mapper.convertValue(p, Post.class);
-		return dao.save(post);
-	}
-
-	@Override
-	public Post getPostDesc() {
-		// TODO Auto-generated method stub
-		return dao.getPostDesc();
-	}
-
-	@Override
-	public List<Post> getAllByUserId(String username) {
-		// TODO Auto-generated method stub
-		return dao.getPostsByUserId(username);
-	}
-
-	@Override
-	public Post getFindPostAddNew() {
-		// TODO Auto-generated method stub
-		return dao.getPostsAddNew();
-	}
-
-	@Override
-	public List<Post> getAllDiamond() {
-		// TODO Auto-generated method stub
-		return dao.getPostsDiamond();
-	}
-
-	@Override
-	public List<Post> getAllPostsForYou() {
-		// TODO Auto-generated method stub
-		return dao.getPostsForYou();
-	}
-
-	@Override
-	public List<Post> searchPost(String title, String address, String province, Integer type) {
-		// TODO Auto-generated method stub
-		return dao.searchPost(title, address, province, type);
 	}
 
 }

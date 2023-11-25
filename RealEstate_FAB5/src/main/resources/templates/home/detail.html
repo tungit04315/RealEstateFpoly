@@ -10,7 +10,7 @@
 <body>
     <main>
         <!-- Search Start -->
-        <!-- <div class="container-fluid bg-primary wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+        <div class="container-fluid bg-primary wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
             <div class="container">
                 <div class="row g-2">
                     <div class="col-md-10">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         <!-- Search End -->
 
         <!-- Detail -->
@@ -82,7 +82,7 @@
                             </div> -->
                             <div class="carousel-inner">
                                 <div th:each="a,state : ${albums}" th:class="${state.index == 0 ?'carousel-item active' : 'carousel-item'}">
-                                    <img th:src="${'/files/img/' + a.albums_name}" class="d-block w-100 h-100" th:alt="${a.albums_name}">
+                                    <img th:src="${a.albums_name}" class="d-block w-100 h-100" alt="${a.albums_name}">
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -291,10 +291,18 @@
                             <h5>Tìm kiếm theo từ khóa</h5>
                             <div class="row">
                                 <div class="col" style="padding: 5px;">
-                                    <button type="button" class="btn btn-outline-secondary mb-2" ng-repeat="sugg in suggest" style="margin-right: 10px;">
-                                        {{sugg.types_name}}
-                                    </button>
-
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
+                                    <button type="button" class="btn btn-secondary mb-2">Từ khóa gợi ý tìm kiếm</button>
                                 </div>
                             </div>
                             <hr class="mb-3">
@@ -328,7 +336,7 @@
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-body">
                                 <div class="d-flex align-content-center justify-content-center">
-                                    <img src="{{urlAvt($u.avatar)}}" class="rounded-circle w-25" alt="...">
+                                    <img src="{{$u.avatar}}" class="rounded-circle w-25" alt="...">
 
                                 </div>
                                 <p class="card-title mt-2 d-flex justify-content-center" style="font-size: 13px;">Được đăng bởi</p>

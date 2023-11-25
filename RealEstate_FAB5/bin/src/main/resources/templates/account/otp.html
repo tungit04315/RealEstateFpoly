@@ -14,20 +14,20 @@
 </head>
 
 <body>
-    <div class="container">
+    <form class="container" action="/OTP/action" method="post">
         <h2>Nhập mã xác minh</h2>
         <p>Chúng tôi đã gửi mã OTP đến Email ***@gmail.com</p>
         <hr>
         <p>Nhập mã OTP vào bên dưới</p>
         <div class="code-container">
-            <input type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input name="so1" type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input name="so2" type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input name="so3" type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input name="so4" type="number" class="code" placeholder="0" min="0" max="9" required>
         </div>
 
         <div>
-            <button type="button" class="btn btn-primary">Xác thực</button>
+            <button type="submit" class="btn btn-primary">Xác thực</button>
         </div>
 
         <small>
@@ -37,7 +37,7 @@
             Nếu bạn không nhận được mã!! <strong>Gửi lại</strong>
         </small>
 
-    </div>
+    </form>
     <!-- JavaScript -->
 </body>
 

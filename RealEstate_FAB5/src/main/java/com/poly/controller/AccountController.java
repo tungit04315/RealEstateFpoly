@@ -1,5 +1,6 @@
 package com.poly.controller;
 
+
 import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -26,7 +27,7 @@ public class AccountController {
 
 	@Autowired
 	RanksService rankService;
-
+	
 	@Autowired
 	AuthService authService;
 
@@ -53,10 +54,6 @@ public class AccountController {
 
 	@Autowired
 	PaymentService payService;
-
-	@Autowired
-	LoginsService loginService;
-
 	// Captcha
 	@Value("${recaptcha.secret}")
 	private String recaptchaSecret;
@@ -81,15 +78,15 @@ public class AccountController {
 		if (ufind != null) {
 			m.addAttribute("errorUsername", "true");
 		} else {
-			// payment
+			//payment
 			Pay newpay = new Pay();
-			newpay.setPay_money((long) 0.00);
+			newpay.setPay_money((long)0.00);
 			payService.Create(newpay);
-			Pay payFind = payService.findByTop1Desc();
-
-			// rank
+			Pay payFind =  payService.findByTop1Desc();
+			
+			//rank
 			Ranks rank = rankService.findById(1);
-			// OTP dangky, xac nhan email
+			//OTP dangky, xac nhan email
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
 			u.setPay_id(payFind);
@@ -128,13 +125,12 @@ public class AccountController {
 		return "account/login";
 	}
 
+
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
 	public String loginError(Model model) {
-		
 		return "account/login";
 	}
-
 	@RequestMapping("/login/action/success")
 	public String postLogin(Model m) {
 
@@ -143,22 +139,17 @@ public class AccountController {
 
 		// Check if the user is authenticated
 		if (authentication != null && authentication.isAuthenticated()) {
-			System.out.println(authentication + "197");
+			System.out.println(authentication+ "197");
 			System.out.println(authentication.isAuthenticated() + "197");
 			System.out.println(authentication.getName() + "197");
 			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
 			System.out.println(roleNames);
-
+			
 			for (String roleName : roleNames) {
 				authList.add("ROLE_" + roleName);
 			}
 		}
 		System.out.println(authList);
-		Logins logins = new Logins();
-		logins.setUser(ss.getAttribute("user"));
-		logins.setLogin_sign(new Date());
-		logins.setLogins_out(null);
-		loginService.Create(logins);
 		if (authList.contains("ROLE_admin")) {
 			return "redirect:/admin";
 		} else {
@@ -223,9 +214,6 @@ public class AccountController {
 	// Đăng xuất
 	@RequestMapping("/logout/success")
 	public String logoutSuccess() {
-		Logins logins = loginService.findByLogins();
-		logins.setLogins_out(new Date());
-		loginService.Update(logins);
 		return "redirect:/login";
 	}
 	// Đăng xuất
@@ -288,8 +276,8 @@ public class AccountController {
 				String phone = "+84" + email.substring(1);
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");
-
+				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");				
+				
 				smsService.sendSms(phone, body);
 
 				return "redirect:/OTP";
@@ -336,7 +324,7 @@ public class AccountController {
 			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
 				System.out.println("mk moi trung vs mk cu");
 				return "redirect:/change-password";
-			} else {
+			}else {
 				u.setPasswords(passwordEncoder.encode(mkmoi));
 				userService.update(u);
 				return "redirect:/login";

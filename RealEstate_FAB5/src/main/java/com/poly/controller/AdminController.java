@@ -1,19 +1,11 @@
 package com.poly.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.poly.bean.DetailTransactions;
 import com.poly.bean.Users;
-import com.poly.service.DetailTransactionService;
 import com.poly.service.UsersService;
 import com.poly.util.SessionService;
 
@@ -24,20 +16,11 @@ public class AdminController {
 	UsersService userService;
 	
 	@Autowired
-	DetailTransactionService detailTransactionService;
-	
-	@Autowired
 	SessionService ss;
 	
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
-		List<DetailTransactions> listPay = detailTransactionService.findAllDetailTransactionPay();
-		List<DetailTransactions> listPost = detailTransactionService.findAllDetailTransactionPost();
-		 
-		m.addAttribute("details", listPay);
-		m.addAttribute("detailPost", listPost);
-		m.addAttribute("u", ss.getAttribute("user"));
 		return "admin/index";
 	}
 	// Home
@@ -45,23 +28,7 @@ public class AdminController {
 	// User List
 	@RequestMapping({"/admin/users","/admin/user-list"})
 	public String getUsers(Model m) {
-		m.addAttribute("users", userService.findAll());
 		return "admin/users";
-	}
-	
-	@RequestMapping("/admin/user/findBy/{username}")
-	public String getUsers(Model m, @PathVariable String username) {
-		m.addAttribute("users", userService.findAll());
-		m.addAttribute("u", userService.findById(username));
-		return "admin/users";
-	}
-	
-	@PostMapping("/admin/user/update")
-	public String getUsersUpdate(Model m, Users u) {
-		m.addAttribute("users", userService.findAll());
-		userService.update(u);
-		m.addAttribute("u", userService.findById(u.getUsername()));
-		return "redirect:/admin/user/findBy/" + u.getUsername();
 	}
 	// User List
 	
