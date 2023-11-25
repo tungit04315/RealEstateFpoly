@@ -251,7 +251,7 @@ public class AccountController {
 		ss.setAttribute("user", u);
 		return "redirect:/home/manager/profile";
 	}
-
+// test commit
 		// Đổi mật khẩu
 	@PostMapping("/profile/changePass")
 	public String ChangePassProfile(Model m, Users u, @Param("passhientai") String passhientai) {
