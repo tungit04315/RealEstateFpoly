@@ -40,7 +40,8 @@
                                     <h5 class="card-title mb-9 fw-semibold">Thống kê cuối năm</h5>
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h4 class="fw-semibold mb-3">3 TỶ 7</h4>
+                                            <!-- <h4 class="fw-semibold mb-3" th:utext="${totalYear}"></h4> -->
+                                            <h4 class="fw-semibold mb-3" th:text="${#numbers.formatDecimal(totalYear, 0, 'COMMA', 3, 'POINT')}"></h4>
                                             <div class="d-flex align-items-center mb-3">
                                                 <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
 													<i class="fa-solid fa-arrow-trend-up"
@@ -51,12 +52,12 @@
                                             </div>
                                             <div class="d-flex align-items-center">
                                                 <div class="me-4">
-                                                    <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                                    <span class="fs-2">2023</span>
+                                                    <i class="fa-solid fa-arrow-turn-down"></i>
+                                                    <span class="fs-2">Giảm</span>
                                                 </div>
                                                 <div>
-                                                    <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                                                    <span class="fs-2">2024</span>
+                                                    <i class="fa-solid fa-arrow-turn-up"></i>
+                                                    <span class="fs-2">Tăng</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,7 +78,7 @@
                                         <div class="col-8">
                                             <h5 class="card-title mb-9 fw-semibold">Thống kê cuối tháng
                                             </h5>
-                                            <h4 class="fw-semibold mb-3">308,333,333</h4>
+                                            <h4 class="fw-semibold mb-3" th:text="${#numbers.formatDecimal(listCPMonth[1][2], 3, 'COMMA', 0, 'POINT')}"></h4>
                                             <div class="d-flex align-items-center pb-1">
                                                 <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
 													<i class="fa-solid fa-arrow-trend-down"

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Real Estate Fpoly</title>
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/img/Real_Estate.png" type="image/x-icon">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/otp.css">
+
+    </head>
+
+    <body>
+        <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+            <div style="margin:50px auto;width:70%;padding:20px 0">
+                <div style="border-bottom:1px solid #eee">
+                    <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">RealEstate</a>
+                </div>
+                <p style="font-size:1.1em">Hi, <span th:utext="${fullname}"></span></p>
+                <p>Đây là mail kích hoạt tài khoản!</p>
+                <a type="button" href="http://localhost:8080/account/cofirm" style="text-decoration: none; width: 100px; background-color: darkblue; color: white; border-radius: 5px; padding: 5px;">Xác nhận</a>
+            </div>
+        </div>
+    </body>
+
+    </html>
+</body>
+
+</html>

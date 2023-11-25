@@ -1,0 +1,176 @@
+body {
+    background-image: linear-gradient(to bottom left, #ffa626, #fff);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.box {
+    margin-top: -40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-field {
+    width: 100%;
+    margin: 35px 0;
+    height: 55px;
+    border-radius: 7px;
+    padding: 5px;
+    position: relative;
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+.item3 {
+    font-size: 12px;
+    font-style: italic;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 5px;
+    color: red;
+}
+
+label {
+    font-size: 20px;
+}
+
+
+/*toast*/
+
+.toast {
+    position: absolute;
+    top: 500px;
+    right: 5px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* transform: translateX(calc(100% + 30px)); */
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    z-index: 7;
+    opacity: 0 !important;
+}
+
+.toast.active {
+    transform: translateX(0%);
+    opacity: 1 !important;
+}
+
+.toast .toast-content {
+    display: flex;
+    align-items: center;
+}
+
+.toast-content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    min-width: 35px;
+    background-color: #27ff44;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.message .text.text-1 {
+    font-weight: 600;
+    color: #333;
+}
+
+.toast .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.toast .close:hover {
+    opacity: 1;
+}
+
+.toast .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+}
+
+.toast .progress:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #27ff44;
+}
+
+.progress.active:before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+
+
+/*toast*/
+
+
+/* an hien password */
+
+#btn_passcu,
+#btn_passmoi,
+#btn_repassmoi {
+    position: absolute;
+    top: 110%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
+}
+
+
+/* an hien password */
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    /* Căn giữa theo chiều ngang */
+    background-color: #f0f0f0;
+    /* Màu nền của footer (tùy chọn) */
+    padding: 10px;
+    /* Khoảng cách giữa các phần tử (tùy chọn) */
+}
+
+.card-footer a {
+    text-decoration: none;
+    color: #333;
+    /* Màu chữ của các liên kết (tùy chọn) */
+    /* Không cần margin khi sử dụng space-between */
+}

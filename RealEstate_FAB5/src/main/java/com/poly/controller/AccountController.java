@@ -1,7 +1,9 @@
 package com.poly.controller;
 
 import java.util.*;
-import org.springframework.beans.factory.annotation.*;
+import javax.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.query.Param;
@@ -74,14 +76,24 @@ public class AccountController {
 	// Captcha
 
 	// Đăng ký - Captcha
-	@PostMapping("signup/action")
-	public String Register(Model m, Users u, @Param("username") String username) {
+	@PostMapping("/signup/action")
+	public String Register(Model m, Users u, @Param("username") String username, @Param("email") String email,@Param("phone") String phone) throws MessagingException {
 		// System.out.println("xuất mẫu:"+userService.findById(username));
-		Users ufind = userService.findById(username);
-		if (ufind != null) {
-			m.addAttribute("errorUsername", "true");
-		} else {
-			// payment
+		Users uFindEmail = userService.findByEmailOrPhone(email, null);
+		Users uFindPhone = userService.findByEmailOrPhone(null, phone);
+		Users findId = userService.findById(username);
+		if(findId != null) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tên đăng nhập đã được đăng ký");
+		}else
+		if(uFindPhone != null) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Số điện thoại đã được sử dụng");
+		}else
+		if (uFindEmail != null) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Email đã được đăng ký");
+		}else {
 			Pay newpay = new Pay();
 			newpay.setPay_money((long) 0.00);
 			payService.Create(newpay);
@@ -89,23 +101,39 @@ public class AccountController {
 
 			// rank
 			Ranks rank = rankService.findById(1);
-			// OTP dangky, xac nhan email
 			String password = paramService.getString("passwords", "");
 			u.setPasswords(passwordEncoder.encode(password));
 			u.setPay_id(payFind);
 			u.setRanks_id(rank);
+			u.setActive(false);
 			userService.create(u);
 
 			Auth uAuth = new Auth();
 			uAuth.setUsers(u);
-			uAuth.setRoles(roleService.findbyId("admin"));
+			uAuth.setRoles(roleService.findbyId("user"));
 			authService.create(uAuth);
+			ss.setAttribute("usermail", u.getEmail());
 
-			m.addAttribute("successRegister", "true");
+			//gui mail kich hoat tai khoan
+			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
+			//gui mail kich hoat tai khoan
+			
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Đăng ký thành công!!");
 		}
-		return "redirect:/login";
+		return "account/login";
 	}
 
+	@GetMapping("/account/cofirm")
+	public String GetAccountCofirm() {
+		String email = ss.getAttribute("usermail");
+		Users users = userService.findByEmailOrPhone(email, null);
+		users.setActive(true);
+		userService.update(users);
+		
+		return "redirect:/login";
+		}
+	
 	private void verifyReCAPTCHA(String gRecaptchaResponse) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -113,11 +141,8 @@ public class AccountController {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("secret", recaptchaSecret);
 		map.add("response", gRecaptchaResponse);
-
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
 		ResponseEntity<String> response = restTemplate.postForEntity(recaptchaSeverURL, request, String.class);
-
 		System.out.println(response);
 	}
 	// Đăng ký - Captcha
@@ -130,9 +155,46 @@ public class AccountController {
 
 	// Đăng nhập thất bại
 	@RequestMapping("/login/action/error")
-	public String loginError(Model model) {
-		
-		return "account/login";
+	public String loginError(Model m) throws MessagingException {
+		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
+		boolean chkUser = ss.getAttribute("checkUser");
+		if(chkUser==false) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+			return "account/login";
+		}else {
+			boolean chkPass = ss.getAttribute("checkPass");
+			if(chkPass==false) {
+					m.addAttribute("visible", "true");
+					m.addAttribute("thongbao", "Sai mật khẩu");
+					u.setFail_login(u.getFail_login()+1);
+					userService.update(u);
+				return "account/login";
+			}
+		boolean blckAc =ss.getAttribute("BlockAcc");
+		//System.out.println(chkUser);
+		if (blckAc==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tài khoản của bạn đã bị khoá! Hãy chọn quên mật khẩu!");
+			return "account/login";
+		}
+		boolean chkActive =ss.getAttribute("checkActive");
+		if(chkActive==false && chkUser==true) {
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Tài khoản chưa được kích hoạt bằng email");
+			
+			ss.setAttribute("checkUser", false);
+			ss.setAttribute("checkActive", true);
+			//gui mail kich hoat tai khoan
+			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
+			//gui mail kich hoat tai khoan
+			return "account/login";
+			}else {
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+				return "account/login";
+			}
+		}
 	}
 
 	@RequestMapping("/login/action/success")
@@ -143,22 +205,25 @@ public class AccountController {
 
 		// Check if the user is authenticated
 		if (authentication != null && authentication.isAuthenticated()) {
-			System.out.println(authentication + "197");
-			System.out.println(authentication.isAuthenticated() + "197");
-			System.out.println(authentication.getName() + "197");
+
 			List<String> roleNames = userService.getRolesByUsername(authentication.getName());
-			System.out.println(roleNames);
+
 
 			for (String roleName : roleNames) {
 				authList.add("ROLE_" + roleName);
 			}
 		}
-		System.out.println(authList);
+
 		Logins logins = new Logins();
 		logins.setUser(ss.getAttribute("user"));
 		logins.setLogin_sign(new Date());
 		logins.setLogins_out(null);
 		loginService.Create(logins);
+
+		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
+		u.setFail_login(0);
+		userService.update(u);
+
 		if (authList.contains("ROLE_admin")) {
 			return "redirect:/admin";
 		} else {
@@ -166,18 +231,28 @@ public class AccountController {
 		}
 	}
 	// Đăng nhập
-
+	
+	
+	//Đổi mật khẩu trong profile
+	@GetMapping("/doimk")
+	public String doiMK() {
+		return "home/profile_pass";
+	}
+	
 	// Cập nhật thông tin tài khoản
 	@PostMapping("/profile/changeprofile")
 	public String ChangeProfile(Model m, Users u, @Param("username") String username) {
+		Users us = userService.findById(u.getUsername());
+		Pay p = payService.findByID(us.getPay_id().getPay_id());
+		Ranks r = rankService.findById(us.getRanks_id().getRanks_id());
+		u.setPay_id(p);
+		u.setRanks_id(r);
 		userService.update(u);
 		ss.setAttribute("user", u);
-//		Users user = (Users) ss.getAttribute("users");
-//		m.addAttribute("u", userService.findById(user.getUsername()));
 		return "redirect:/home/manager/profile";
 	}
 
-	// Đổi mật khẩu
+		// Đổi mật khẩu
 	@PostMapping("/profile/changePass")
 	public String ChangePassProfile(Model m, Users u, @Param("passhientai") String passhientai) {
 		Users user = (Users) ss.getAttribute("user");
@@ -185,39 +260,25 @@ public class AccountController {
 		String passmoi = paramService.getString("passmoi", "");
 		String nhaplaipassmoi = paramService.getString("nhaplaipassmoi", "");
 
-		System.out.println(passhientai);
-		System.out.println(user.getPasswords());
-
 		if (passwordEncoder.matches(passhientai, user.getPasswords())) {
 			if (passmoi.equalsIgnoreCase(nhaplaipassmoi)) {
-				u.setUsername(user.getUsername());
-				u.setEmail(user.getEmail());
-				u.setGender(user.isGender());
-				u.setPhone(user.getPhone());
-				u.setFullname(user.getFullname());
-				u.setAvatar(user.getAvatar());
-				u.setAddresss(user.getAddresss());
-				u.setFail_login(user.getFail_login());
-				u.setActive(user.isActive());
-				u.setCreate_block(user.getCreate_block());
-				u.setRanks_id(user.getRanks_id());
-				u.setPay_id(user.getPay_id());
-
 				u.setPasswords(passwordEncoder.encode(passmoi));// db
 				user.setPasswords(passwordEncoder.encode(passmoi));// session
 				userService.update(user);
-				m.addAttribute("successPass", true);
+				ss.setAttribute("visible", "true");
+				ss.setAttribute("thongbao", "Thành công");
 				return "redirect:/home/manager/profile";
 			} else {
 				m.addAttribute("errorPass", true);
-				return "redirect:/home/pay";
+				return "home/profile_pass";
 			}
 		} else {
-			m.addAttribute("errorPass", true);
-			return "redirect:/home";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Sai mật khẩu củ");
+			return "home/profile_pass";
 		}
 	}
-	// Đổi mật khẩu
+		// Đổi mật khẩu
 	// Cập nhật thông tin tài khoản
 
 	// Đăng xuất
@@ -226,6 +287,8 @@ public class AccountController {
 		Logins logins = loginService.findByLogins();
 		logins.setLogins_out(new Date());
 		loginService.Update(logins);
+		ss.removeAttribute("user");
+		ss.removeAttribute("user");
 		return "redirect:/login";
 	}
 	// Đăng xuất
@@ -235,34 +298,89 @@ public class AccountController {
 	public String getForgetPassword() {
 		return "account/forgetPassword";
 	}
+	
+	//RESEND OTP
+	@GetMapping("/resend-otp")
+	public String resendOTP(Model m) throws MessagingException {
+		String mail_reOTP = ss.getAttribute("resendOTP");
+		if (validator.isEmailValid(mail_reOTP)) {
+			Users uFind = userService.findByEmailOrPhone(mail_reOTP, null);
+			if (uFind == null) {
+				// Set Notification Failed
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
+				return "account/forgetPassword";
+			} else {
+				// Send ID OTP Email
+				Random random = new Random();
+				StringBuilder stringNumber = new StringBuilder();
+				for (int i = 0; i < 4; i++) {
+					int numberRandom = random.nextInt(10);
 
-	// Gửi mail xác nhận
+					stringNumber.append(numberRandom);
+				}
+				String title = "Dịch Vụ Tài Khoản";
+				String body = stringNumber.toString();
+				ss.setAttribute("UFind", uFind);
+				ss.setAttribute("otp", body);
+				ss.setAttribute("resendOTP", mail_reOTP);
+				
+				mailService.send(mail_reOTP, title, body);
+				return "redirect:/OTP";
+			}
+		} else {
+			Users uFind = userService.findByEmailOrPhone(null, mail_reOTP);
+			if (uFind == null) {
+				// Set Notification Failed
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
+				return "account/forgetPassword";
+			} else {
+				// Send ID OTP Phone
+				Random random = new Random();
+				StringBuilder stringNumber = new StringBuilder();
+				for (int i = 0; i < 4; i++) {
+					int numberRandom = random.nextInt(10);
+
+					stringNumber.append(numberRandom);
+				}
+				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
+				ss.setAttribute("UFind", uFind);
+				ss.setAttribute("otp", body);
+				ss.setAttribute("resendOTP", mail_reOTP);
+				
+				String phone = "+84" + mail_reOTP.substring(1);
+				//System.out.println(phone);
+				smsService.sendSms(phone, body);
+				return "redirect:/OTP";
+			}
+		}
+	} 
+		// Gửi mail xác nhận
 	@PostMapping("/forget-password-action")
 	public String getForgetPasswordAction(Model m, @RequestParam("email") String email) throws Exception {
 		if (validator.isEmailValid(email)) {
 			Users uFind = userService.findByEmailOrPhone(email, null);
 			if (uFind == null) {
 				// Set Notification Failed
-				m.addAttribute("notitication", false);
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
 				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Email
-
 				Random random = new Random();
-
 				StringBuilder stringNumber = new StringBuilder();
-
 				for (int i = 0; i < 4; i++) {
 					int numberRandom = random.nextInt(10);
 
 					stringNumber.append(numberRandom);
 				}
-
 				String title = "Dịch Vụ Tài Khoản";
 				String body = stringNumber.toString();
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				
+				ss.setAttribute("resendOTP", email);
+				ss.setAttribute("type", "email của bạn " + email.substring(0, email.length() - 14) + "******");
 				mailService.send(email, title, body);
 				return "redirect:/OTP";
 			}
@@ -270,33 +388,32 @@ public class AccountController {
 			Users uFind = userService.findByEmailOrPhone(null, email);
 			if (uFind == null) {
 				// Set Notification Failed
-				return "redirect:/forget-password";
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Email/SĐT không tồn tài!");
+				return "account/forgetPassword";
 			} else {
 				// Send ID OTP Phone
-
 				Random random = new Random();
-
 				StringBuilder stringNumber = new StringBuilder();
-
 				for (int i = 0; i < 4; i++) {
 					int numberRandom = random.nextInt(10);
 
 					stringNumber.append(numberRandom);
 				}
-
 				String body = "Mã xác thực Real Estate của bạn là: " + stringNumber.toString();
 				String phone = "+84" + email.substring(1);
 				ss.setAttribute("UFind", uFind);
 				ss.setAttribute("otp", body);
-				
+				ss.setAttribute("resendOTP", email);
 
+				ss.setAttribute("type", "sms qua số điện thoại " + phone.substring(0, phone.length() - 4) + "****");
 				smsService.sendSms(phone, body);
-
 				return "redirect:/OTP";
 			}
 		}
+		
 	}
-	// Gửi mail xác nhận
+		// Gửi mail xác nhận
 	// Quên mật khẩu
 
 	// OTP
@@ -314,7 +431,9 @@ public class AccountController {
 		if (OTPss.equalsIgnoreCase(OTP)) {
 			return "redirect:/change-password";
 		} else {
-			return "redirect:/OTP";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Sai OTP");
+			return "account/otp";
 		}
 	}
 	// OTP
@@ -330,18 +449,20 @@ public class AccountController {
 			@RequestParam("nhaplaimkmoi") String nhaplaimkmoi) {
 		Users u = ss.getAttribute("UFind");
 		if (!nhaplaimkmoi.equalsIgnoreCase(mkmoi)) {
-			System.out.println("mk nhap lai khong trung");
-			return "redirect:/change-password";
+			m.addAttribute("visible", "true");
+			m.addAttribute("thongbao", "Kiểm tra lại mật khẩu");
+			return "account/changePassword";
 		} else {
 			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
-				System.out.println("mk moi trung vs mk cu");
 				return "redirect:/change-password";
 			} else {
+				u.setFail_login(0);
 				u.setPasswords(passwordEncoder.encode(mkmoi));
 				userService.update(u);
 				return "redirect:/login";
 			}
 		}
 	}
+
 	// Đổi mật khẩu
 }

@@ -65,4 +65,22 @@ public class TransactionsServiceImpl implements TransactionService{
 		return dao.save(t);
 	}
 
+	@Override
+	public List<Object[]> getCurrentAndPreviousMonth() {
+		List<Object[]> list = dao.getCurrentAndPreviousMonth();
+		return list;
+	}
+
+	@Override
+	public Double getTotalYear(int year) {
+		// TODO Auto-generated method stub
+		return dao.getTotalYear(year);
+	}
+
+	@Override
+	public List<Object[]> getIncomeInRecentYears() {
+		// TODO Auto-generated method stub
+		return dao.getIncomeInRecentYears();
+	}
+
 }

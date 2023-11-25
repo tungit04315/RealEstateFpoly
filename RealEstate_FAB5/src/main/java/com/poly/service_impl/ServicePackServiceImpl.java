@@ -3,6 +3,8 @@ package com.poly.service_impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.poly.bean.ServicePack;
@@ -43,6 +45,12 @@ public class ServicePackServiceImpl implements ServicePackService{
 	public void Delete(Integer id) {
 		// TODO Auto-generated method stub
 		dao.deleteById(id);
+	}
+
+	@Override
+	public Page<ServicePack> getFindAll(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.findAll(p);
 	}
 
 }

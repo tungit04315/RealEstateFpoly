@@ -53,6 +53,9 @@ public class HomeController {
 	@Autowired
 	SmsService smsService;
 	
+	@Autowired
+	RanksService rankservice;
+	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
@@ -238,6 +241,12 @@ public class HomeController {
 	public String getManagerProfile(Model m) {
 		Users u = (Users) ss.getAttribute("user");
 		m.addAttribute("u", userService.findById(u.getUsername()));
+		m.addAttribute("rank", rankservice.findById(u.getRanks_id().getRanks_id()));
+		String hienthi = ss.getAttribute("visible");
+		String tb = ss.getAttribute("thongbao");
+		
+		m.addAttribute("visible", hienthi);
+		m.addAttribute("thongbao", tb);
 		return "home/profile";
 	}
 	

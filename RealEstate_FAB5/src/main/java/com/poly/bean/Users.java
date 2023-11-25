@@ -51,7 +51,7 @@ public class Users implements Serializable{/**
 	private String avatar;
 	private String addresss;
 	private int fail_login = 0;
-	private boolean active = true;
+	private boolean active = false;
 	private boolean gender = true;
 	
 	@Temporal(TemporalType.DATE)

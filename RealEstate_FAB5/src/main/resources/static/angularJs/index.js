@@ -193,7 +193,7 @@ app.run(function($rootScope, $http) {
     })
 });
 
-app.controller("mycontroller", function($scope, $http, $rootScope, $location, $window) {
+app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
 
     const url = `http://localhost:8080/rest/files/img`;
     const urlAvt = `http://localhost:8080/rest/files/avatar`;

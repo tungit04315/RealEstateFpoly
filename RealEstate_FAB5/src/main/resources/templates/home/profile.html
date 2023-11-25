@@ -5,6 +5,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style type="text/css">
+        .toast {
+            position: absolute;
+            top: 650px;
+            right: 5px;
+            border-radius: 12px;
+            background: #fff;
+            padding: 20px 35px 20px 25px;
+            box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* transform: translateX(calc(100% + 30px)); */
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+            z-index: 7;
+            opacity: 0 !important;
+        }
+        
+        .toast.active {
+            transform: translateX(0%);
+            opacity: 1 !important;
+        }
+        
+        .toast .toast-content {
+            display: flex;
+            align-items: center;
+        }
+        
+        .toast-content .check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 35px;
+            min-width: 35px;
+            background-color: #27ff44;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+        
+        .toast-content .message {
+            display: flex;
+            flex-direction: column;
+            margin: 0 20px;
+        }
+        
+        .message .text {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+        }
+        
+        .message .text.text-1 {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .toast .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            padding: 5px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        
+        .toast .close:hover {
+            opacity: 1;
+        }
+        
+        .toast .progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+        }
+        
+        .toast .progress:before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #27ff44;
+        }
+        
+        .progress.active:before {
+            animation: progress 5s linear forwards;
+        }
+        
+        @keyframes progress {
+            100% {
+                right: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -24,7 +120,9 @@
                                         <div class="text-center">
                                             <img src="{{urlAvt($u.avatar)}}" class="avatar img-circle" alt="avatar">
                                             <h6 style="font-size: 15px;">Tải lên một bức ảnh khác...</h6>
+
                                             <input type="file" class="form-control" accept="image/*" multiple onchange="angular.element(this).scope().uploadAvatar(this.files)">
+                                            <span> <a href="/doimk">Đổi mật khẩu</a> </span>
                                         </div>
                                     </div>
 
@@ -42,7 +140,7 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Họ và tên:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" name="fullname" th:value="${u.fullname}">
+                                                    <input class="form-control" type="text" name="fullname" th:value="${u.fullname}" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -61,72 +159,47 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Email:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" name="email" th:value="${u.email}">
+                                                    <input class="form-control" type="text" name="email" th:value="${u.email}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Số điện thoại:</label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control" type="text" name="phone" th:value="${u.phone}">
+                                                    <input class="form-control" type="text" name="phone" th:value="${u.phone}" readonly>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Ngày sinh</label>
+                                                <div class="col-lg-8">
+                                                    <input type="date" th:value="${u.birthday}" name="birthday" required>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Địa chỉ:</label>
                                                 <div class="col-md-8">
-                                                    <textarea rows="" cols="" class="form-control" name="addresss" th:text="${u.addresss}"></textarea>
+                                                    <textarea rows="" cols="" class="form-control" name="addresss" th:text="${u.addresss}" required></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Hạng thành viên:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" disabled>
+                                                    <input class="form-control" type="text" readonly th:value="${rank.rank_id.rank_name}">
                                                 </div>
                                             </div>
+                                            <input type="text" th:value="${u.passwords}" name="passwords" hidden>
+                                            <input type="text" th:value="${u.fail_login}" name="fail_login" hidden>
+                                            <input type="text" th:value="*{create_block}" name="create_block" hidden>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label"></label>
-                                                <div class="col-md-8 row">
-                                                    <div class="col-md-4">
-                                                        <input type="submit" class="btn btn-primary w-100" value="Lưu">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <input type="reset" class="btn btn-default w-100" value="Hủy">
-                                                    </div>
+                                                <div class="col-md-8">
+                                                    <input type="submit" class="btn btn-primary" value="Lưu">
+
+                                                    <input type="reset" class="btn btn-default" value="Hủy">
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
-                            <div class="container">
-                                <h1 class="wow slideInDown" data-wow-delay="0.1s">Đổi mật khẩu</h1>
-                                <hr class="mb-3">
-                                <form class="form-edit-change-password wow slideInLeft" data-wow-delay="0.1s" action="/profile/changePass" method="post">
-                                    <div class="mb-3">
-                                        <h5>Đặt một mật khẩu mới</h5>
-                                        <hr>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Mật khẩu hiện tại</label>
-                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="passhientai">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="passmoi">
-                                        <div id="emailHelp" class="form-text"> * Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Xác nhận lại mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" name="nhaplaipassmoi">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Lưu</button>
-                                    <div>
-                                        <div th:if="${successPass} == true" class="alert alert-success" role="alert">Thành công</div>
-                                        <div th:if="${errorPass} == true" class="alert alert-success" role="alert">Thất bại</div>
-                                    </div>
-                                </form>
                             </div>
                         </div>
 
@@ -575,7 +648,18 @@
                 </div>
             </div>
         </div>
+        <div th:if="${visible == 'true'}">
+            <div class="toast active">
+                <div class="toast-content">
+                    <div class="message">
+                        <span class="text text-1" th:utext="${thongbao}"></span>
+                    </div>
+                </div>
+                <div class="progress active"></div>
+            </div>
+        </div>
     </main>
 </body>
+<script src="/js/toast.js"></script>
 
 </html>

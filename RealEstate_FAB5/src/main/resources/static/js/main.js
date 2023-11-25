@@ -106,6 +106,7 @@
             }
         });
     });
+
     $(function() {
         $('#contact-two').click(function() {
             $('#contactForm-two').fadeToggle();

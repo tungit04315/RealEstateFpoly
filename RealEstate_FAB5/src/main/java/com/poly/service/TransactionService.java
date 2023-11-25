@@ -21,5 +21,11 @@ public interface TransactionService {
 
 	public Transactions update(Transactions u);
 
+	public List<Object[]> getCurrentAndPreviousMonth();
+	
+	public List<Object[]> getIncomeInRecentYears();
+	
 	public void delete(Integer id);
+	
+	public Double getTotalYear(int year);
 }

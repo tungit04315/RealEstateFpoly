@@ -1,5 +1,7 @@
 package com.poly.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.poly.bean.Users;
 import com.poly.service.UsersService;
 import com.poly.util.SessionService;
@@ -75,4 +76,9 @@ public class UserRestController {
 	public Users getUpdateUser(@RequestBody Users u) {
 		return uService.update(u);
 	}
+
+    @RequestMapping("/getList-username")
+    public List<Users> listUsername() {
+        return uService.findAll();
+    }
 }

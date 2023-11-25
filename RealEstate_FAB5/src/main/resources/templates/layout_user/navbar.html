@@ -72,14 +72,14 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fa-regular fa-user" style="color: #fe7f2a; font-size: 20px;"></i> <span style="margin: 0px 10px 0px 10px;">{{$u.fullname}}</span></a>
                         <div class="dropdown-menu rounded-0 m-0" style="padding: 10px;">
-                            <a href="/home/manager/post" class="dropdown-item"><i class="fa-solid fa-list-ul"></i> Quản lý đăng tin</a>
-                            <a href="/home/manager/profile" class="dropdown-item"><i class="fa-solid fa-user"></i> Cập nhật tài khoản</a>
-                            <!-- <a href="#" class="dropdown-item"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a> -->
-                            <a href="/home/manager/pay" class="dropdown-item"><i class="fa-solid fa-money-check-dollar"></i> Nạp tiền</a>
-
-                            <hr class="dropdown-divider">
-
-                            <a href="/logout" class="dropdown-item"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a>
+                            <a href="/home/manager/profile" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-user"></i> Hồ sơ</a>
+                            <a href="/doimk" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
+                            <hr class="dropdown-divider" th:if="${session.user != null}">
+                            <a href="/home/manager/post" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-list-ul"></i> Quản lý đăng tin</a>
+                            <a href="/home/manager/pay" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-money-check-dollar"></i> Nạp tiền</a>
+                            <hr class="dropdown-divider" th:if="${session.user != null}">
+                            <a href="/logout" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180"></i> Đăng xuất</a>
+                            <a href="/login" class="dropdown-item" th:if="${session.user == null}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng nhập</a>
                         </div>
                     </div>
                 </div>

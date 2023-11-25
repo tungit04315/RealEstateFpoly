@@ -10,7 +10,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/otp.css">
-
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
 </head>
 
 <body>
@@ -20,25 +20,98 @@
         <hr>
         <p>Nhập mã OTP vào bên dưới</p>
         <div class="code-container">
-            <input name="so1" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so2" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so3" type="number" class="code" placeholder="0" min="0" max="9" required>
-            <input name="so4" type="number" class="code" placeholder="0" min="0" max="9" required>
+            <input autofocus="autofocus" name="so1" type="number" class="code" placeholder="0" min="0" max="9" required maxlength="1" oninput="handleInput(this, 1)" onkeyup="handleKeyUp(this, event)">
+            <input name="so2" type="number" class="code" placeholder="0" min="0" max="9" required maxlength="1" oninput="handleInput(this, 2)" onkeyup="handleKeyUp(this, event)"> <input name="so3" type="number" class="code" placeholder="0" min="0" max="9"
+                required maxlength="1" oninput="handleInput(this, 3)" onkeyup="handleKeyUp(this, event)"> <input name="so4" type="number" class="code" placeholder="0" min="0" max="9" required maxlength="1" oninput="handleInput(this, 4)" onkeyup="handleKeyUp(this, event)">
         </div>
 
         <div>
             <button type="submit" class="btn btn-primary">Xác thực</button>
         </div>
 
-        <small>
-            <div>Thời gian còn lại: <span id="timer"></span>
-                <button class="resend" disabled>Gửi lại mã</button>
-            </div>
-            Nếu bạn không nhận được mã!! <strong>Gửi lại</strong>
-        </small>
+        <small> Thời gian còn lại: <span id="timer"></span> 
+<a href="/resend-otp" class="resend" id="resendLink" onclick="resendCode()">Gửi lại mã</a>
+		</small>
 
     </form>
-    <!-- JavaScript -->
+    <div th:if="${visible == 'true'}">
+        <div class="toast active">
+            <div class="toast-content">
+                <div class="message">
+                    <span class="text text-1" th:utext="${thongbao}"></span>
+                </div>
+            </div>
+            <div class="progress active"></div>
+        </div>
+    </div>
 </body>
+<!-- JavaScript -->
+<script src="/js/toast.js"></script>
+<script>
+    function handleInput(input, nextInputIndex) {
+        // Check if the input is a number
+        if (!/^[0-9]$/.test(input.value)) {
+            input.value = ""; // Clear the input if it's not a number
+            return;
+        }
+
+        // Move to the next input
+        if (nextInputIndex <= 4) {
+            var nextInput = document.querySelector('input:nth-of-type(' +
+                (nextInputIndex + 1) + ')');
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+
+    function handleKeyUp(input, event) {
+        // Check if the Backspace key is pressed and the input is empty
+        if (event.key === 'Backspace' && input.value === "") {
+            // Move to the previous input
+            setTimeout(function() {
+                var previousInput = input.previousElementSibling;
+                if (previousInput) {
+                    previousInput.focus();
+                }
+            }, 0);
+        }
+    }
+
+    // Thêm biến này để lưu thời gian còn lại
+    var remainingTime = 60;
+
+    // Cập nhật phần tử đồng hồ và bật/nhấn thẻ a
+    function updateTimer() {
+        var timerElement = document.getElementById('timer');
+        var resendLink = document.getElementById('resendLink');
+
+        if (remainingTime > 0) {
+            timerElement.textContent = remainingTime;
+            remainingTime--;
+        } else {
+            // Hiển thị thẻ a khi đồng hồ đạt 0
+            resendLink.style.display = 'inline';
+            timerElement.textContent = '';
+        }
+    }
+
+    // Bắt đầu đếm ngược khi trang web tải xong
+    document.addEventListener('DOMContentLoaded', function() {
+        setInterval(updateTimer, 1000); // Cập nhật đồng hồ mỗi giây
+        // Ẩn thẻ a ban đầu
+        document.getElementById('resendLink').style.display = 'none';
+    });
+
+    // Hàm xử lý khi liên kết gửi lại được nhấp
+    function resendCode() {
+        // Đặt lại đồng hồ và ẩn thẻ a đi
+        remainingTime = 60;
+        document.getElementById('timer').textContent = '';
+        document.getElementById('resendLink').style.display = 'none';
+
+        // Thực hiện logic gửi lại mã OTP ở đây (nếu cần)
+    }
+</script>
 
 </html>

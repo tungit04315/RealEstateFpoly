@@ -5,15 +5,24 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poly.bean.Auth;
+import com.poly.bean.Pay;
+import com.poly.bean.Ranks;
 import com.poly.bean.Users;
 import com.poly.dao.AuthDAO;
 import com.poly.dao.UsersDAO;
-import com.poly.service.UsersService;
+import com.poly.service.*;
 
 @Service
 public class UsersServiceImpl implements UsersService{
@@ -27,6 +36,21 @@ public class UsersServiceImpl implements UsersService{
 	@Autowired
 	AuthDAO authDAO;
 
+	@Autowired
+	PaymentService payService;
+	
+	@Autowired
+	RanksService rankService;
+	
+	@Autowired
+	AuthService authService;
+	
+	@Autowired
+	UsersService userService;
+	
+	@Autowired
+	RoleService roleService;
+	
 	@Override
 	public List<Users> findAll() {
 		return dao.findAll();
@@ -92,6 +116,48 @@ public class UsersServiceImpl implements UsersService{
 	public Users findByEmailOrPhone(String email, String phone) {
 		// TODO Auto-generated method stub
 		return dao.getUserFindByPhoneOrEmail(email, phone);
+	}
+	
+	@Override
+	public void loginFromOAuth2(OAuth2AuthenticationToken oauth2) {
+		// String fullname = oauth2.getPrincipal().getAttribute("name");
+		String email = oauth2.getPrincipal().getAttribute("email");
+		String idToken = oauth2.getPrincipal().getAttribute("id_token");
+		System.out.println("123123"+idToken);
+		Users Umail = findByEmailOrPhone(email, null);
+		if(Umail == null) {
+		String password = Long.toHexString(System.currentTimeMillis());
+		//payment
+		Pay newpay = new Pay();
+		newpay.setPay_money((long)0.00);
+		payService.Create(newpay);
+		Pay payFind =  payService.findByTop1Desc();
+		
+		//rank
+		Ranks rank = rankService.findById(1);
+		Users u = new Users();
+		u.setUsername(email);
+		u.setEmail(email);
+		OAuth2User oAuth2User;
+		String phoneNumber = oauth2.getPrincipal().getAttribute("phone_number");
+		u.setPhone(phoneNumber);
+		u.setPasswords(pe.encode(password));
+		u.setPay_id(payFind);
+		u.setRanks_id(rank);
+		userService.create(u);
+
+		Auth uAuth = new Auth();
+		uAuth.setUsers(u);
+		uAuth.setRoles(roleService.findbyId("user"));
+		authService.create(uAuth);
+		
+		UserDetails user = User.withUsername(email).password(pe.encode(password)).roles("USER").build();
+		Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		}
+		UserDetails user = User.withUsername(email).password(Umail.getPasswords()).roles("USER").build();
+		Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 
 	@Override
