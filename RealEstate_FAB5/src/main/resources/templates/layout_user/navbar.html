@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link" data-bs-toggle="dropdown"><i class="fa-regular fa-user" style="color: #fe7f2a; font-size: 20px;"></i> <span style="margin: 0px 10px 0px 10px;">{{$u.fullname}}</span></a>
+                        <a href="#" class="nav-link" data-bs-toggle="dropdown"><i th:if="${session.user == null}" class="fa-regular fa-user" style="color: #fe7f2a; font-size: 20px;"></i><img th:if="${session.user != null}" src="{{urlAvt($u.avatar)}}" class="rounded-circle" style="width: 25px;"> <span style="margin: 0px 10px 0px 10px;">{{$u.fullname}}</span></a>
                         <div class="dropdown-menu rounded-0 m-0" style="padding: 10px;">
                             <a href="/home/manager/profile" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-user"></i> Hồ sơ</a>
                             <a href="/doimk" class="dropdown-item" th:if="${session.user != null}"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
