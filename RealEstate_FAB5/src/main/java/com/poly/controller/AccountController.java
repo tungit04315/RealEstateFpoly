@@ -247,6 +247,7 @@ public class AccountController {
 		Ranks r = rankService.findById(us.getRanks_id().getRanks_id());
 		u.setPay_id(p);
 		u.setRanks_id(r);
+		u.setActive(true);
 		userService.update(u);
 		ss.setAttribute("user", u);
 		return "redirect:/home/manager/profile";
