@@ -20,14 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poly.bean.DetailTransactions;
+import com.poly.bean.Pay;
 import com.poly.bean.Post;
+import com.poly.bean.Ranks;
 import com.poly.bean.ServicePack;
 import com.poly.bean.Transactions;
 import com.poly.bean.TypePropertys;
 import com.poly.bean.Users;
 import com.poly.service.AlbumsService;
 import com.poly.service.DetailTransactionService;
+import com.poly.service.PaymentService;
 import com.poly.service.PostService;
+import com.poly.service.RanksService;
 import com.poly.service.ServicePackService;
 import com.poly.service.TransactionService;
 import com.poly.service.TypePropertyService;
@@ -39,6 +43,12 @@ public class AdminController {
 
 	@Autowired
 	UsersService userService;
+	
+	@Autowired
+	RanksService rankService;
+
+	@Autowired
+	PaymentService payService;
 	
 	@Autowired
 	ServicePackService ServicePackService;
@@ -109,6 +119,12 @@ public class AdminController {
 	@PostMapping("/admin/user/update")
 	public String getUsersUpdate(Model m, Users u) {
 		m.addAttribute("users", userService.findAll());
+		Users us = userService.findById(u.getUsername());
+		Pay p = payService.findByID(us.getPay_id().getPay_id());
+		Ranks r = rankService.findById(us.getRanks_id().getRanks_id());
+		u.setPay_id(p);
+		u.setRanks_id(r);
+		u.setActive(true);
 		userService.update(u);
 		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "redirect:/admin/user/findBy/" + u.getUsername();

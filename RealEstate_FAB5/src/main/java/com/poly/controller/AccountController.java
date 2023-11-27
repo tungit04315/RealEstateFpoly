@@ -247,6 +247,7 @@ public class AccountController {
 		Ranks r = rankService.findById(us.getRanks_id().getRanks_id());
 		u.setPay_id(p);
 		u.setRanks_id(r);
+		u.setActive(true);
 		userService.update(u);
 		ss.setAttribute("user", u);
 		return "redirect:/home/manager/profile";
@@ -454,8 +455,10 @@ public class AccountController {
 			return "account/changePassword";
 		} else {
 			if (passwordEncoder.matches(mkmoi, u.getPasswords())) {
-				return "redirect:/change-password";
-			} else {
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Vui lòng nhập mật khẩu chưa từng sử dụng!");
+				return "account/changePassword";
+			}else {
 				u.setFail_login(0);
 				u.setPasswords(passwordEncoder.encode(mkmoi));
 				userService.update(u);
