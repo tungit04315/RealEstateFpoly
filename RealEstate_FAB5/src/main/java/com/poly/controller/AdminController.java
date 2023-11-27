@@ -152,6 +152,23 @@ public class AdminController {
 		
 		return "redirect:/admin/post";
 	}
+	
+	@RequestMapping("/admin/post-find-update")
+	public String getPostUpdate(Model m, @Param("id") Integer id) {
+		Post p = postService.getFindByid(id);
+		p.setDeletedAt(false);
+		postService.Update(p);
+		
+		return "redirect:/admin/history-delete-post";
+	}
+	
+	@RequestMapping("/admin/history-delete-post")
+	public String getHistoryDeletePostList(Model m, @RequestParam(defaultValue = "1") Integer page) {
+		Pageable pageable = PageRequest.of(page - 1, 4);
+		Page<Post> managerPost = postService.getPostDelete(pageable);
+		m.addAttribute("managerPost", managerPost);
+		return "admin/historyDeletePost";
+	}
 
 	// Post List
 	

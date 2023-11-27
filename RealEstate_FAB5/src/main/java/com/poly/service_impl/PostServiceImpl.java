@@ -169,4 +169,10 @@ public class PostServiceImpl implements PostService{
 		return dao.getPostsAll(p);
 	}
 
+	@Override
+	public Page<Post> getPostDelete(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.getHistoryDeletePostsDelete(p);
+	}
+
 }

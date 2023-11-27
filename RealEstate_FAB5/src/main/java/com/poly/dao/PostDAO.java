@@ -22,6 +22,9 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Query(value="select * from post where active = 'false' and deleted_at = 'true' and users_id = ?1 order by post_id desc", nativeQuery = true)
 	public List<Post> getPostsDelete(String username);
 	
+	@Query(value="select * from post where deleted_at = 'true' order by post_id desc", nativeQuery = true)
+	public Page<Post> getHistoryDeletePostsDelete(Pageable p);
+	
 	@Query(value="select top 1 * from post where active = 1 and deleted_at = 0 order by post_id desc", nativeQuery = true)
 	public Post getPostDesc();
 	

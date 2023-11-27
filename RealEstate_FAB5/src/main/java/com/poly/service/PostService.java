@@ -16,6 +16,8 @@ public interface PostService {
 	
 	public List<Post> getPostDelete(String username);
 	
+	public Page<Post> getPostDelete(Pageable p);
+	
 	public List<Post> searchPost(String title, String address, String province, Integer type);
 	
 	public Post getPostDesc();

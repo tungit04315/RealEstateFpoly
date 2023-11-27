@@ -31,12 +31,8 @@
                             <td th:utext="${p.services_id.services_name}"></td>
                             <td th:utext="${p.create_at}"></td>
                             <td class="d-flex">
-                                <a type="button" th:href="@{/admin/post-find(id=${p.post_id})}" class="btn btn-primary">
-                                    <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i> Chi tiết
-                                </a>
-                                <span style="font-size: 25px; color: black; margin: 0 5px;">|</span>
-                                <a type="button" th:href="@{'/admin/post-find-delete?id=' + ${p.post_id}}" class="btn btn-primary">
-                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i> Xóa
+                                <a type="button" th:href="@{'/admin/post-find-update?id=' + ${p.post_id}}" class="btn btn-primary" style="width: 150px;">
+                                    <i class="fa-solid fa-notes-medical"></i> Phục hồi
                                 </a>
                             </td>
                         </tr>
