@@ -29,8 +29,6 @@ public class PayRestController {
 	@RequestMapping("/rest/pay")
 	public Pay getPayUser() {
 		Users u = (Users) ss.getAttribute("user");
-//		Users uFind = userService.findById(u.getUsername());
-//		System.out.println(uFind.getPay_id().getPay_id());
 		return payService.findByID(u.getPay_id().getPay_id());
 	}
 	
@@ -38,9 +36,15 @@ public class PayRestController {
 	public Long setMoneyPay(@Param("user") String user, @Param("money") Long money) {
 		Users u = userService.findById(user);
 		Pay p = payService.findByID(u.getPay_id().getPay_id());
-		Long sum = p.getPay_money() - money;
-		p.setPay_money(sum);
-		payService.Update(p);
-		return p.getPay_money();
+		if(money <= p.getPay_money()) {
+			Long sum = p.getPay_money() - money;
+			p.setPay_money(sum);
+			payService.Update(p);
+			return p.getPay_money();
+		}else {
+			throw new IllegalArgumentException("Ví tiền không đủ");
+		}
+		
 	}
+
 }

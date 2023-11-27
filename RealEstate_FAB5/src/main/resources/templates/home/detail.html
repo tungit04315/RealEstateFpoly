@@ -109,12 +109,24 @@
                             <div class="row">
                                 <div class="col-lg-2 col-sm-2">
                                     <p class="mb-1">Mức giá</p>
-                                    <strong class="text-dark" th:utext="*{price}"></strong>
-                                    <p style="font-size:13px;">~72,41 triệu/m²</p>
+                                    <strong class="text-dark" th:text="${#numbers.formatDecimal(post.price, 0, 'COMMA', 0, 'POINT')}"></strong>
+                                    <p style="font-size:13px;">
+                                        ~
+                                        <span th:if="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT').length() < 11}">
+                                            <span th:text="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT')}">
+                                              
+                                            </span> triệu
+                                        </span>
+                                        <span th:if="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT').length() >= 11}">
+                                            <span th:text="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT')}">
+                                              
+                                            </span> tỷ
+                                        </span> /m²
+                                    </p>
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
                                     <p class="mb-1">Diện tích</p>
-                                    <strong class="text-dark" th:utext="*{acreage}"></strong>
+                                    <strong class="text-dark"><span th:utext="*{acreage}"></span>/m²</strong>
                                     <p style="font-size:13px;"></p>
                                 </div>
                                 <div class="col-lg-5 col-sm-5">

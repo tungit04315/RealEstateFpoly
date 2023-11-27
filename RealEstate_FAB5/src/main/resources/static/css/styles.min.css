@@ -2785,6 +2785,17 @@ progress {
     color: #000000;
 }
 
+.form-control-post input {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px #F8F1F1 solid;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #000000;
+}
+
 .form-control-div input:focus,
 .form-control-div input:valid {
     outline: 0;
@@ -2814,6 +2825,17 @@ progress {
 }
 
 .form-control-div textarea {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px #F8F1F1 solid;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #000000;
+}
+
+.form-control-post textarea {
     background-color: transparent;
     border: 0;
     border-bottom: 2px #F8F1F1 solid;

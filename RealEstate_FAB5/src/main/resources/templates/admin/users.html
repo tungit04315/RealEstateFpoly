@@ -43,23 +43,19 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div style="display: flex;">
+                        <label for="pageSelector" style="margin-right: 10px;">Chọn trang:</label>
+                        <select id="pageSelector" class="form-select" aria-label="Page Selector" onchange="changePage(this.value)" style="width: 50%;">
+                            <option th:each="pageNumber : ${#numbers.sequence(1, users.getTotalPages())}"
+                                    th:value="${pageNumber}" th:text="${pageNumber}" th:selected="${pageNumber == users.getNumber() + 1}">
+                            </option>
+                        </select>
+                    </div>
+                    <script th:inline="javascript">
+                        function changePage(page) {
+                            window.location.href = '/admin/users?page=' + page;
+                        }
+                    </script>
                 </div>
             </div>
             <div class="col-lg-12 mb-3">
@@ -83,7 +79,7 @@
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <div class="form-control-div">
-                                <input required="" type="text" th:value="*{username}" name="username">
+                                <input required="" type="text" th:value="${u.username}" name="username">
                                 <label>
                                         <span style="transition-delay:350ms">T</span>
                                         <span style="transition-delay:300ms">ê</span>
@@ -100,10 +96,11 @@
                                         <span style="transition-delay:0ms">p</span>
                                 </label>
                             </div>
-                            <input type="text" th:value="*{passwords}" name="passwords" hidden>
-                            <input type="text" th:value="*{fullname}" name="fullname" hidden>
+                            <textarea th:utext="${u.passwords}" name="passwords" id="" class="form-control mt-2" hidden></textarea>
+
+
                             <input type="text" th:value="*{avatar}" name="avatar" hidden>
-                            <input type="text" th:value="*{addresss}" name="addresss" hidden>
+
                             <input type="text" th:value="*{fail_login}" name="fail_login" hidden>
                             <input type="radio" th:value="*{gender}" name="gender" hidden>
                             <input type="text" th:value="*{create_block}" name="create_block" hidden>
@@ -118,6 +115,39 @@
                                         <span style="transition-delay:250ms">a</span>
                                         <span style="transition-delay:200ms">i</span>
                                         <span style="transition-delay:150ms">l</span>
+                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{fullname}" name="fullname">
+                                <label>
+                                        <span style="transition-delay:350ms">H</span>
+                                        <span style="transition-delay:300ms">ọ</span>
+                                        <span style="transition-delay:250ms"></span>
+                                        <span style="transition-delay:250ms">v</span>
+                                        <span style="transition-delay:200ms">à</span>
+                                        <span style="transition-delay:150ms"></span>
+                                        <span style="transition-delay:100ms">T</span>
+                                        <span style="transition-delay:50ms">ê</span>
+                                        <span style="transition-delay:250ms">n</span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{addresss}" name="addresss">
+                                <label>
+                                        <span style="transition-delay:350ms">Đ</span>
+                                        <span style="transition-delay:300ms">ị</span>
+                                        <span style="transition-delay:250ms">a</span>
+                                        <span style="transition-delay:200ms"></span>
+                                        <span style="transition-delay:150ms">C</span>
+                                        <span style="transition-delay:100ms">h</span>
+                                        <span style="transition-delay:50ms">ỉ</span>
                                     </label>
                             </div>
                         </div>
@@ -144,86 +174,40 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <label for="" class="mb-3 form-label-2">Vai trò</label>
+                            <label for="" class="mb-3 form-label-2">Trạng thái</label>
                             <div class="radio-button-container">
                                 <div class="radio-button">
-                                    <input type="radio" class="radio-button__input" id="radio1" name="radio-group" th:value="*{active}" th:checked="*{active}">
+                                    <input type="radio" class="radio-button__input" id="radio1" name="active" th:value="true" th:checked="*{active}">
                                     <label class="radio-button__label" for="radio1">
                                       <span class="radio-button__custom"></span>
-                                      Quản trị viên
+                                      Hoạt động
                                     </label>
                                 </div>
                                 <div class="radio-button">
-                                    <input type="radio" class="radio-button__input" id="radio2" name="radio-group" th:checked="*{active == false}">
+                                    <input type="radio" class="radio-button__input" id="radio2" name="active" th:value="false" th:checked="*{active == false}">
                                     <label class="radio-button__label" for="radio2">
                                       <span class="radio-button__custom"></span>
-                                      Khách hàng
+                                      Ngừng hoạt động
                                     </label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="row mb-4">
-                        <div class="col-lg-6">
-                            <div class="form-control-div">
-                                <input required="" type="text">
-                                <label>
-                                        <span style="transition-delay:350ms">Đ</span>
-                                        <span style="transition-delay:300ms">ă</span>
-                                        <span style="transition-delay:250ms">n</span>
-                                        <span style="transition-delay:250ms">g</span>
-                                        <span style="transition-delay:250ms"></span>
-                                        <span style="transition-delay:200ms">n</span>
-                                        <span style="transition-delay:150ms">h</span>
-                                        <span style="transition-delay:250ms">ậ</span>
-                                        <span style="transition-delay:100ms">p</span>
-                                    </label>
 
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-control-div">
-                                <input required="" type="text">
-                                <label>
-                                        <span style="transition-delay:350ms">L</span>
-                                        <span style="transition-delay:300ms">ầ</span>
-                                        <span style="transition-delay:250ms">n</span>
-                                        <span style="transition-delay:250ms"></span>
-                                        <span style="transition-delay:250ms">đ</span>
-                                        <span style="transition-delay:200ms">ă</span>
-                                        <span style="transition-delay:150ms">n</span>
-                                        <span style="transition-delay:250ms">g</span>
-                                        <span style="transition-delay:100ms"></span>
-                                        <span style="transition-delay:50ms">n</span>
-                                        <span style="transition-delay:250ms">h</span>
-                                        <span style="transition-delay:0ms">ậ</span>
-                                        <span style="transition-delay:0ms">p</span>
-                                        <span style="transition-delay:50ms"></span>
-                                        <span style="transition-delay:50ms">c</span>
-                                        <span style="transition-delay:250ms">u</span>
-                                        <span style="transition-delay:0ms">ố</span>
-                                        <span style="transition-delay:0ms">i</span>
-                                    </label>
-                            </div>
-                        </div>
-                    </div> -->
+
                     <div class="row">
                         <button class="button col-lg-3 mb-3" type="submit" style="width: 170px;">
                                 <i class="fa-solid fa-plus" style="color: #ffffff; margin-right: 10px;"></i> 
                                   Cập nhật 
                         </button>
-                        <button class="button col-lg-3 mb-3" type="button" style="width: 200px;">
-                                <i class="fa-solid fa-lock" style="color: #ffffff; margin-right: 10px;"></i>
-                                Khóa tài khoản 
-                        </button>
 
-                        <button class="button col-lg-3 mb-3" type="button" style="width: 170px;">
-                                <svg viewBox="0 0 16 16" class="bi bi-arrow-repeat" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+
+                        <a class="button col-lg-3 mb-3" type="button" style="width: 170px;" th:href="@{/admin/users-new}">
+                            <svg viewBox="0 0 16 16" class="bi bi-arrow-repeat" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
                                     <path d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" fill-rule="evenodd"></path>
-                                </svg>
-                                Làm mới 
-                        </button>
+                                </svg> Làm mới
+                        </a>
                     </div>
                 </form>
             </div>

@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.poly.bean.Post;
 
@@ -30,6 +33,8 @@ public interface PostService {
 	public void Delete(Integer id);
 	
 	public List<Post> getAll();
+	
+	public Page<Post> getPageAll(Pageable p);
 	
 	public List<Post> getAllDiamond();
 	

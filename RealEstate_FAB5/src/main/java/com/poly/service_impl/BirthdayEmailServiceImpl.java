@@ -53,7 +53,6 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
 
 			if (dayBirthday == dayNow && monthBirthday == monthNow) {
 				try {
-					System.out.println("Bao Nhieu");
 					mailService.sendMailHappyBirthday(u.getEmail(), "Happy Birthday", u.getFullname(),
 							String.valueOf(age));
 				} catch (MessagingException e) {

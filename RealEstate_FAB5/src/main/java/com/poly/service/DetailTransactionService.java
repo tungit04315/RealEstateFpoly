@@ -2,11 +2,17 @@ package com.poly.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.poly.bean.*;
 
 public interface DetailTransactionService {
+	
 	public List<DetailTransactions> findAll();
+	
+	public Page<DetailTransactions> findAll(Pageable p);
 	
 	public List<DetailTransactions> findAllByUser(String username);
 	

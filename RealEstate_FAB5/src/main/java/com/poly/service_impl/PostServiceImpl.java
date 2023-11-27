@@ -7,6 +7,8 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -159,6 +161,12 @@ public class PostServiceImpl implements PostService{
 	public List<Post> searchPost(String title, String address, String province, Integer type) {
 		// TODO Auto-generated method stub
 		return dao.searchPost(title, address, province, type);
+	}
+
+	@Override
+	public Page<Post> getPageAll(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.getPostsAll(p);
 	}
 
 }

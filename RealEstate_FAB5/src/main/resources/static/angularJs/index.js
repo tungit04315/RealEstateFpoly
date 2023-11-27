@@ -92,7 +92,7 @@ app.run(function($rootScope, $http) {
                         console.log(respAlbums.data[0].albums_name);
                         post.firstImage = respAlbums.data[0].albums_name;
                     }
-                    console.log(typeof post.price);
+
                     var priceString = post.price.toString();
                     if (post.price && priceString.length === 7) {
                         var millions = priceString.slice(0, 1);

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,8 +54,8 @@ public class UsersServiceImpl implements UsersService{
 	RoleService roleService;
 	
 	@Override
-	public List<Users> findAll() {
-		return dao.findAll();
+	public Page<Users> findAll(Pageable p) {
+		return dao.findAll(p);
 	}
 
 	@Override
@@ -179,6 +181,12 @@ public class UsersServiceImpl implements UsersService{
 //        }
 
 		return null;
+	}
+
+	@Override
+	public List<Users> findAll() {
+		// TODO Auto-generated method stub
+		return dao.findAll();
 	}
 
 }

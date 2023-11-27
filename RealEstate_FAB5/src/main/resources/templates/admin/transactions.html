@@ -1,90 +1,81 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{index_admin::areas(~{::.container-fluid})}">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<main>
-		<div class="container-fluid">
-			<!--  Row 1 -->
-			<div class="col-lg-12 mb-3">
-				<h5 class="mb-3">Danh Sách Giao Dịch</h5>
-				<table class="table tbl-edit">
-					<thead>
-						<tr>
-							<th scope="col">STT</th>
-							<th scope="col">Tên đăng nhập</th>
-							<th scope="col">Họ và tên</th>
-							<th scope="col">Loại giao dịch</th>
-							<th scope="col">Thanh toán</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Tô Quốc Tùng</td>
-							<td>Lucas</td>
-							<td>Nạp tiền</td>
-							<td style="color: green;">+500.000</td>
-							<td><a type="button" href="#" class="btn btn-primary"><i
-									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-									Chi tiết</a></td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Tô Quốc Tùng</td>
-							<td>Lucas</td>
-							<td>Đăng bài</td>
-							<td style="color: red;">-500.000</td>
-							<td><a type="button" href="#" class="btn btn-primary"><i
-									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-									Chi tiết</a></td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="d-flex justify-content-center">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_admin::areas(~{::.container-fluid})}">
 
-			<div class="col-lg-12 mb-3">
-				<form action="#" class="form-edit-user-list">
-					<div class="mb-3 mt-2 mr-2 d-flex justify-content-end">
-						<div class="input-wrapper">
-							<button class="icon" type="button">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-fluid">
+            <!--  Row 1 -->
+            <div class="col-lg-12 mb-3">
+                <h5 class="mb-3">Danh Sách Giao Dịch</h5>
+                <table class="table tbl-edit">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã giao dịch</th>
+                            <th scope="col">Họ và tên</th>
+                            <th scope="col">Loại giao dịch</th>
+                            <th scope="col">Thanh toán</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="t,state : ${transactions}">
+                            <th th:utext="${state.index + 1}"></th>
+                            <td th:utext="${t.transactions_id.transactions_id}"></td>
+                            <td th:utext="${t.fullname_get}">Lucas</td>
+                            <td th:utext="${t.transactions_type ? 'Nạp tiền':'Đăng bài'}"></td>
+                            <td th:style="${t.transactions_type ? 'color: green': 'color: red'}" th:utext="${t.price}"></td>
+                            <td><a type="button" th:href="@{/admin/transaction/findBy/{id}(id=${t.detail_id})}" class="btn btn-primary"><i
+									class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+									Chi tiết</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <div style="display: flex;">
+                        <label for="pageSelector" style="margin-right: 10px;">Chọn trang:</label>
+                        <select id="pageSelector" class="form-select" aria-label="Page Selector" onchange="changePage(this.value)" style="width: 50%;">
+                            <option th:each="pageNumber : ${#numbers.sequence(1, transactions.getTotalPages())}"
+                                    th:value="${pageNumber}" th:text="${pageNumber}" th:selected="${pageNumber == transactions.getNumber() + 1}">
+                            </option>
+                        </select>
+                    </div>
+                    <script th:inline="javascript">
+                        function changePage(page) {
+                            window.location.href = '/admin/transactions?page=' + page;
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <div class="col-lg-12 mb-3">
+                <form action="/admin/transactions" method="get" class="form-edit-user-list" th:object="${transaction}">
+                    <div class="mb-3 mt-2 mr-2 d-flex justify-content-end">
+                        <div class="input-wrapper">
+                            <button class="icon" type="button">
 								<!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="25px" width="25px">
                                     <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"></path>
                                     <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M22 22L20 20"></path>
                                   </svg> -->
 								<i class="fa-solid fa-magnifying-glass"></i>
 							</button>
-							<input placeholder="Nhập tên đăng nhập..." class="input"
-								name="text" type="text">
-						</div>
-					</div>
-					<div class="mb-3">
-						<h5>Thông tin giao dịch</h5>
-						<hr>
-					</div>
-					<div class="row mb-3">
-						<div class="col-lg-6">
-							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+                            <input placeholder="Nhập tên đăng nhập..." class="input" name="text" type="text">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Thông tin giao dịch</h5>
+                        <hr>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{fullname_get}"> <label> <span
 									style="transition-delay: 350ms">T</span> <span
 									style="transition-delay: 300ms">ê</span> <span
 									style="transition-delay: 250ms">n</span> <span
@@ -99,11 +90,11 @@
 									style="transition-delay: 0ms">ậ</span> <span
 									style="transition-delay: 0ms">p</span>
 								</label>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{transactions_type ? 'Nạp tiền':'Đăng bài'}"> <label> <span
 									style="transition-delay: 550ms">L</span> <span
 									style="transition-delay: 500ms">o</span> <span
 									style="transition-delay: 450ms">ạ</span> <span
@@ -119,13 +110,13 @@
 									style="transition-delay: 25ms">c</span> <span
 									style="transition-delay: 0ms">h</span>
 								</label>
-							</div>
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-lg-6">
-							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{timer}"> <label> <span
 									style="transition-delay: 350ms">T</span> <span
 									style="transition-delay: 300ms">h</span> <span
 									style="transition-delay: 250ms">ờ</span> <span
@@ -137,11 +128,11 @@
 									style="transition-delay: 25ms">n</span>
 
 								</label>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-control-div">
-								<input required="" type="text"> <label> <span
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-control-div">
+                                <input required="" type="text" th:value="*{price}"> <label> <span
 									style="transition-delay: 550ms">T</span> <span
 									style="transition-delay: 500ms">h</span> <span
 									style="transition-delay: 450ms">a</span> <span
@@ -154,13 +145,12 @@
 									style="transition-delay: 100ms">n</span>
 
 								</label>
-							</div>
-						</div>
-					</div>
+                            </div>
+                        </div>
+                    </div>
 
-					<div class="row">
-						<button class="button col-lg-3 mb-3" type="button"
-							style="width: 170px;">
+                    <div class="row">
+                        <button class="button col-lg-3 mb-3" type="submit" style="width: 170px;">
 							<svg viewBox="0 0 16 16" class="bi bi-arrow-repeat"
 								fill="currentColor" height="16" width="16"
 								xmlns="http://www.w3.org/2000/svg">
@@ -172,10 +162,11 @@
                                 </svg>
 							Làm mới
 						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</main>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>
