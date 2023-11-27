@@ -305,5 +305,67 @@ app.controller("mycontroller", function($scope, $http, $rootScope) {
                 swal("Error!", "Đăng bài thất bại!", "error");
             });
     }
+});
+
+
+//java script goong map
+goongjs.accessToken = 'GsUEtexN59WDYJ8cfpBllo4zFhQU17QbU1yGYNx2';
+
+let checkC = 0;
+var marker;
+var map = new goongjs.Map({
+    container: 'map',
+    style: 'https://tiles.goong.io/assets/goong_map_web.json',
+    center: [105.74241504658403, 10.060186701320404],
+    zoom: 13
+});
+
+// Add the control to the map.
+map.addControl(
+    new GoongGeocoder({
+        accessToken: 'HjqHdYaa2gKzvL9CZO903kwifZjFrj1cGPcTWdus',
+        goongjs: goongjs,
+        marker: false,
+        placeholder: "Nhập địa chỉ vào đây...",
+    })
+);
+map.addControl(
+    new goongjs.GeolocateControl({
+        positionOptions: {
+            //enableHighAccuracy: true
+            timeout: 1000
+        },
+        trackUserLocation: true,
+        showUserLocation: true
+    })
+);
+
+map.on('click', function(e) {
+    if (checkC == 1) {
+        // danh dau marker khi click
+        marker = new goongjs.Marker()
+            .setLngLat(e.lngLat)
+            .addTo(map);
+
+        //map.setCenter(e.lngLat);
+        checkC = 0;
+        console.log("marker on click:" + marker.getLngLat());
+    } else {
+        console.log("khong chon");
+    }
 
 });
+
+function chooseMarker() {
+    checkC = 1;
+}
+/*  function saveMarker() {
+      //luu dia chi lnglat vao db
+      console.log("abc");
+      checkC = 0;
+  }*/
+function cancelMarker() {
+    marker.remove();
+    console.log("cancel ne");
+    checkC = 0;
+}
