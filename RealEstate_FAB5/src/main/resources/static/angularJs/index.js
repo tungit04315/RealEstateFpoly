@@ -538,11 +538,10 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             }
             return null;
         });
-
-        if ($scope.street) {
-            $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
-        } else {
+        if ($scope.street.length == 0) {
             $scope.addresss = wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+        } else {
+            $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
         }
     };
 

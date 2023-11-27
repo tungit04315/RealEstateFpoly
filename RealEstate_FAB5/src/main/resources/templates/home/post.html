@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.css" rel="stylesheet" />
+    <!-- Load the `goong-geocoder` plugin. -->
+    <script src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-geocoder@1.1.1/dist/goong-geocoder.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-geocoder@1.1.1/dist/goong-geocoder.css" rel="stylesheet" type="text/css" />
+
+    <!-- Promise polyfill script is required -->
+    <!-- to use Goong Geocoder in IE 11. -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 </head>
 
 <body>
@@ -16,6 +26,7 @@
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-post" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <div class="container">
+
                                 <h1 class="fs-4">Thông tin cơ bản</h1>
                                 <hr class="mb-3">
                                 <form id="signUpForm" ng-submit="createPost()">
@@ -37,6 +48,7 @@
                                     </div>
 
                                     <div class="step">
+
                                         <div class="mb-3">
                                             <label for="disabledSelect" class="form-label">Loại bất động sản *</label>
                                             <select id="disabledSelect" class="form-select" ng-model="types_id" ng-change="searchType()">
@@ -86,6 +98,21 @@
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="addresss" style="height: 40px;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <label for="exampleInputEmail1" class="form-label">Vị trí</label>
+                                                    <div id="map" style="width:63%;height: auto;"></div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="exampleInputEmail1" class="form-label">ACT</label> <br>
+                                                    <button class="btn btn-primary" type="button" onclick="chooseMarker()">Marker</button>
+                                                    <button class="btn btn-primary" type="button" onclick="saveMarker()">Save</button>
+                                                    <button class="btn btn-primary" type="button" onclick="cancelMarker()">Cancel</button>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
@@ -1062,6 +1089,79 @@
                         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Cài đặt</div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    goongjs.accessToken = 'GsUEtexN59WDYJ8cfpBllo4zFhQU17QbU1yGYNx2';
+
+                    let checkC = 0;
+                    var marker;
+                    var map = new goongjs.Map({
+                        container: 'map',
+                        style: 'https://tiles.goong.io/assets/goong_map_web.json',
+                        center: [105.74241504658403, 10.060186701320404],
+                        zoom: 13
+                    });
+
+                    // Add the control to the map.
+                    map.addControl(
+                        new GoongGeocoder({
+                            accessToken: 'HjqHdYaa2gKzvL9CZO903kwifZjFrj1cGPcTWdus',
+                            goongjs: goongjs
+                        })
+                    );
+                    map.addControl(
+                        new goongjs.GeolocateControl({
+                            positionOptions: {
+                                enableHighAccuracy: true
+                            },
+                            trackUserLocation: true,
+                            // showUserLocation: true
+                        })
+                    );
+
+                    map.on('click', function(e) {
+                        if (checkC == 1) {
+                            // document.getElementById('info').innerHTML =
+                            // e.point is the x, y coordinates of the mousemove event relative
+                            // to the top-left corner of the map
+                            // JSON.stringify(e.point) +
+                            // '<br />' +
+                            // e.lngLat is the longitude, latitude geographical position of the event
+                            // JSON.stringify(e.lngLat.wrap());
+
+                            // danh dau marker khi click
+                            marker = new goongjs.Marker()
+                                .setLngLat(e.lngLat)
+                                .addTo(map);
+
+                            map.setCenter(e.lngLat);
+                            checkC = 0;
+
+                        } else {
+                            console.log("khong chon");
+                        }
+
+                    });
+
+                    // map.on('dbclick', function(e) {
+                    //             console.log("aaaa");
+                    // });
+
+                    function chooseMarker() {
+                        checkC = 1;
+                    }
+
+                    function saveMarker() {
+                        //luu dia chi lnglat vao db
+                        console.log("abc:" + marker.getOffset());
+                        checkC = 0;
+                    }
+
+                    function cancelMarker() {
+                        marker.remove();
+                        console.log("cancel ne");
+                        checkC = 0;
+                    }
+                </script>
             </div>
         </div>
     </main>
