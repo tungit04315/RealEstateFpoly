@@ -78,7 +78,6 @@ public class AccountController {
 	// Đăng ký - Captcha
 	@PostMapping("/signup/action")
 	public String Register(Model m, Users u, @Param("username") String username, @Param("email") String email,@Param("phone") String phone) throws MessagingException {
-		// System.out.println("xuất mẫu:"+userService.findById(username));
 		Users uFindEmail = userService.findByEmailOrPhone(email, null);
 		Users uFindPhone = userService.findByEmailOrPhone(null, phone);
 		Users findId = userService.findById(username);
@@ -106,6 +105,7 @@ public class AccountController {
 			u.setPay_id(payFind);
 			u.setRanks_id(rank);
 			u.setActive(false);
+			u.setAvatar("profile.png");
 			userService.create(u);
 
 			Auth uAuth = new Auth();
@@ -143,7 +143,6 @@ public class AccountController {
 		map.add("response", gRecaptchaResponse);
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 		ResponseEntity<String> response = restTemplate.postForEntity(recaptchaSeverURL, request, String.class);
-		System.out.println(response);
 	}
 	// Đăng ký - Captcha
 
@@ -172,7 +171,6 @@ public class AccountController {
 				return "account/login";
 			}
 		boolean blckAc =ss.getAttribute("BlockAcc");
-		//System.out.println(chkUser);
 		if (blckAc==true) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Tài khoản của bạn đã bị khoá! Hãy chọn quên mật khẩu!");
@@ -196,7 +194,7 @@ public class AccountController {
 			}
 		}
 	}
-
+	//Đăng nhập thành công
 	@RequestMapping("/login/action/success")
 	public String postLogin(Model m) {
 
@@ -224,10 +222,20 @@ public class AccountController {
 		u.setFail_login(0);
 		userService.update(u);
 
+		String hoten = u.getFullname();
+		String diachi = u.getAddresss();
+		Date ngaysinh = u.getBirthday();
+		
 		if (authList.contains("ROLE_admin")) {
 			return "redirect:/admin";
 		} else {
+			if(hoten==null||diachi==null||ngaysinh==null) {
+				ss.setAttribute("visible", "true");
+				ss.setAttribute("thongbao", "Vui lòng cập nhật đầy đủ thông tin!");
+				return "redirect:/home/manager/profile";
+			}else {
 			return "redirect:/home";
+			}
 		}
 	}
 	// Đăng nhập
@@ -351,7 +359,6 @@ public class AccountController {
 				ss.setAttribute("resendOTP", mail_reOTP);
 				
 				String phone = "+84" + mail_reOTP.substring(1);
-				//System.out.println(phone);
 				smsService.sendSms(phone, body);
 				return "redirect:/OTP";
 			}
