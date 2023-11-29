@@ -18,18 +18,7 @@
                             <div class="container">
                                 <h1 class="fs-4">Thông tin cơ bản</h1>
                                 <hr class="mb-3">
-                                <form id="signUpForm" ng-submit="updatePost()">
-                                    <div class="row mb-3">
-                                        <div class="col-lg-6 mb-3">
-                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
-                                            <label class="btn btn-outline-success w-100" for="success-outlined">Bán</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined2" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100" for="success-outlined2">Cho thuê</label>
-                                        </div>
-                                    </div>
-
+                                <form id="updatePost" ng-submit="updatePost()">
                                     <div class="form-header d-flex mb-4">
                                         <span class="stepIndicator">Thông tin</span>
                                         <span class="stepIndicator">Cấu hình tin đăng</span>
@@ -37,7 +26,7 @@
                                     </div>
 
                                     <div class="step">
-                                        <div class="mb-3">
+                                        <div class="mb-3" hidden>
                                             <label for="disabledSelect" class="form-label">Loại bất động sản *</label>
                                             <select id="disabledSelect" class="form-select" ng-model="post.types_id.types_id" ng-change="searchType()">
                                                 <option value="">--Chọn--</option>
@@ -74,6 +63,7 @@
                                                 <div class="col">
                                                     <label for="disabledSelect" class="form-label">Đường, phố</label>
                                                     <input type="text" class="form-control" id="streetInput" ng-model="street" ng-change="updateAddress()" style="height: 40px; margin-top: 0px;">
+
                                                 </div>
                                             </div>
                                         </div>
@@ -87,28 +77,43 @@
                                             <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.addresss" style="height: 40px;">
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.post_id" style="height: 40px;" hidden>
+                                            <div ng-show="post.addresss.length == 0">
+                                                <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
                                             <h5>Thông tin bài viết</h5>
                                             <label for="exampleInputEmail1" class="form-label">Tiêu đề *</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.post_title" placeholder="Ví dụ: Bán nhà 50m² chính chủ tại Cầu giấy" style="height: 40px;">
-                                            <span ng-show="post_title.length < 50" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
+                                            <div ng-show="post.post_title.length == 0">
+                                                <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                            </div>
+                                            <span ng-show="post.post_title.length < 50" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
                                             <label for="exampleInputEmail1" class="form-label">Mô tả *</label>
                                             <textarea rows="7" cols="" class="form-control" ng-model="post.post_content" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
-                                            <span ng-show="post_content.length < 155" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
+                                            <div ng-show="post.post_content.length == 0">
+                                                <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                            </div>
+                                            <span ng-show="post.post_content.length < 155" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
                                             <h5>Thông tin bất động sản</h5>
                                             <label for="exampleInputEmail1" class="form-label">Diện tích (m²)*</label>
                                             <input type="number" class="form-control" id="exampleInputEmail1" ng-model="post.acreage" style="height: 40px;">
-                                            <span ng-show="acreage < 0 || acreage < 50" style="color: red;">Diện tích không được phép âm (tối thiểu la 50m²)</span>
+                                            <div ng-show="post.acreage === undefined || post.acreage === null">
+                                                <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                            </div>
+                                            <span ng-show="post.acreage < 0 || post.acreage < 50" style="color: red;">Diện tích không được phép âm (tối thiểu la 50m²)</span>
                                             <div class="row">
                                                 <div class="col-lg-9">
                                                     <label for="disabledTextInput" class="form-label">Mức giá *</label>
                                                     <input type="number" id="disabledTextInput" class="form-control" ng-model="post.price" style="height: 40px;">
-                                                    <span ng-show="acreage < 0 || acreage < 40000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 40 triệu)</span>
+                                                    <div ng-show="post.price === undefined || post.price === null">
+                                                        <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                                    </div>
+                                                    <span ng-show="post.price < 0 || post.price < 40000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 40 triệu)</span>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="disabledSelect" class="form-label">Đơn vị</label>
@@ -249,25 +254,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="row mb-3">
-                                                    <div class="col-lg-10">
-                                                        <label for="" class="form-label">Số tầng</label>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <div class="d-flex">
-                                                            <div class="col">
-                                                                <button type="button" class="btn btn-outline-primary" id="decreaseBtn-three">-</button>
-                                                            </div>
-                                                            <div class="col">
-                                                                <input type="number" min="1" max="100" style="height: 38px; width: 85px; margin: 0 5px;" class="form-control" id="quantityInput-three" value="1">
-                                                            </div>
-                                                            <div class="col">
-                                                                <button type="button" class="btn btn-outline-primary" id="increaseBtn-three">+</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-
                                                 <hr class="mb-3 mt-4">
                                                 <label for="exampleInputEmail1" class="form-label">Mô tả bổ sung</label>
                                                 <div class="mb-3">
@@ -300,14 +286,6 @@
                                                         <option value="Hướng Tây Nam">Hướng Tây Nam</option>
                                                     </select>
                                                 </div>
-                                                <!-- <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Đường vào (m)</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Mặt tiền (m)</label>
-                                                    <input type="text" class="form-control" ng-model="balcony" id="exampleInputEmail1" style="height: 40px;">
-                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -338,9 +316,7 @@
                                                         onchange="angular.element(this).scope().uploadUpdate(this.files)" >
                                                     </label>
                                                 </div>
-                                                <div class="col-lg-12" ng-hide="filenames.length > 0">
-                                                    <img src="//placehold.it/100" class="avatar img-circle w-100" alt="avatar">
-                                                </div>
+
                                                 <div class="row">
                                                     <label for="" class="col-lg-3 mb-3" ng-repeat="filename in filenamesUpdate" title="double click to delete">
                                                         <img src="{{url(filename)}}" ng-dblclick="deleteUpdate(filename)" alt="" class="w-100">
@@ -366,18 +342,19 @@
                                             <hr class="mb-3">
                                             <h5>Thông tin liên hệ</h5>
                                             <label for="Fullname" class="form-label">Tên liên hệ *</label>
-                                            <input type="text" class="form-control" id="Fullname" style="height: 40px;" value="{{$u.fullname}}">
+                                            <input type="text" class="form-control" id="Fullname" style="height: 40px;" value="{{$u.fullname}}" readonly>
                                             <label for="Phone" class="form-label">Số điện thoại *</label>
-                                            <input type="text" class="form-control" id="Phone" style="height: 40px;" value="{{$u.phone}}">
+                                            <input type="text" class="form-control" id="Phone" style="height: 40px;" value="{{$u.phone}}" readonly>
                                             <label for="Email" class="form-label">Email</label>
-                                            <input type="text" class="form-control" id="Email" style="height: 40px;" value="{{$u.email}}">
+                                            <input type="text" class="form-control" id="Email" style="height: 40px;" value="{{$u.email}}" readonly>
                                         </div>
                                     </div>
 
                                     <div class="step">
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Chọn loại tin</label>
-                                            <div class="row">
+                                            <input type="text" class="form-control" ng-model="post.services_id.services_name">
+                                            <div class="row" hidden>
                                                 <div class="col-lg-3" ng-repeat="p in pack">
                                                     <div class="card w-100 p-3">
                                                         <strong class="text-center text-black">{{p.services_name}}/{{p.services_id}}</strong>
@@ -400,7 +377,8 @@
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label text-black">Thời gian đăng tin</label>
                                             <p>Số ngày đăng</p>
-                                            <div class="row">
+                                            <input type="text" class="form-control" ng-model="post.end_date">
+                                            <div class="row" hidden>
                                                 <div class="col-lg-4">
                                                     <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off" ng-checked="true">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-two">
@@ -422,7 +400,7 @@
                                             </div>
                                             <hr class="mb-3">
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="mb-3" hidden>
                                             <label for="exampleInputEmail1" class="form-label text-black">Tiện ích</label>
                                             <div class="row">
                                                 <div class="col-lg-1 d-flex align-items-center justify-content-center">
@@ -460,7 +438,7 @@
                                                     <p>Đơn giá/ngày</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    {{service.services_price * 1000}} đ
+                                                    0 đ
                                                 </div>
 
                                             </div>
@@ -479,7 +457,7 @@
                                                     <p>Phí đăng tin</p>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    {{service.services_price * 1000}} đ
+                                                    0 đ
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -488,7 +466,7 @@
                                                     <strong>Tổng tiền</strong>
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <strong>{{service.services_price * 1000}}</strong> đ
+                                                    <strong>0</strong> đ
                                                 </div>
 
                                             </div>
@@ -501,7 +479,6 @@
                                         <button type="button" id="nextBtn" onclick="nextPrevUpdate(1)">Tiếp</button>
                                         <button type="submit" id="submitBtn" style="display: none;">Đăng tin</button>
                                     </div>
-
                                 </form>
                             </div>
                         </div>

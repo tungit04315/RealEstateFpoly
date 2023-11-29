@@ -140,9 +140,9 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post getFindPostAddNew() {
+	public Post getFindIntroducingThePost() {
 		// TODO Auto-generated method stub
-		return dao.getPostsAddNew();
+		return dao.getFindIntroducingThePost();
 	}
 
 	@Override
@@ -173,6 +173,18 @@ public class PostServiceImpl implements PostService{
 	public Page<Post> getPostDelete(Pageable p) {
 		// TODO Auto-generated method stub
 		return dao.getHistoryDeletePostsDelete(p);
+	}
+
+	@Override
+	public List<Post> getAllHotsNew() {
+		// TODO Auto-generated method stub
+		return dao.getListPostDesc();
+	}
+
+	@Override
+	public List<Post> getAllOften() {
+		// TODO Auto-generated method stub
+		return dao.getPostsOften();
 	}
 
 }

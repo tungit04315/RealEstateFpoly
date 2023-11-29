@@ -84,6 +84,13 @@ public class HomeController {
 		return "home/post";
 	}
 	
+	@RequestMapping("/home/post-update-expired")
+	public String getPostExpiredId(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
+		return "home/postUpdateExpired";
+	}
+	
 	@RequestMapping("/home/post-update")
 	public String getPostId(Model m) {
 		Users u = (Users) ss.getAttribute("user");
