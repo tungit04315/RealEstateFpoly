@@ -44,16 +44,6 @@
                 <form action="/signup/action" method="post" class="sign-up-form" 
                 onsubmit="return validateFormSignUp()" name="dky" id="dangky">
                     <h2 class="title">Đăng ký</h2>
-	                <div class="input-field">
-	                     <i class="fa fa-info-circle item1"></i>
-	                     <input id="fullname" type="text" placeholder="Họ và tên" name="fullname" class="item2" autocomplete="off">
-	                     <span class="form-message item3"></span>
-	                </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-phone item1"></i> 
-                        <input id="phone" type="text" placeholder="Số điện thoại" name="phone" class="item2" autocomplete="off">
-                        <span class="form-message item3"></span> 
-                    </div>
                     <div class="input-field">
                         <i class="fas fa-user item1"></i>
                         <input id="username" type="text" placeholder="Tên tài khoản" name="username" class="item2" autocomplete="off">
@@ -62,6 +52,11 @@
                     <div class="input-field">
                         <i class="fas fa-envelope item1"></i>
                         <input id="email" type="text" placeholder="Email" name="email" class="item2" autocomplete="off">
+                        <span class="form-message item3"></span> 
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-phone item1"></i> 
+                        <input id="phone" type="text" placeholder="Số điện thoại" name="phone" class="item2" autocomplete="off">
                         <span class="form-message item3"></span> 
                     </div>
                     <div class="input-field">
@@ -129,7 +124,6 @@
         form: '#dangky',
         errorSelector: '.form-message',
         rules: [
-            Validator.isRequired('#fullname', 'Vui lòng nhập họ tên'),
             Validator.isRequired('#phone', 'Vui lòng nhập số điện thoại'),
             Validator.isPhone('#phone'),
             Validator.isRequired('#username', 'Vui lòng nhập tên tài khoản'),

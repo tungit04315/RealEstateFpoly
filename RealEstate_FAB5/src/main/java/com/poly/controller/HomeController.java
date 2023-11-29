@@ -62,6 +62,12 @@ public class HomeController {
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
+		String hienthi = ss.getAttribute("visible");
+		String tb = ss.getAttribute("thongbao");
+		
+		m.addAttribute("visible", hienthi);
+		m.addAttribute("thongbao", tb);
+		
 		return "home/index";
 	}
 	// Home Page
