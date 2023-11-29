@@ -37,9 +37,19 @@ public class PostRestController {
 		return postService.getAllDiamond();
 	}
 	
-	@RequestMapping("/rest/new-post")
+	@RequestMapping("/rest/list-post-hots-new")
+	public List<Post> getPostsDesc(){
+		return postService.getAllHotsNew();
+	}
+	
+	@RequestMapping("/rest/list-post-often")
+	public List<Post> getPostOften(){
+		return postService.getAllOften();
+	}
+	
+	@RequestMapping("/rest/introducing-the-post")
 	public Post getPostNew() {
-		return postService.getFindPostAddNew();
+		return postService.getFindIntroducingThePost();
 	}
 	
 	@RequestMapping("/post-id/{post_id}")

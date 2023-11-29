@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_admin::areas(~{::.container-fluid})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h5 class="mb-3">Quản lý loại tài sản</h5>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="fa-solid fa-plus"></i> Thêm loại tài sản
+                                </button>
+                        </div>
+
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                        <input type="checkbox" id="selectAll">
+                                        <label for="selectAll"></label>
+                                    </span>
+                            </th>
+                            <th>STT</th>
+                            <th>Mã tài sản</th>
+                            <th>Tên </th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="type,state : ${typeProperty}">
+                            <td>
+                                <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                        <label for="checkbox1"></label>
+                                    </span>
+                            </td>
+                            <td th:utext="${state.index + 1}"></td>
+                            <td th:utext="${type.types_id}"></td>
+                            <td th:text="${type.types_name}"></td>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModalUpdate-' + ${type.types_id}">
+                                    <i class="fa-regular fa-pen-to-square fa-xl" title="Cập nhật thông tin" style="color: #E57C23;"></i>
+                                </a>
+                                <a th:href="@{/admin/delete-type-property/{id}(id=${type.types_id})}" class="delete">
+                                    <i class="fa-solid fa-delete-left fa-xl" title="Xóa gói dịch vụ" style="color: #E57C23;"></i>
+                                </a>
+                                <div class="modal fade" th:id="'exampleModalUpdate-' + ${type.types_id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/admin/update-type-property" method="post">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Cập nhật gói dịch vụ</h4>
+                                                </div>
+                                                <div class="modal-body mb-3">
+                                                    <div class="form-group" hidden>
+                                                        <label>Mã</label>
+                                                        <input type="text" class="form-control" name="types_id" th:value="${type.types_id}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Tên loại tài sản</label>
+                                                        <input type="text" class="form-control" name="types_name" th:value="${type.types_name}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                                                    <input type="submit" class="btn btn-success" value="Cập nhật">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/admin/add-type-property" method="post">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm loại tài sản</h4>
+                                </div>
+                                <div class="modal-body mb-3">
+                                    <div class="form-group">
+                                        <label>Tên gói dịch vụ</label>
+                                        <input type="text" class="form-control" name="types_name" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                                    <input type="submit" class="btn btn-success" value="Thêm mới">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-xl-9">Hiển thị <b>6</b> / <b th:utext="${totalNumber}"></b> loại</div>
+                    <div class="col-xl-3">
+                        <div style="display: flex;">
+                            <label for="pageSelector" style="margin-right: 10px;">Chọn trang:</label>
+                            <select id="pageSelector" class="form-select" aria-label="Page Selector" onchange="changePage(this.value)" style="width: 30%;">
+                                <option th:each="pageNumber : ${#numbers.sequence(1, typeProperty.getTotalPages())}"
+                                        th:value="${pageNumber}" th:text="${pageNumber}" th:selected="${pageNumber == typeProperty.getNumber() + 1}">
+                                </option>
+                            </select>
+                        </div>
+                        <script th:inline="javascript">
+                            function changePage(page) {
+                                window.location.href = '/admin/type-property?page=' + page;
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

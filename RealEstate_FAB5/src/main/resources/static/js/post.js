@@ -39,33 +39,15 @@ function nextPrev(n) {
 
 function nextPrevUpdate(n) {
     var x = document.getElementsByClassName("step");
-    //if (n == 1 && !validateForm()) return false;
+    if (n == 1 && !validateFormUpdatePost()) return false;
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
-        document.getElementById("signUpForm").submit();
+        document.getElementById("updatePost").submit();
         return false;
     }
     showTab(currentTab);
 }
-
-// function validateForm() {
-//     var x, y, i, valid = true;
-//     x = document.getElementsByClassName("step");
-//     y = x[currentTab].getElementsByTagName("input");
-//     var valueLink = document.getElementById("linkYoutube");
-//     valueLink.value = "URL video youtube ...";
-//     for (i = 0; i < y.length; i++) {
-//         if (y[i].value == "") {
-//             y[i].className += " invalid";
-//             valid = false;
-//         }
-//     }
-//     if (valid) {
-//         document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
-//     }
-//     return valid;
-// }
 
 function validateForm() {
     var x, y, i, valid = true;

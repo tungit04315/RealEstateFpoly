@@ -7,6 +7,8 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -138,9 +140,9 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post getFindPostAddNew() {
+	public Post getFindIntroducingThePost() {
 		// TODO Auto-generated method stub
-		return dao.getPostsAddNew();
+		return dao.getFindIntroducingThePost();
 	}
 
 	@Override
@@ -159,6 +161,30 @@ public class PostServiceImpl implements PostService{
 	public List<Post> searchPost(String title, String address, String province, Integer type) {
 		// TODO Auto-generated method stub
 		return dao.searchPost(title, address, province, type);
+	}
+
+	@Override
+	public Page<Post> getPageAll(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.getPostsAll(p);
+	}
+
+	@Override
+	public Page<Post> getPostDelete(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.getHistoryDeletePostsDelete(p);
+	}
+
+	@Override
+	public List<Post> getAllHotsNew() {
+		// TODO Auto-generated method stub
+		return dao.getListPostDesc();
+	}
+
+	@Override
+	public List<Post> getAllOften() {
+		// TODO Auto-generated method stub
+		return dao.getPostsOften();
 	}
 
 }

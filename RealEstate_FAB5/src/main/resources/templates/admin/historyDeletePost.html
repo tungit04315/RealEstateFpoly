@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_admin::areas(~{::.container-fluid})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-fluid">
+            <!--  Row 1 -->
+            <div class="col-lg-12 mb-3">
+                <h5 class="mb-3">Lịch Sử Bài Viết Đã Xóa</h5>
+                <table class="table tbl-edit">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Người đăng</th>
+                            <th scope="col">Gói bài viết</th>
+                            <th scope="col">Thời gian</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p,state : ${managerPost}">
+                            <th th:text="${state.index + 1}"></th>
+                            <td th:utext="${p.post_title}"></td>
+                            <td th:utext="${p.users_id.username}"></td>
+                            <td th:utext="${p.services_id.services_name}"></td>
+                            <td th:utext="${p.create_at}"></td>
+                            <td class="d-flex">
+                                <a type="button" th:href="@{'/admin/post-find-update?id=' + ${p.post_id}}" class="btn btn-primary" style="width: 150px;">
+                                    <i class="fa-solid fa-notes-medical"></i> Phục hồi
+                                </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <div style="display: flex;">
+                        <label for="pageSelector" style="margin-right: 10px;">Chọn trang:</label>
+                        <select id="pageSelector" class="form-select" aria-label="Page Selector" onchange="changePage(this.value)" style="width: 50%;">
+							<option th:each="pageNumber : ${#numbers.sequence(1, managerPost.getTotalPages())}"
+									th:value="${pageNumber}" th:text="${pageNumber}" th:selected="${pageNumber == managerPost.getNumber() + 1}">
+							</option>
+						</select>
+                    </div>
+                    <script th:inline="javascript">
+                        function changePage(page) {
+                            window.location.href = '/admin/type-property?page=' + page;
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -3,6 +3,9 @@ package com.poly.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +33,12 @@ public class TypePropertyRestController {
 	@RequestMapping("/type-property-suggest")
 	public List<TypePropertys> getSuggestType(){
 		return typeService.findSuggest();
+	}
+	
+	@GetMapping("/admin-test-type")
+	public Page<TypePropertys> get(){
+		Pageable pageable = PageRequest.of(1 - 1, 4);
+		Page<TypePropertys> typeProperty = typeService.findPageAll(pageable);
+		return typeProperty;
 	}
 }

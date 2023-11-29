@@ -76,12 +76,15 @@ app.run(function($rootScope, $http) {
         return $rootScope.pack[0].services_id === id;
     }
 
+    /* List Post */
     $http.get(`/rest/list-post`).then(function(respPostAll) {
         if (respPostAll.data) {
             $rootScope.listPost = respPostAll.data;
         }
     });
+    /* List Post */
 
+    /* List Post (diamond) */
     $http.get(`/rest/list-post-diamond`).then(function(respPostAll) {
         if (respPostAll.data) {
             $rootScope.listPostDiamond = respPostAll.data;
@@ -92,7 +95,7 @@ app.run(function($rootScope, $http) {
                         console.log(respAlbums.data[0].albums_name);
                         post.firstImage = respAlbums.data[0].albums_name;
                     }
-                    console.log(typeof post.price);
+
                     var priceString = post.price.toString();
                     if (post.price && priceString.length === 7) {
                         var millions = priceString.slice(0, 1);
@@ -126,12 +129,104 @@ app.run(function($rootScope, $http) {
             });
         }
     });
+    /* List Post (diamond) */
 
-    $http.get(`/rest/new-post`).then(function(respPost) {
+    /* List Post (Hots New) */
+    $http.get(`/rest/list-post-hots-new`).then(function(respPostAll) {
+        if (respPostAll.data) {
+            $rootScope.listPostHotsNew = respPostAll.data;
+            $rootScope.listPostHotsNew.forEach(function(post) {
+                $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                    if (respAlbums.data && respAlbums.data.length > 0) {
+                        console.log(respAlbums.data);
+                        console.log(respAlbums.data[0].albums_name);
+                        post.firstImage = respAlbums.data[0].albums_name;
+                    }
+
+                    var priceString = post.price.toString();
+                    if (post.price && priceString.length === 7) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 8) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 9) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 10) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 11) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 12) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' tỷ';
+                    } else {
+                        post.price = post.price;
+                    }
+                });
+            });
+        }
+    });
+    /* List Post (Hots New) */
+
+    /* List Post (Often) */
+    $http.get(`/rest/list-post-often`).then(function(respPostAll) {
+        if (respPostAll.data) {
+            $rootScope.listPostOften = respPostAll.data;
+            $rootScope.listPostOften.forEach(function(post) {
+                $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                    if (respAlbums.data && respAlbums.data.length > 0) {
+                        console.log(respAlbums.data);
+                        console.log(respAlbums.data[0].albums_name);
+                        post.firstImage = respAlbums.data[0].albums_name;
+                    }
+
+                    var priceString = post.price.toString();
+                    if (post.price && priceString.length === 7) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 8) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 9) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' triệu';
+                    }
+                    if (post.price && priceString.length === 10) {
+                        var millions = priceString.slice(0, 1);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 11) {
+                        var millions = priceString.slice(0, 2);
+                        post.price = millions + ' tỷ';
+                    }
+                    if (post.price && priceString.length === 12) {
+                        var millions = priceString.slice(0, 3);
+                        post.price = millions + ' tỷ';
+                    } else {
+                        post.price = post.price;
+                    }
+                });
+            });
+        }
+    });
+    /* List Post (Often) */
+
+    /* Introducing The Post */
+    $http.get(`/rest/introducing-the-post`).then(function(respPost) {
         if (respPost.data) {
-            $rootScope.PostAddNew = respPost.data;
-            console.log($rootScope.PostAddNew);
-            $http.get(`/rest/find-albums?id=` + $rootScope.PostAddNew.post_id).then(function(respAlbums) {
+            $rootScope.introThePost = respPost.data;
+            console.log($rootScope.introThePost);
+            $http.get(`/rest/find-albums?id=` + $rootScope.introThePost.post_id).then(function(respAlbums) {
                 if (respAlbums.data) {
                     $rootScope.albumsPost = respAlbums.data;
                     console.log($rootScope.albumsPost[0].albums_name);
@@ -140,13 +235,17 @@ app.run(function($rootScope, $http) {
             });
         }
     });
+    /* Introducing The Post */
 
+    /* Type Property Suggest */
     $http.get(`/type-property-suggest`).then(function(response) {
         if (response.data) {
             $rootScope.suggest = response.data;
         }
     });
+    /* Type Property Suggest */
 
+    /* Post For You */
     $http.get(`/rest/post-for-you`).then(function(response) {
         if (response.data) {
             $rootScope.postForYou = response.data;
@@ -190,7 +289,8 @@ app.run(function($rootScope, $http) {
 
             });
         }
-    })
+    });
+    /* Post For You */
 });
 
 app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
@@ -223,7 +323,9 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     }
 
     $scope.urlAvt = function(filename) {
-        if (filename != '') {
+        console.log(filename);
+        var type = null;
+        if (filename != '' && filename != type) {
             return `${urlAvt}/${filename}`;
         } else {
             return `${urlAvt}/profile.png`;
@@ -538,11 +640,12 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             }
             return null;
         });
-
-        if ($scope.street) {
-            $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
-        } else {
+        if ($scope.street.length == 0) {
             $scope.addresss = wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+            $scope.post.addresss = wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+        } else {
+            $scope.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
+            $scope.post.addresss = $scope.street + ', ' + wardName.name + ', ' + districtName.name + ', ' + provinceName.name;
         }
     };
 
@@ -961,6 +1064,41 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             }
         });
     }
+
+    $scope.post = {
+        post_title: "",
+        post_content: "",
+        create_at: "",
+        end_date: "",
+        acreage: "",
+        price: "",
+        addresss: "",
+        linkVideo: "",
+        services_id: "",
+        types_id: "",
+        direction: "",
+        bed: "",
+        juridical: "",
+        balcony: "",
+        toilet: "",
+        interior: "",
+        active: true,
+        users_id: $rootScope.$u,
+        deletedAt: false
+    };
+
+    $scope.updatePost = function() {
+        console.log($scope.post);
+
+        $http.put('/update-post', $scope.post).then(function(response) {
+            swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
+            console.log(response.data);
+        }, function(error) {
+            swal("Lỗi!", "Lỗi chỉnh sửa!", "error");
+            console.error('Lỗi cập nhật bài viết', error);
+        });
+    };
+
     $scope.post = {
         post_title: "",
         post_content: "",
@@ -983,9 +1121,10 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         deletedAt: false
     };
 
-    $scope.updatePost = function() {
+    $scope.updatePostExpired = function() {
         $scope.post.active = true
         console.log($scope.post);
+
         $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
             $http.put('/update-post', $scope.post).then(function(response) {
                 swal("Thành Công!", "Bài viết đã đăng!", "success");

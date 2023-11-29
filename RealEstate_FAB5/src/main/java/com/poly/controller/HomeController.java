@@ -8,6 +8,9 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +71,16 @@ public class HomeController {
 		return "home/index";
 	}
 	// Home Page
+	
+	//List Post Page 
+		@RequestMapping({"/home/list-post", "/"})
+		public String getListPost(Model m, @RequestParam(defaultValue = "1") int page) {
+			Pageable pageable = PageRequest.of(page - 1, 6);
+			Page<Post> post = postService.getPageAll(pageable);
+			m.addAttribute("listPost", post);
+			return "home/allPost";
+		}
+	// Home Page
 
 	// Post Page
 	@RequestMapping("/home/post")
@@ -75,6 +88,13 @@ public class HomeController {
 		Users u = (Users) ss.getAttribute("user");
 		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "home/post";
+	}
+	
+	@RequestMapping("/home/post-update-expired")
+	public String getPostExpiredId(Model m) {
+		Users u = (Users) ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
+		return "home/postUpdateExpired";
 	}
 	
 	@RequestMapping("/home/post-update")
@@ -90,6 +110,10 @@ public class HomeController {
 	public String getPostDetail(Model m, @Param("id") Integer id) {
 		Post p = postService.getFindByid(id);
 		List<Albums> albums = albumService.findAlbumsByPostID(p.getPost_id());
+		
+		double approximately = p.getPrice()/p.getAcreage();
+		
+		m.addAttribute("approximately", approximately);
 		m.addAttribute("post", p);
 		m.addAttribute("albums", albums);
 		return "home/detail";
@@ -150,6 +174,10 @@ public class HomeController {
 	// POST List Page
 	@RequestMapping("/home/manager/post")
 	public String getManagerPost(Model m) {
+		Users u = ss.getAttribute("user");
+		List<Post> list = postService.getAllByUserId(u.getUsername());
+		
+		m.addAttribute("list", list);
 		return "home/managerPost";
 	}
 	// POST List Page
@@ -157,6 +185,13 @@ public class HomeController {
 	// Pay Page
 	@RequestMapping("/home/manager/pay")
 	public String getManagerPay(Model m) {
+		if(ss.getAttribute("show") == null) {
+			m.addAttribute("visible", "false");
+		}
+		else {
+			m.addAttribute("visible", "true");
+		}
+		
 		return "home/pay";
 	}
 
@@ -230,8 +265,8 @@ public class HomeController {
 	
 	@GetMapping("/payment-success")
 	public String paymentSuccess(Model m) {
-		m.addAttribute("visible", "true");
-		return "home/payNumber";
+		ss.setAttribute("show", true);
+		return "redirect:/home/manager/pay";
 	}
 	
 	@RequestMapping("/home/manager/history-transactions")

@@ -188,7 +188,7 @@
                                             <input type="text" th:value="${u.passwords}" name="passwords" hidden>
                                             <input type="text" th:value="${u.fail_login}" name="fail_login" hidden>
                                             <input type="text" th:value="*{create_block}" name="create_block" hidden>
-                                            <input type="text" th:value="*{avatar}" name="avatar" hidden>
+                                            <input type="text" value="{{$u.avatar}}" name="avatar" hidden>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label"></label>
                                                 <div class="col-md-8">

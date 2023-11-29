@@ -15,13 +15,13 @@
                     <div class="card">
                         <div class="card-body">
                             <img src="/img/vnpay-logo.png" style="width: 200px">
-                            <h2 class="card-title">Thanh Toán Đơn Hàng</h2>
+                            <h2 class="card-title">Thực Hiện Thanh Toán</h2>
                             <form action="/home/manager/pay-create/check" method="post">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="amount">Số tiền:</label> <input type="number" class="form-control" id="amount" name="amount" required value="10000">
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="orderInfo">Thông tin đơn hàng:</label>
+                                <div class="form-group mb-3" th:hidden="true">
+                                    <label for="orderInfo">Thông tin giao dịch:</label>
                                     <input type="text" class="form-control" th:value="${orderInfo}" id="orderInfo" name="orderInfo" readonly>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Thanh toán</button>
@@ -29,6 +29,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div th:if="${visible == 'true'}">
+            <div class="toast active">
+                <div class="toast-content">
+                    <i class="fas fa-solid fa-check check"></i>
+                    <div class="message">
+                        <span class="text text-1">Giao Dịch Thành Công</span>
+                        <span class="text text-2">Quý khách vừa nạp tiền thành công!</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close"></i>
+
+                <div class="progress active"></div>
             </div>
         </div>
     </main>

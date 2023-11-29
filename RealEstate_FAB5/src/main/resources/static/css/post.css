@@ -126,6 +126,133 @@
     color: #ff6822;
 }
 
+
+/* Form Update Post */
+
+#updatePost {
+    max-width: 1000px;
+    background-color: #ffffff;
+    margin: 40px auto;
+    padding: 40px;
+    box-shadow: 0px 6px 18px rgb(0 0 0 / 9%);
+    border-radius: 12px;
+}
+
+#updatePost .form-header {
+    gap: 5px;
+    text-align: center;
+    font-size: .9em;
+}
+
+#updatePost .form-header .stepIndicator {
+    position: relative;
+    flex: 1;
+    padding-bottom: 30px;
+}
+
+#updatePost .form-header .stepIndicator.active {
+    font-weight: 600;
+}
+
+#updatePost .form-header .stepIndicator.finish {
+    font-weight: 600;
+    color: #ff6822;
+}
+
+#updatePost .form-header .stepIndicator::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 9;
+    width: 20px;
+    height: 20px;
+    background-color: #efe3d5;
+    border-radius: 50%;
+    border: 3px solid #f5efec;
+}
+
+#updatePost .form-header .stepIndicator.active::before {
+    background-color: #ff6822;
+    border: 3px solid #efe3d5;
+}
+
+#updatePost .form-header .stepIndicator.finish::before {
+    background-color: #ff6822;
+    border: 3px solid #efe3d5;
+}
+
+#updatePost .form-header .stepIndicator::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 100%;
+    height: 3px;
+    background-color: #efe3d5;
+}
+
+#updatePost .form-header .stepIndicator.active::after {
+    background-color: #ff682261;
+}
+
+#updatePost .form-header .stepIndicator.finish::after {
+    background-color: #FF6922;
+}
+
+#updatePost .form-header .stepIndicator:last-child:after {
+    display: none;
+}
+
+#updatePost input {
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1em;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+}
+
+#updatePost input:focus {
+    border: 1px solid #FF6922;
+    outline: 0;
+}
+
+#updatePost input.invalid {
+    border: 1px solid #ffaba5;
+}
+
+#updatePost .step {
+    display: none;
+}
+
+#updatePost .form-footer {
+    overflow: auto;
+    gap: 20px;
+}
+
+#updatePost .form-footer button {
+    background-color: #FF6922;
+    border: 1px solid #FF6922 !important;
+    color: #ffffff;
+    border: none;
+    padding: 13px 30px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-top: 5px;
+}
+
+#updatePost .form-footer button:hover {
+    opacity: 0.8;
+}
+
+#updatePost .form-footer #prevBtn {
+    background-color: #fff;
+    color: #ff6822;
+}
+
 .checkbox-wrapper-37 {
     background-color: #ff682236;
     padding: 10px;
@@ -178,7 +305,7 @@
 
 .toast {
     position: fixed;
-    top: 600px;
+    top: 500px;
     right: 5px;
     border-radius: 12px;
     background: #fff;

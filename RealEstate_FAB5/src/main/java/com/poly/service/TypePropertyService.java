@@ -2,11 +2,16 @@ package com.poly.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.poly.bean.*;
 
 public interface TypePropertyService {
 	
 	public List<TypePropertys> findAll();
+	
+	public Page<TypePropertys> findPageAll(Pageable p);
 	
 	public List<TypePropertys> findSuggest();
 	

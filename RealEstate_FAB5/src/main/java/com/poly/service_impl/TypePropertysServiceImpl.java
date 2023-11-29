@@ -3,6 +3,8 @@ package com.poly.service_impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.poly.bean.TypePropertys;
@@ -55,6 +57,12 @@ public class TypePropertysServiceImpl implements TypePropertyService{
 	public List<TypePropertys> findSelectTop6() {
 		// TODO Auto-generated method stub
 		return dao.getTop6Type();
+	}
+
+	@Override
+	public Page<TypePropertys> findPageAll(Pageable p) {
+		// TODO Auto-generated method stub
+		return dao.findAll(p);
 	}
 
 }
