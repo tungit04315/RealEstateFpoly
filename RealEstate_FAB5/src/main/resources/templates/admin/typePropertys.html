@@ -54,9 +54,9 @@
                                 <a href="#editEmployeeModal" class="edit" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModalUpdate-' + ${type.types_id}">
                                     <i class="fa-regular fa-pen-to-square fa-xl" title="Cập nhật thông tin" style="color: #E57C23;"></i>
                                 </a>
-                                <a th:href="@{/admin/delete-type-property/{id}(id=${type.types_id})}" class="delete">
+                                <!-- <a th:href="@{/admin/delete-type-property/{id}(id=${type.types_id})}" class="delete">
                                     <i class="fa-solid fa-delete-left fa-xl" title="Xóa gói dịch vụ" style="color: #E57C23;"></i>
-                                </a>
+                                </a> -->
                                 <div class="modal fade" th:id="'exampleModalUpdate-' + ${type.types_id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
