@@ -315,15 +315,29 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     //$scope.inputNumber = 0;
     $scope.currentDate = new Date();
 
+    var searchParams = new URLSearchParams($window.location.search);
+    var postIdFromQueryString = searchParams.get('id');
+
+    $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
+        $scope.post = response.data;
+        console.log($scope.post);
+        $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
+            if (response.data) {
+                $scope.filenamesUpdate = [];
+                for (let i = 0; i < response.data.length; i++) {
+                    $scope.filenamesUpdate.push(response.data[i].albums_name);
+                }
+                console.log($scope.filenamesUpdate);
+            }
+        });
+    });
+
     // Upload file
-
     $scope.url = function(filename) {
-
         return `${url}/${filename}`;
     }
 
     $scope.urlAvt = function(filename) {
-        console.log(filename);
         var type = null;
         if (filename != '' && filename != type) {
             return `${urlAvt}/${filename}`;
@@ -511,8 +525,6 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             console.error(err)
         })
     }
-
-
 
     // Upload Avatar
     $scope.uploadAvatar = function(files) {
@@ -709,14 +721,19 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.bed = 1;
 
     $scope.increaseBedroomCount = function() {
+        console.log($scope.post.bed);
         if ($scope.bed < 100) {
             $scope.bed++;
+            $scope.post.bed++;
         }
     };
 
     $scope.decreaseBedroomCount = function() {
-        if ($scope.bed > 1) {
+        if ($scope.bed > 1 || $scope.post.bed > 1) {
             $scope.bed--;
+            $scope.post.bed--;
+        } else {
+            $scope.post.bed = 1;
         }
     };
 
@@ -729,8 +746,11 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.decreaseToiletCount = function() {
-        if ($scope.toilet > 1) {
+        if ($scope.toilet > 1 || $scope.post.toilet > 1) {
             $scope.toilet--;
+            $scope.post.toilet--;
+        } else {
+            $scope.post.toilet = 1;
         }
     };
 
@@ -751,6 +771,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
 
     $scope.getService = function(id) {
         $http.get(`/rest/service-pack-findById?id=` + id).then(resp => {
+            console.log(resp.data);
             if (resp.data) {
                 console.log(id);
                 $scope.service = resp.data;
@@ -767,17 +788,15 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         });
     }
 
-
-
     // Create Post
     $scope.createPost = function() {
-        console.log($scope.service);
         $http.get(`/rest/user`).then(resp => {
             if (resp.data) {
                 $rootScope.$u = resp.data;
                 console.log(resp.data);
             }
         });
+
         var post = {
             post_title: $scope.post_title,
             post_content: $scope.post_content,
@@ -813,7 +832,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                         const today = new Date();
                         var detailTransaction = {
-                            price: $scope.price,
+                            price: $scope.service.services_price * 1000,
                             transactions_type: false,
                             timer: today.toLocaleTimeString("en-US"),
                             account_get: $rootScope.$pay.pay_id,
@@ -821,14 +840,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                             bank_code: null,
                             transactions_id: response.data
                         };
-                        $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {
-                            //swal("Good job!", "Giao Dịch - Giao Dịch Chi Tiết!", "success");
-                        }, function(err) {
-                            alert('Đã có lỗi xảy ra: ' + err.data.message);
-                        })
-                    }, function(err) {
-                        alert('Đã có lỗi xảy ra: ' + err.data.message);
-                    })
+                        $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
+                    }, function(err) {})
 
                     for (let i = 0; i < $scope.filenames.length; i++) {
                         console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
@@ -842,38 +855,19 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                         $http.post(`/rest/create-albums`, album).then(function(response) {
 
                         }, function(error) {
-                            alert('Đã có lỗi xảy ra: ' + error.data.message);
                             swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
                         })
                     }
+                    window.location.href = "http://localhost:8080/home/manager/post";
                 }, function(error) {
-                    alert('Đã có lỗi xảy ra: ' + error.data.message);
                     swal("Lỗi!", "Đăng bài thất bại!", "error");
                 });
 
         }, function(error) {
-            alert('Đã có lỗi xảy ra: ' + error.data.message);
             swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
         });
 
     }
-
-    var searchParams = new URLSearchParams($window.location.search);
-    var postIdFromQueryString = searchParams.get('id');
-    console.log(postIdFromQueryString);
-    $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
-        $scope.post = response.data;
-        console.log($scope.post);
-        $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
-            if (response.data) {
-                $scope.filenamesUpdate = [];
-                for (let i = 0; i < response.data.length; i++) {
-                    $scope.filenamesUpdate.push(response.data[i].albums_name);
-                }
-                console.log($scope.filenamesUpdate);
-            }
-        });
-    });
 
     $scope.deleteUpdate = function(filename) {
         $http.get(`/rest/find-by?name=` + filename + `&id=` + $scope.post.post_id).then(function(response) {
@@ -1086,13 +1080,10 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         users_id: $rootScope.$u,
         deletedAt: false
     };
-
     $scope.updatePost = function() {
-        console.log($scope.post);
-
         $http.put('/update-post', $scope.post).then(function(response) {
             swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
-            console.log(response.data);
+            window.location.href = "http://localhost:8080/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Lỗi chỉnh sửa!", "error");
             console.error('Lỗi cập nhật bài viết', error);
@@ -1122,18 +1113,19 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.updatePostExpired = function() {
-        $scope.post.active = true
-        console.log($scope.post);
-
+        $scope.post.active = true;
         $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
             $http.put('/update-post', $scope.post).then(function(response) {
                 swal("Thành Công!", "Bài viết đã đăng!", "success");
-                console.log(response.data);
+                var transaction = {
+                    create_at: new Date(),
+                    users: $rootScope.$u
+                };
 
                 $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                     const today = new Date();
                     var detailTransaction = {
-                        price: $scope.price,
+                        price: $scope.service.services_price * 1000,
                         transactions_type: false,
                         timer: today.toLocaleTimeString("en-US"),
                         account_get: $rootScope.$pay.pay_id,
@@ -1141,25 +1133,16 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                         bank_code: null,
                         transactions_id: response.data
                     };
-                    swal("Good job!", "Giao Dịch - Giao Dịch Chi Tiết!", "success");
-                    $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {
-                        swal("Good job!", "Giao Dịch - Giao Dịch Chi Tiết!", "success");
-                    }, function(err) {
-                        swal("Good job!", "Lỗi - Giao Dịch Chi Tiết!", "success");
-                        alert('Đã có lỗi xảy ra: ' + err.data.message);
-                    })
+
+                    $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
                 }, function(err) {
                     swal("Good job!", "Lỗi - Giao Dịch!", "success");
-                    alert('Đã có lỗi xảy ra: ' + err.data.message);
                 });
-
-
+                window.location.href = "http://localhost:8080/home/manager/post";
             }, function(error) {
                 swal("Lỗi!", "Lỗi đăng bài!", "error");
-                console.error('Lỗi cập nhật bài viết', error);
             });
         }, function(error) {
-            alert('Đã có lỗi xảy ra: ' + error.data.message);
             swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
         });
 
