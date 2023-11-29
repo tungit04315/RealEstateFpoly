@@ -255,7 +255,11 @@ public class AccountController {
 		u.setRanks_id(r);
 		u.setActive(true);
 		userService.update(u);
+		
 		ss.setAttribute("user", u);
+		ss.setAttribute("visible", "true");
+		ss.setAttribute("thongbao", "Thành công");
+		
 		return "redirect:/home/manager/profile";
 	}
 // test commit
