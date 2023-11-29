@@ -105,7 +105,6 @@ public class AccountController {
 			u.setPay_id(payFind);
 			u.setRanks_id(rank);
 			u.setActive(false);
-			u.setAvatar("profile.png");
 			userService.create(u);
 
 			Auth uAuth = new Auth();
