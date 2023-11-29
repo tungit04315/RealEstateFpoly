@@ -90,7 +90,7 @@ public class PostServiceImpl implements PostService{
 			int monthNow = Integer.parseInt(partsNow[1]);
 			int yearNow = Integer.parseInt(partsNow[2]);
 			
-			if (dayEndDate == dayNow && monthEndDate == monthNow && yearEndDate == yearNow) {
+			if (dayEndDate <= dayNow && monthEndDate <= monthNow && yearEndDate <= yearNow) {
 				p.setActive(false);
 				Update(p);
 				mailService.sendPostExpired(p.getUsers_id().getEmail(), "Bài viết của quý khách đã hết hạn", p.getUsers_id().getFullname(), p.getPost_title(), formattedEndDate);

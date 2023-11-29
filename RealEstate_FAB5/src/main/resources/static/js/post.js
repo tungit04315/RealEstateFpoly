@@ -31,7 +31,7 @@ function nextPrev(n) {
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
-        document.getElementById("signUpForm").submit();
+        document.getElementById("createPostForm").submit();
         return false;
     }
     showTab(currentTab);
@@ -39,11 +39,23 @@ function nextPrev(n) {
 
 function nextPrevUpdate(n) {
     var x = document.getElementsByClassName("step");
-    if (n == 1 && !validateFormUpdatePost()) return false;
+    //if (n == 1 && !validateFormUpdatePost()) return false;
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
         document.getElementById("updatePost").submit();
+        return false;
+    }
+    showTab(currentTab);
+}
+
+function nextPrevUpdatePostExpired(n) {
+    var x = document.getElementsByClassName("step");
+    if (n == 1 && !validateFormUpdatePostExpired()) return false;
+    x[currentTab].style.display = "none";
+    currentTab = currentTab + n;
+    if (currentTab >= x.length) {
+        document.getElementById("updatePostExpiredForm").submit();
         return false;
     }
     showTab(currentTab);

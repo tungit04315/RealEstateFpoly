@@ -29,7 +29,7 @@
 
                                 <h1 class="fs-4">Thông tin cơ bản</h1>
                                 <hr class="mb-3">
-                                <form id="signUpForm" ng-submit="createPost()">
+                                <form id="createPostForm" ng-submit="createPost()">
                                     <div class="form-header d-flex mb-4">
                                         <span class="stepIndicator">Thông tin</span>
                                         <span class="stepIndicator">Cấu hình tin đăng</span>
@@ -383,7 +383,7 @@
                                             <p>Số ngày đăng</p>
                                             <div class="row">
                                                 <div class="col-lg-4">
-                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off" ng-checked="true">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-two">
                                                         10 ngày <p >&nbsp; (2.300 đ/ngày)</p>
                                                     </label><br>

@@ -18,18 +18,7 @@
                             <div class="container">
                                 <h1 class="fs-4">Thông tin cơ bản</h1>
                                 <hr class="mb-3">
-                                <form id="updatePostExpiredForm" ng-submit="updatePostExpired()">
-                                    <div class="row mb-3">
-                                        <div class="col-lg-6 mb-3">
-                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
-                                            <label class="btn btn-outline-success w-100" for="success-outlined">Bán</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined2" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100" for="success-outlined2">Cho thuê</label>
-                                        </div>
-                                    </div>
-
+                                <form id="updatePost" ng-submit="updatePostExpired()">
                                     <div class="form-header d-flex mb-4">
                                         <span class="stepIndicator">Thông tin</span>
                                         <span class="stepIndicator">Cấu hình tin đăng</span>
@@ -77,12 +66,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="mb-3">
-                                            <label for="disabledSelect" class="form-label">Dự án *</label>
-                                            <select id="disabledSelect" class="form-select">
-                                                  <option value="">--Chọn--</option>
-                                            </select>
-                                        </div> -->
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.addresss" style="height: 40px;">
@@ -264,25 +247,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="row mb-3">
-                                                    <div class="col-lg-10">
-                                                        <label for="" class="form-label">Số tầng</label>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <div class="d-flex">
-                                                            <div class="col">
-                                                                <button type="button" class="btn btn-outline-primary" id="decreaseBtn-three">-</button>
-                                                            </div>
-                                                            <div class="col">
-                                                                <input type="number" min="1" max="100" style="height: 38px; width: 85px; margin: 0 5px;" class="form-control" id="quantityInput-three" value="1">
-                                                            </div>
-                                                            <div class="col">
-                                                                <button type="button" class="btn btn-outline-primary" id="increaseBtn-three">+</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-
                                                 <hr class="mb-3 mt-4">
                                                 <label for="exampleInputEmail1" class="form-label">Mô tả bổ sung</label>
                                                 <div class="mb-3">
@@ -315,14 +279,6 @@
                                                         <option value="Hướng Tây Nam">Hướng Tây Nam</option>
                                                     </select>
                                                 </div>
-                                                <!-- <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Đường vào (m)</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" style="height: 40px;">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Mặt tiền (m)</label>
-                                                    <input type="text" class="form-control" ng-model="balcony" id="exampleInputEmail1" style="height: 40px;">
-                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -353,9 +309,7 @@
                                                         onchange="angular.element(this).scope().uploadUpdate(this.files)" >
                                                     </label>
                                                 </div>
-                                                <div class="col-lg-12" ng-hide="filenames.length > 0">
-                                                    <img src="//placehold.it/100" class="avatar img-circle w-100" alt="avatar">
-                                                </div>
+
                                                 <div class="row">
                                                     <label for="" class="col-lg-3 mb-3" ng-repeat="filename in filenamesUpdate" title="double click to delete">
                                                         <img src="{{url(filename)}}" ng-dblclick="deleteUpdate(filename)" alt="" class="w-100">
@@ -417,7 +371,7 @@
                                             <p>Số ngày đăng</p>
                                             <div class="row">
                                                 <div class="col-lg-4">
-                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off" ng-checked="true">
+                                                    <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-two">
                                                         10 ngày <p >&nbsp; (2.300 đ/ngày)</p>
                                                     </label><br>
