@@ -1,6 +1,4 @@
 package com.poly.controller;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,38 +7,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.poly.bean.DetailTransactions;
-import com.poly.bean.Pay;
-import com.poly.bean.Post;
-import com.poly.bean.Ranks;
-import com.poly.bean.ServicePack;
-import com.poly.bean.Transactions;
-import com.poly.bean.TypePropertys;
-import com.poly.bean.Users;
-import com.poly.service.AlbumsService;
-import com.poly.service.DetailTransactionService;
-import com.poly.service.PaymentService;
-import com.poly.service.PostService;
-import com.poly.service.RanksService;
-import com.poly.service.ServicePackService;
-import com.poly.service.TransactionService;
-import com.poly.service.TypePropertyService;
-import com.poly.service.UsersService;
-import com.poly.util.SessionService;
+import org.springframework.web.bind.annotation.*;
+import com.poly.bean.*;
+import com.poly.service.*;
+import com.poly.util.*;
 
 @Controller
 public class AdminController {
 
+	@Autowired
+	ParamService paramService;
+	
 	@Autowired
 	UsersService userService;
 	
@@ -71,6 +51,10 @@ public class AdminController {
 	@Autowired
 	SessionService ss;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PaymentService Pay;
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
@@ -211,14 +195,46 @@ public class AdminController {
 	// Wallet List
 	@RequestMapping({"/admin/wallet","/admin/wallet-list"})
 	public String getWalletList(Model m) {
+		List<Users> u = userService.findAll();
+		m.addAttribute("pays", u);
+		Users user = new Users();
+		user.setPay_id(new Pay());
+		m.addAttribute("user", user);
 		return "admin/wallet";
 	}
+	@RequestMapping("/admin/wallet-new")
+	public String getWalletNew(Model m) {
+		return "redirect:/admin/wallet";
+	}
+	@RequestMapping("/find/users/{id}")
+	public String getWalletList(Model m,@PathVariable("id") String username) {
+		List<Users> u= userService.findAll();
+		m.addAttribute("pays", u);
+		
+		Users user = userService.findById(username);
+		m.addAttribute("user", user);
+		return "admin/wallet";
+}
+	@RequestMapping("/admin/user-update")
+	public String getWalletUpdate(Model m,@Param("username")String username, @Param("pay")long pay) {
+		List<Users> u= userService.findAll();
+		m.addAttribute("pays", u);
+		
+		Users user = userService.findById(username);
+		m.addAttribute("user", user);
+		
+		Pay p = Pay.findByID(user.getPay_id().getPay_id());
+		p.setPay_money(pay);
+		Pay.Update(p);
+		return "admin/wallet";
+}
 	// Wallet List
 	
 	// Profile User (Admin)
 	@RequestMapping("/admin/profile")
 	public String getProfile(Model m) {
-		m.addAttribute("u", userService.findById("tungngayngo")); 
+		m.addAttribute("u", userService.findById("Phatbieu"));
+		ss.setAttribute("user",userService.findById("Phatbieu"));
 		return "admin/profile";
 	}
 	
@@ -226,7 +242,28 @@ public class AdminController {
 	public String setProfile(Model m, Users u) {
 		userService.update(u);
 		ss.setAttribute("user", u);
-		return "redirect:/admin/profile";
+		return "redirect:/admin/profile";	
+	}
+	@RequestMapping("/admin/ChangePass")
+	public String setChangePass(Model m, Users u) {
+		Users user = (Users) ss.getAttribute("user");
+
+		String passmoi = paramService.getString("passmoi", "");
+		String nhaplaipassmoi = paramService.getString("nhaplaipassmoi", "");
+
+		System.out.println(u.getPasswords());
+		System.out.println(user.getPasswords());
+
+			if (passmoi.equalsIgnoreCase(nhaplaipassmoi)) {
+				u.setPasswords(passwordEncoder.encode(passmoi));// db
+				user.setPasswords(passwordEncoder.encode(passmoi));// session
+				userService.update(user);
+				m.addAttribute("successPass", true);
+				return "redirect:/admin/profile";
+			} else {
+				m.addAttribute("errorPass", true);
+				return "redirect:/admin/profile";
+			}
 	}
 	// Profile User (Admin)
 	

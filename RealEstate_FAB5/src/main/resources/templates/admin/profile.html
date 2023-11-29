@@ -68,10 +68,10 @@
                     <label for="tab2-2">Đổi mật khẩu</label> <input id="tab2-2" name="tabs-two" type="checkbox" checked>
                     <div>
                         <h4 class="text-title text-center mb-3">Đổi mật khẩu</h4>
-                        <form action="#" method="post" class="form">
+                        <form action="/admin/ChangePass" method="post" class="form">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Mật khẩu mới" aria-label="First name">
+                                    <input type="password" name="passmoi" class="form-control" placeholder="Mật khẩu mới" aria-label="First name">
                                     <div class="form-text">
                                         <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.
                                     </div>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
+                                    <input type="password" name="nhaplaipassmoi"  class="form-control" placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
                                 </div>
                             </div>
                             <div class="row mb-3">
