@@ -177,7 +177,7 @@
 /*                                                                                  */
 
 .toast {
-    position: absolute;
+    position: fixed;
     top: 600px;
     right: 5px;
     border-radius: 12px;
