@@ -65,13 +65,23 @@ public class HomeController {
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
-		String hienthi = ss.getAttribute("visible");
-		String tb = ss.getAttribute("thongbao");
+		Users u = (Users) ss.getAttribute("user");
+		String hoten = u.getFullname();
+		String diachi = u.getAddresss();
+		Date ngaysinh = u.getBirthday();
+		if(hoten==null || diachi==null || ngaysinh==null) {
+			String hienthi = ss.getAttribute("visible");
+			String tb = ss.getAttribute("thongbao");
+			
+			m.addAttribute("visible", hienthi);
+			m.addAttribute("thongbao", tb);
+			return "home/index";
+		}else {
+			ss.removeAttribute("visible");
+			ss.removeAttribute("thongbao");
+			return "home/index";
+		}
 		
-		m.addAttribute("visible", hienthi);
-		m.addAttribute("thongbao", tb);
-		
-		return "home/index";
 	}
 	// Home Page
 	

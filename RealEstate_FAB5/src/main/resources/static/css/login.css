@@ -448,7 +448,7 @@ hr {
 /*toast*/
 
 .toast {
-    position: absolute;
+    position: fixed;
     top: 500px;
     right: 5px;
     border-radius: 12px;
