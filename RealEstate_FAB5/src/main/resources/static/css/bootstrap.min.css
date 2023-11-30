@@ -11234,3 +11234,20 @@ fieldset:disabled .btn {
         display: none !important
     }
 }
+
+.mb-3 .input-box {
+    position: relative;
+}
+
+.input-box span {
+    position: absolute;
+    right: 13px;
+    top: 38px;
+    cursor: pointer;
+    line-height: 53px;
+    color: #707070;
+}
+
+.input-box span:hover {
+    color: #43A047 !important;
+}

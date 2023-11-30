@@ -78,8 +78,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="addresss" style="height: 40px;">
+                                            <div class="input-box">
+                                                <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
+                                                <input type="text" class="form-control" id="copyAddress" ng-model="addresss" style="height: 40px;">
+                                                <span class="material-symbols-rounded" id="copyIcon" ng-click="copyAddress(addresss)">
+                                                    <i ng-class="copyIconClass"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="row">
@@ -89,7 +94,7 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label for="exampleInputEmail1" class="form-label">ACT</label> <br>
-                                                    <button class="btn btn-primary" type="button" onclick="chooseMarker()">Marker</button>
+                                                    <button class="btn btn-primary mb-2" type="button" onclick="chooseMarker()">Vị trí</button>
                                                     <button class="btn btn-primary" type="button" onclick="cancelMarker()">Hủy</button>
                                                 </div>
                                             </div>
