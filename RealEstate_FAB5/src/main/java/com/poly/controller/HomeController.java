@@ -3,10 +3,8 @@ package com.poly.controller;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -66,22 +64,25 @@ public class HomeController {
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
 		Users u = (Users) ss.getAttribute("user");
-		String hoten = u.getFullname();
-		String diachi = u.getAddresss();
-		Date ngaysinh = u.getBirthday();
-		if(hoten==null || diachi==null || ngaysinh==null) {
-			String hienthi = ss.getAttribute("visible");
-			String tb = ss.getAttribute("thongbao");
-			
-			m.addAttribute("visible", hienthi);
-			m.addAttribute("thongbao", tb);
-			return "home/index";
-		}else {
-			ss.removeAttribute("visible");
-			ss.removeAttribute("thongbao");
-			return "home/index";
+		if(u != null) {
+			String hoten = u.getFullname();
+			String diachi = u.getAddresss();
+			Date ngaysinh = u.getBirthday();
+			if(hoten==null || diachi==null || ngaysinh==null) {
+				String hienthi = ss.getAttribute("visible");
+				String tb = ss.getAttribute("thongbao");
+				
+				m.addAttribute("visible", hienthi);
+				m.addAttribute("thongbao", tb);
+				return "home/index";
+			}else {
+				ss.removeAttribute("visible");
+				ss.removeAttribute("thongbao");
+				return "home/index";
+			}
 		}
 		
+		return "home/index";
 	}
 	// Home Page
 	
