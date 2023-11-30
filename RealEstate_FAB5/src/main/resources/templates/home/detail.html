@@ -101,7 +101,8 @@
                             </ol>
                         </nav>
                         <div class="title">
-                            <h4 th:utext="*{post_title}"></h4>
+
+                            <h4 th:utext="*{post_title.length() > 25 ? #strings.substring(post_title, 0, 50) : post_title}"></h4>
                             <p th:utext="*{addresss}"></p>
                             <hr class="mb2">
                         </div>
@@ -135,14 +136,14 @@
                                     <p style="font-size:13px;"></p>
                                 </div>
                                 <div class="col-lg-3 col-sm-3 mt-4" style="padding-left: 100px; display: flex;">
-                                    <a href="" class="" style="padding-right:18px; color: rgb(255, 50, 50);">
+                                    <a href="/share-facebook" style="padding-right:18px; color: rgb(255, 50, 50);">
                                         <i class="fa-regular fa-share-from-square fa-xl"></i>
                                     </a>
                                     <!-- <a href="" class="" style="padding-right:18px;">
                                         <i class="fa-regular fa-heart fa-xl"></i>
                                     </a> -->
                                     <div class="con-like" style="margin-right:18px;">
-                                        <input class="like" type="checkbox" title="like">
+                                        <input class="like" type="checkbox" title="like" ng-click="toggleLike()">
                                         <div class="checkmark">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="outline" viewBox="0 0 24 24">
                                             <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z"></path>
@@ -169,7 +170,7 @@
                         </div>
                         <div class="describe">
                             <h5 class="">Thông tin mô tả</h5>
-                            <p th:utext="*{post_content}">
+                            <p th:utext="*{post_content.length() > 70 ? #strings.substring(post_content, 0, 70) : post_content}">
                             </p>
                         </div>
                         <div class="characteristic">
@@ -296,8 +297,10 @@
                         </div>
                         <div class="maps-project">
                             <h5>Xem trên bản đồ</h5>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.420494742025!2d105.75565247371665!3d9.982081490122432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a08906415c355f%3A0x416815a99ebd841e!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1sen!2s!4v1693556853574!5m2!1sen!2s"
-                                class="w-100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <div class="col-sm-10">
+                                <label for="exampleInputEmail1" class="form-label">Vị trí</label>
+                                <div id="mapDetail" style="width:100%;height: 50vh;"></div>
+                            </div>
                         </div>
                         <div class="key-word">
                             <h5>Tìm kiếm theo từ khóa</h5>

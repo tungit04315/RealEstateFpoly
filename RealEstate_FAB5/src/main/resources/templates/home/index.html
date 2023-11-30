@@ -209,8 +209,8 @@
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="mb-4">{{introThePost.post_title | uppercase}}</h1>
-                        <p class="mb-4">Mô Tả: {{ introThePost.post_content.length > 155 ? (introThePost.post_content | limitTo:155) + '...' : introThePost.post_content }}</p>
+                        <h1 class="mb-4">{{introThePost.post_title.length > 20 ? (introThePost.post_title | limitTo:20) + '...' : introThePost.post_title | uppercase}}</h1>
+                        <p class="mb-4">Mô Tả: {{ introThePost.post_content.length > 50 ? (introThePost.post_content | limitTo:50) + '...' : introThePost.post_content }}</p>
                         <p><i class="fa fa-ruler-combined text-primary me-2"></i> {{introThePost.acreage}} m²</p>
                         <p><i class="fa fa-bed text-primary me-2"></i> {{introThePost.bed}} Phòng ngủ</p>
                         <p><i class="fa fa-bath text-primary me-2"></i> {{introThePost.toilet}} Toilet</p>
@@ -296,7 +296,7 @@
                                     <div class="p-4 pb-0">
                                         <h5 class="text-primary mb-3">{{p.price}}</h5>
                                         <a class="d-block h5 mb-2" href="/home/detail?id={{p.post_id}}">
-                                            {{p.post_title}}
+                                            {{p.post_title.length > 25 ? (introThePost.post_title | limitTo:25) + '...' : introThePost.post_title}}
                                         </a>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{p.addresss}}</p>
                                     </div>
@@ -329,7 +329,7 @@
                                     <div class="p-4 pb-0">
                                         <h5 class="text-primary mb-3">{{p.price}}</h5>
                                         <a class="d-block h5 mb-2" href="/home/detail?id={{p.post_id}}">
-                                            {{p.post_title}}
+                                            {{p.post_title.length > 25 ? (introThePost.post_title | limitTo:25) + '...' : introThePost.post_title}}
                                         </a>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{p.addresss}}</p>
                                     </div>
@@ -379,7 +379,7 @@
                                     <div class="p-4 pb-0">
                                         <h5 class="text-primary mb-3">{{p.price}}</h5>
                                         <a class="d-block h5 mb-2" href="/home/detail?id={{p.post_id}}">
-                                            {{p.post_title}}
+                                            {{p.post_title.length > 25 ? (introThePost.post_title | limitTo:25) + '...' : introThePost.post_title}}
                                         </a>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{p.addresss}}</p>
                                     </div>

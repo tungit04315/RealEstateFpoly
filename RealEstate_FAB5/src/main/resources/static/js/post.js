@@ -122,56 +122,47 @@ function fixStepIndicator(n) {
     x[n].className += " active";
 }
 
-// const quantityInput = document.getElementById('quantityInput');
-// const decreaseBtn = document.getElementById('decreaseBtn');
-// const increaseBtn = document.getElementById('increaseBtn');
-
-// decreaseBtn.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput.value);
-//     if (quantity > 1) {
-//         quantity--;
-//         quantityInput.value = quantity;
+/**/
+// var searchParams = new URLSearchParams($window.location.search);
+// var postIdFromQueryString = searchParams.get('id');
+// var apiData = "/post-id/";
+// $.ajax({
+//     url: apiData + postIdFromQueryString,
+//     type: 'GET',
+//     success: function(dataFromApi) {
+//         console.log(dataFromApi);
+//     },
+//     error: function(error) {
+//         console.error('Error fetching data from API:', error);
 //     }
 // });
+// goongjs.accessToken = 'GsUEtexN59WDYJ8cfpBllo4zFhQU17QbU1yGYNx2'; 
 
-// increaseBtn.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput.value);
-//     quantity++;
-//     quantityInput.value = quantity;
+// let checkC = 0;
+// var marker;
+// var map = new goongjs.Map({
+//     container: 'map',
+//     style: 'https://tiles.goong.io/assets/goong_map_web.json',
+//     center: [105.74241504658403, 10.060186701320404],
+//     zoom: 13
 // });
 
-// const quantityInput_two = document.getElementById('quantityInput-two');
-// const decreaseBtn_two = document.getElementById('decreaseBtn-two');
-// const increaseBtn_two = document.getElementById('increaseBtn-two');
-
-// decreaseBtn_two.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput_two.value);
-//     if (quantity > 1) {
-//         quantity--;
-//         quantityInput_two.value = quantity;
-//     }
-// });
-
-// increaseBtn_two.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput_two.value);
-//     quantity++;
-//     quantityInput_two.value = quantity;
-// });
-
-// const quantityInput_three = document.getElementById('quantityInput-three');
-// const decreaseBtn_three = document.getElementById('decreaseBtn-three');
-// const increaseBtn_three = document.getElementById('increaseBtn-three');
-
-// decreaseBtn_three.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput_three.value);
-//     if (quantity > 1) {
-//         quantity--;
-//         quantityInput_three.value = quantity;
-//     }
-// });
-
-// increaseBtn_three.addEventListener('click', () => {
-//     let quantity = parseInt(quantityInput_three.value);
-//     quantity++;
-//     quantityInput_three.value = quantity;
-// });
+// // Add the control to the map.
+// map.addControl(
+//     new GoongGeocoder({
+//         accessToken: 'HjqHdYaa2gKzvL9CZO903kwifZjFrj1cGPcTWdus',
+//         goongjs: goongjs,
+//         marker: false,
+//         placeholder: "Nhập địa chỉ vào đây..."
+//     })
+// );
+// map.addControl(
+//     new goongjs.GeolocateControl({
+//         positionOptions: {
+//             enableHighAccuracy: true,
+//             timeout: 1000
+//         },
+//         trackUserLocation: true,
+//         showUserLocation: true
+//     })
+// );

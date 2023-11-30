@@ -35,7 +35,7 @@
                     <a href="/home/manager/post-deadline-extension" class="nav-item nav-link position-relative">
                         <i class="fa-regular fa-bell" style="color: #fe7f2a; font-size: 20px;"></i>
                         <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">
-                            99+
+                            {{sumNotification}}+
                         </span>
                     </a>
                     <div class="nav-item dropdown">
@@ -51,11 +51,11 @@
                                 <li class="list-group-item" ng-repeat="like in likes">
                                     <div class="row" style="margin-bottom: -15px;">
                                         <div class="col-3">
-                                            <img src="https://file4.batdongsan.com.vn/resize/1275x717/2023/09/14/20230914191114-f370_wm.jpg" alt="" class="w-100" style="border-radius: 10px; height: 80%;">
+                                            <img src="{{url(like.firstImageLike)}}" alt="" class="w-100" style="border-radius: 10px; height: 80%;">
                                         </div>
                                         <div class="col-9">
                                             <p class="" style="font-weight: bold; font-size: 13px;">
-                                                {{like.post_id.post_title}}
+                                                {{like.post_id.post_title.length > 25 ? (like.post_id.post_title | limitTo:25) + '...' : like.post_id.post_title}}
                                             </p>
                                             <p style="color: rgb(95, 95, 95); font-size: 13px;">Lưu {{like.likes_date}} ngày trước</p>
                                         </div>

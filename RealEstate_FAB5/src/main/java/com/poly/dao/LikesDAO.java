@@ -20,10 +20,6 @@ public interface LikesDAO extends JpaRepository<Likes, Integer>{
 	
 	@Query(value="select * from likes where users = ?1 and post_id = ?2", nativeQuery = true)
 	public Likes getPostLikeByUserIDAndPostID(String user, Integer post);
-	
-//	@Modifying
-//	@Query(value = "DELETE FROM Likes l WHERE l.users.username = :user AND l.post_id.post_id = :post")
-//	public void deleteByUserIdAndPostId(@Param("user") String user, @Param("post") Integer post);
 
 	@Modifying
 	@Transactional

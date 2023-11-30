@@ -108,7 +108,7 @@
                                             <span th:utext="${p.price}"></span>
                                         </h5>
                                         <a class="d-block h5 mb-2" th:href="@{/home/detail(id=${p.post_id})}">
-                                            <span th:utext="${p.post_title}"></span>
+                                            <span th:utext="${p.post_title.length() > 25 ? #strings.substring(p.post_title, 0, 25) : p.post_title}"></span>
                                         </a>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
                                             <span th:utext="${p.addresss}"></span>
@@ -138,7 +138,7 @@
                                     </div>
                                     <script th:inline="javascript">
                                         function changePage(page) {
-                                            window.location.href = '/admin/type-property?page=' + page;
+                                            window.location.href = '/home/list-post?page=' + page;
                                         }
                                     </script>
                                 </div>

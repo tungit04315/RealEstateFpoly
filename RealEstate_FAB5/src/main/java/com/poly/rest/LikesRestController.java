@@ -37,6 +37,11 @@ public class LikesRestController {
 		return likeService.getAllPostLikes(u.getUsername());
 	}
 	
+	@GetMapping("/find-by-post-likes/{username}/{post_id}")
+	public Likes getPostLikeUserAndPost(@PathVariable("username") String username,@PathVariable("post_id") Integer id) {
+		return likeService.findByUserIDAndPostID(username, id);
+	}
+	
 	@PostMapping("/likes-add")
 	public Likes getCreate(@RequestBody JsonNode likeData) {
 		return likeService.CreateJsonNode(likeData);

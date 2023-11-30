@@ -1,6 +1,6 @@
 const app = angular.module("myapp", []);
 
-app.run(function($rootScope, $http) {
+app.run(function($rootScope, $http, $window) {
     const MAX_TITLE_LENGTH = 50;
 
     // Hàm xử lý tiêu đề
@@ -10,7 +10,7 @@ app.run(function($rootScope, $http) {
         } else {
             return title;
         }
-    }
+    };
 
     // Hàm tính thời gian lưu bài viết
     function getDaysSinceSave(saveTime) {
@@ -19,29 +19,45 @@ app.run(function($rootScope, $http) {
         const diff = now - new Date(saveTime);
         console.log(diff);
         return Math.floor(diff / (1000 * 60 * 60 * 24));
-    }
+    };
 
-    $http.get(`/likes`).then(response => {
-        if (response.data) {
-            $rootScope.likes = response.data;
+    $rootScope.listPostLike = function() {
+        $http.get(`/likes`).then(response => {
+            if (response.data) {
+                $rootScope.likes = response.data;
+                $rootScope.likes.forEach(like => {
+                    like.post_id.post_title = handleTitle(like.post_id.post_title);
+                    like.likes_date = getDaysSinceSave(like.likes_date);
+                    $http.get(`/rest/find-albums?id=` + like.post_id.post_id).then(function(respAlbums) {
+                        if (respAlbums.data && respAlbums.data.length > 0) {
+                            console.log(respAlbums.data);
+                            console.log(respAlbums.data[0].albums_name);
+                            like.firstImageLike = respAlbums.data[0].albums_name;
+                        }
 
-            $rootScope.likes.forEach(like => {
-                like.post_id.post_title = handleTitle(like.post_id.post_title);
-                like.likes_date = getDaysSinceSave(like.likes_date);
-                console.log(like.likes_date);
-                console.log(like.post_id.post_id);
-            });
-        }
+                    });
+                });
 
+            }
+        });
+    };
 
-    });
+    $rootScope.listPostLike();
 
     $http.get(`/rest/user`).then(resp => {
         if (resp.data) {
             $rootScope.$u = resp.data;
             console.log(resp.data);
+
+            $http.get(`/rest/list-post-expirect?id=` + $rootScope.$u.username).then(resp => {
+                if (resp.data) {
+                    $rootScope.sumNotification = resp.data.length;
+                    console.log(resp.data);
+                }
+            });
         }
     });
+
 
     $http.get(`/rest/pay`).then(resp => {
         if (resp.data) {
@@ -291,6 +307,7 @@ app.run(function($rootScope, $http) {
         }
     });
     /* Post For You */
+
 });
 
 app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
@@ -321,6 +338,30 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
         $scope.post = response.data;
         console.log($scope.post);
+        $http.get('/map/' + $scope.post.post_id).then(function(response) {
+            console.log(response.data);
+            if (response.data) {
+                $scope.maps = response.data;
+                var coordinates = $scope.maps.maps_address.split(',');
+
+                var lng = parseFloat(coordinates[0]);
+                var lat = parseFloat(coordinates[1]);
+
+                goongjs.accessToken = 'GsUEtexN59WDYJ8cfpBllo4zFhQU17QbU1yGYNx2';
+
+                var map = new goongjs.Map({
+                    container: 'mapDetail',
+                    style: 'https://tiles.goong.io/assets/goong_map_web.json',
+                    center: [lng, lat],
+                    zoom: 13
+                });
+                var ll = new goongjs.LngLat(lng, lat);
+                marker = new goongjs.Marker()
+                    .setLngLat(ll)
+                    .addTo(map);
+            }
+        });
+
         $http.get('/rest/find-albums?id=' + $scope.post.post_id).then(function(response) {
             if (response.data) {
                 $scope.filenamesUpdate = [];
@@ -472,44 +513,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 };
 
             });
-
-            // Có chút vấn đề cần được điều chỉnh (
-            // Chuyển đổi về If để thực thi trước
-            // )
-            // var img = new Image();
-            // img.src = URL.createObjectURL(file);
-            // img.onload = function() {
-            //     if (img.width !== 600 || img.height !== 400) {
-            //         $scope.dimensionError = true;
-            //         $scope.$apply();
-            //         console.log("img w-h");
-            //         return;
-            //     }
-            //     return;
-            // };
-
-            // Kiểm tra xem trong hình có con người hay không
-            // containsHuman(file, function(containsHuman) {
-            //     if (containsHuman) {
-            //         $scope.containsHumanError = true;
-            //         $scope.$apply();
-            //         return;
-            //     } else {
-            //         if (uploadedFileHashes.includes(hash)) {
-            //             $scope.duplicateError = true;
-            //             $scope.$apply();
-            //             return;
-            //         } else {
-            //             uploadedFileHashes.push(hash);
-            //         }
-
-            //         addFiles(file, form);
-            //     }
-            // });
-
         }
-
-
     }
 
     function addFiles(file, form) {
@@ -661,20 +665,31 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         }
     };
 
-    $http.get(`/rest/province`)
-        .then(function(response) {
-            $scope.provinces = response.data;
-        });
+    $http.get(`/rest/province`).then(function(response) {
+        $scope.provinces = response.data;
+    });
 
-    $scope.toggleLike = function(post_id) {
+    $scope.checkLikesAction = function() {
+        var username = $rootScope.$u.username;
+        $http.get(`/find-by-post-likes/` + username + '/' + postIdFromQueryString).then(response => {
+            if (response.data) {
+                $rootScope.likesAction = response.data.likes_status;
+            }
+        });
+    }
+
+    $scope.toggleLike = function() {
+        $scope.post_id = postIdFromQueryString;
+        console.log($scope.post_id);
         $http.get(`/find-by-post-likes`)
             .then(function(response) {
+                console.log(response.data);
                 $rootScope.likes = response.data;
                 var found = false;
                 $rootScope.likes.forEach(like => {
-                    if (like.post_id.post_id === post_id) {
+                    if (like.post_id.post_id === $scope.post_id) {
                         found = true;
-                        $http.delete(`/likes-delete/${post_id}`)
+                        $http.delete(`/likes-delete/` + $scope.post_id)
                             .then(function() {
 
                             })
@@ -684,7 +699,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     }
                 });
                 // search post id
-                $http.get(`/post-id/${post_id}`).then(function(response) {
+                $http.get(`/post-id/` + $scope.post_id).then(function(response) {
                     $scope.post = response.data;
                     console.log($scope.post);
                 });
@@ -717,6 +732,57 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             });
     };
 
+    $scope.managerToggleLike = function(post_id) {
+        $http.get(`/find-by-post-likes`)
+            .then(function(response) {
+                console.log(response.data);
+                $rootScope.likes = response.data;
+                var found = false;
+                $rootScope.likes.forEach(like => {
+                    if (like.post_id.post_id === post_id) {
+                        found = true;
+                        $http.delete(`/likes-delete/` + post_id)
+                            .then(function() {
+                                $rootScope.listPostLike();
+                            })
+                            .catch(function(error) {
+                                console.error("Lỗi xóa bài viết khỏi danh sách yêu thích: ", error);
+                            });
+                    }
+                });
+                // search post id
+                $http.get(`/post-id/` + post_id).then(function(response) {
+                    $scope.post = response.data;
+                    console.log($scope.post);
+                });
+
+                $http.get(`/rest/user`).then(resp => {
+                    if (resp.data) {
+                        $rootScope.$u = resp.data;
+                        console.log($rootScope.$u);
+                    }
+                });
+                if (!found) {
+                    $scope.likes = {
+                        likes_status: true,
+                        likes_date: new Date(),
+                        post_id: $scope.post,
+                        users: $rootScope.$u
+                    };
+                    var like = $scope.likes;
+                    $http.post('/likes-add', like)
+                        .then(function() {
+
+                        })
+                        .catch(function(error) {
+                            console.error('Lỗi thêm bài viết vào danh sách yêu thích: ', error);
+                        });
+                }
+            })
+            .catch(function(error) {
+                console.error("Lỗi truy vấn danh sách yêu thích:", error);
+            });
+    };
 
     $scope.bed = 1;
 
@@ -779,7 +845,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         });
     }
 
-    $scope.searchType = function() {
+    $scope.searchTypeCreate = function() {
         $http.get(`/type-property-findById?id=` + $scope.types_id).then(resp => {
             if (resp.data) {
                 $rootScope.type = resp.data;
@@ -824,48 +890,58 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             users: $rootScope.$u
         };
 
-
         $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
-            $http.post(`/create-post`, post)
-                .then(function(responsePost) {
-                    swal("Thành Công!", "Đăng bài thành công!", "success");
-                    $http.post(`/rest/create-transaction`, transaction).then(function(response) {
-                        const today = new Date();
-                        var detailTransaction = {
-                            price: $scope.service.services_price * 1000,
-                            transactions_type: false,
-                            timer: today.toLocaleTimeString("en-US"),
-                            account_get: $rootScope.$pay.pay_id,
-                            fullname_get: $rootScope.$u.fullname,
-                            bank_code: null,
-                            transactions_id: response.data
-                        };
-                        $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
-                    }, function(err) {})
-
-                    for (let i = 0; i < $scope.filenames.length; i++) {
-                        console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
-                        var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
-
-                        var album = {
-                            albums_name: image,
+                $http.post(`/create-post`, post)
+                    .then(function(responsePost) {
+                        var lng = marker.getLngLat();
+                        var toString = '' + lng.lng + ',' + lng.lat;
+                        var maps = {
+                            maps_address: toString,
                             post_id: responsePost.data
+                        };
+                        $http.post(`/create-mapAddress`, maps).then(function(response) {
+                            console.log("mapAdress: " + response.data);
+                        });
+
+                        $http.post(`/rest/create-transaction`, transaction).then(function(response) {
+                            const today = new Date();
+                            var detailTransaction = {
+                                price: $scope.service.services_price * 1000,
+                                transactions_type: false,
+                                timer: today.toLocaleTimeString("en-US"),
+                                account_get: $rootScope.$pay.pay_id,
+                                fullname_get: $rootScope.$u.fullname,
+                                bank_code: null,
+                                transactions_id: response.data
+                            };
+                            $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
+
+                        }, function(err) {});
+
+                        for (let i = 0; i < $scope.filenames.length; i++) {
+                            console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
+                            var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
+
+                            var album = {
+                                albums_name: image,
+                                post_id: responsePost.data
+                            }
+
+                            $http.post(`/rest/create-albums`, album).then(function(response) {
+
+                            }, function(error) {
+                                swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
+                            })
                         }
-
-                        $http.post(`/rest/create-albums`, album).then(function(response) {
-
-                        }, function(error) {
-                            swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
-                        })
-                    }
-                    window.location.href = "http://localhost:8080/home/manager/post";
-                }, function(error) {
-                    swal("Lỗi!", "Đăng bài thất bại!", "error");
-                });
-
-        }, function(error) {
-            swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
-        });
+                        swal("Thành Công!", "Đăng bài thành công!", "success");
+                        window.location.href = "http://localhost:8080/home/manager/post";
+                    }, function(error) {
+                        swal("Lỗi!", "Đăng bài thất bại!", "error");
+                    });
+            },
+            function(error) {
+                swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+            });
 
     }
 
@@ -1083,6 +1159,15 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.updatePost = function() {
         $http.put('/update-post', $scope.post).then(function(response) {
             swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
+            var lng = marker.getLngLat();
+            var toString = '' + lng.lng + ',' + lng.lat;
+            var maps = {
+                maps_address: toString,
+                post_id: responsePost.data
+            };
+            $http.post(`/create-mapAddress`, maps).then(function(response) {
+                console.log("mapAdress: " + response.data);
+            });
             window.location.href = "http://localhost:8080/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Lỗi chỉnh sửa!", "error");
@@ -1121,7 +1206,15 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     create_at: new Date(),
                     users: $rootScope.$u
                 };
-
+                var ll = marker.getLngLat();
+                var toString = '' + ll.lng + ',' + ll.lat;
+                var maps = {
+                    maps_address: toString,
+                    post_id: responsePost.data
+                };
+                $http.post(`/create-mapAddress`, maps).then(function(response) {
+                    console.log("mapAdress: " + response.data);
+                });
                 $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                     const today = new Date();
                     var detailTransaction = {
@@ -1147,4 +1240,72 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         });
 
     };
+
 });
+
+goongjs.accessToken = 'GsUEtexN59WDYJ8cfpBllo4zFhQU17QbU1yGYNx2';
+
+let checkC = 0;
+var marker;
+var map = new goongjs.Map({
+    container: 'map',
+    style: 'https://tiles.goong.io/assets/goong_map_web.json',
+    center: [105.74241504658403, 10.060186701320404],
+    zoom: 13
+});
+
+// Add the control to the map.
+map.addControl(
+    new GoongGeocoder({
+        accessToken: 'HjqHdYaa2gKzvL9CZO903kwifZjFrj1cGPcTWdus',
+        goongjs: goongjs,
+        marker: false,
+        placeholder: "Nhập địa chỉ vào đây..."
+    })
+);
+map.addControl(
+    new goongjs.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true,
+            timeout: 1000
+        },
+        trackUserLocation: true,
+        showUserLocation: true
+    })
+);
+
+map.on('click', function(e) {
+    if (checkC == 1) {
+        // danh dau marker khi click
+        marker = new goongjs.Marker()
+            .setLngLat(e.lngLat)
+            .addTo(map);
+
+        //map.setCenter(e.lngLat);
+        checkC = 0;
+        var lng = marker.getLngLat();
+        var toString = '' + lng.lng + ',' + lng.lat;
+        console.log(typeof toString);
+        console.log(toString);
+        console.log(lng.lng + ',' + lng.lat);
+        console.log("lnglat: " + marker.getLngLat());
+        console.log("lnglat: " + typeof marker.getLngLat());
+    } else {
+        console.log("khong chon");
+    }
+
+});
+
+// map.on('dbclick', function(e) {
+//             console.log("aaaa");
+// });
+
+function chooseMarker() {
+    checkC = 1;
+}
+
+function cancelMarker() {
+    marker.remove();
+    console.log("cancel ne");
+    checkC = 0;
+}

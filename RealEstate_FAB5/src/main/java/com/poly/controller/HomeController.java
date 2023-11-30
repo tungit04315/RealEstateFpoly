@@ -59,6 +59,9 @@ public class HomeController {
 	@Autowired
 	RanksService rankservice;
 	
+	@Autowired
+	ShareService shareService;
+	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
@@ -73,7 +76,7 @@ public class HomeController {
 	// Home Page
 	
 	//List Post Page 
-		@RequestMapping({"/home/list-post", "/"})
+		@RequestMapping("/home/list-post")
 		public String getListPost(Model m, @RequestParam(defaultValue = "1") int page) {
 			Pageable pageable = PageRequest.of(page - 1, 6);
 			Page<Post> post = postService.getPageAll(pageable);
@@ -86,8 +89,15 @@ public class HomeController {
 	@RequestMapping("/home/post")
 	public String getPost(Model m) {
 		Users u = (Users) ss.getAttribute("user");
-		m.addAttribute("u", userService.findById(u.getUsername()));
-		return "home/post";
+		Pay pay = payService.findByID(u.getPay_id().getPay_id());
+		if(pay.getPay_money() < 5000) {
+			ss.setAttribute("visible", "true");
+			ss.setAttribute("thongbao", "Yêu cầu đăng tin: số dư phải từ 5000 VNĐ Vui lòng nạp thêm tiền.");
+			return "redirect:/home";
+		}else {
+			m.addAttribute("u", userService.findById(u.getUsername()));
+			return "home/post";
+		}
 	}
 	
 	@RequestMapping("/home/post-update-expired")
@@ -111,7 +121,12 @@ public class HomeController {
 		Post p = postService.getFindByid(id);
 		List<Albums> albums = albumService.findAlbumsByPostID(p.getPost_id());
 		
+		String url = req.getRequestURL().toString();
 		double approximately = p.getPrice()/p.getAcreage();
+		
+    	ss.setAttribute("url", url);
+    	ss.setAttribute("post_id", p);
+		
 		
 		m.addAttribute("approximately", approximately);
 		m.addAttribute("post", p);
@@ -119,6 +134,25 @@ public class HomeController {
 		return "home/detail";
 	}
 	// Post Detail Page
+	
+	// Share Faceboook
+	@GetMapping("/share-facebook")
+    @ResponseBody
+    public String shareOnFacebook() {
+        //String url = (String) ss.getAttribute("url");
+		String url = "https://developers.facebook.com/apps/1035305550719180/settings/basic/";
+        return shareService.shareFacebook(url);
+    }
+	
+	@GetMapping("/home/manager/share")
+    public String listShareOnFacebook(Model m, @RequestParam(defaultValue = "1") int page) {
+		Users u = ss.getAttribute("user");
+		Pageable pageable = PageRequest.of(page - 1, 4);
+		Page<Shares> shares = shareService.FindAll(u.getUsername(), pageable);
+		m.addAttribute("listPostShare", shares);
+        return "home/managerPostShare";
+    }
+	// Share Faceboook
 
 	// Error Page
 	@RequestMapping("/home/error")
@@ -176,7 +210,6 @@ public class HomeController {
 	public String getManagerPost(Model m) {
 		Users u = ss.getAttribute("user");
 		List<Post> list = postService.getAllByUserId(u.getUsername());
-		
 		m.addAttribute("list", list);
 		return "home/managerPost";
 	}
