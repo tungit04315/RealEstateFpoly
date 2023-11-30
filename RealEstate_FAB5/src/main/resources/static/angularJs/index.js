@@ -335,6 +335,23 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     var searchParams = new URLSearchParams($window.location.search);
     var postIdFromQueryString = searchParams.get('id');
 
+    $scope.copyIconClass = 'fa-regular fa-copy';
+
+    // copy address 
+    $scope.copyAddress = function(address) {
+        navigator.clipboard.writeText(address);
+
+        $scope.copyIconClass = 'fa-solid fa-check';
+        document.getElementById('copyIcon').style.color = '#4285f4';
+
+        setTimeout(function() {
+            $scope.$apply(function() {
+                $scope.copyIconClass = 'fa-regular fa-copy';
+                document.getElementById('copyIcon').style.color = '#707070';
+            });
+        }, 1500);
+    };
+
     $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
         $scope.post = response.data;
         console.log($scope.post);
@@ -1158,16 +1175,17 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
     $scope.updatePost = function() {
         $http.put('/update-post', $scope.post).then(function(response) {
-            swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
+
             var lng = marker.getLngLat();
             var toString = '' + lng.lng + ',' + lng.lat;
             var maps = {
                 maps_address: toString,
-                post_id: responsePost.data
+                post_id: response.data
             };
             $http.post(`/create-mapAddress`, maps).then(function(response) {
                 console.log("mapAdress: " + response.data);
             });
+            swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
             window.location.href = "http://localhost:8080/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Lỗi chỉnh sửa!", "error");
@@ -1201,7 +1219,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         $scope.post.active = true;
         $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
             $http.put('/update-post', $scope.post).then(function(response) {
-                swal("Thành Công!", "Bài viết đã đăng!", "success");
+
                 var transaction = {
                     create_at: new Date(),
                     users: $rootScope.$u
@@ -1210,7 +1228,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 var toString = '' + ll.lng + ',' + ll.lat;
                 var maps = {
                     maps_address: toString,
-                    post_id: responsePost.data
+                    post_id: response.data
                 };
                 $http.post(`/create-mapAddress`, maps).then(function(response) {
                     console.log("mapAdress: " + response.data);
@@ -1231,6 +1249,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 }, function(err) {
                     swal("Good job!", "Lỗi - Giao Dịch!", "success");
                 });
+                swal("Thành Công!", "Bài viết đã đăng!", "success");
                 window.location.href = "http://localhost:8080/home/manager/post";
             }, function(error) {
                 swal("Lỗi!", "Lỗi đăng bài!", "error");
