@@ -74,22 +74,30 @@
                                             </select>
                                         </div> -->
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.addresss" style="height: 40px;">
-                                            <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.post_id" style="height: 40px;" hidden>
-                                            <div ng-show="post.addresss.length == 0">
-                                                <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                            <div class="input-box">
+                                                <label for="exampleInputEmail1" class="form-label">Địa chỉ hiển thị trên tin đăng *</label>
+                                                <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.addresss" style="height: 40px;">
+                                                <span class="material-symbols-rounded" ng-click="copyAddress(post.addresss)">
+                                                <i ng-class="copyIconClass"></i>
+                                            </span>
+                                                <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post.post_id" style="height: 40px;" hidden>
+                                                <div ng-show="post.addresss.length == 0">
+                                                    <span style="color:red;">Vui lòng nhập dữ liệu.</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="row">
                                                 <div class="col-sm-10">
                                                     <label for="exampleInputEmail1" class="form-label">Vị trí</label>
-                                                    <div id="map" style="width:100%;height: 50vh;"></div>
+                                                    <div id="map" style="width:100%;height: 50vh;" ng-model="marker"></div>
+                                                    <span ng-show="marker == 0" style="color: red;">
+                                                        Vui lòng chọn vị trí
+                                                    </span>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label for="exampleInputEmail1" class="form-label">ACT</label> <br>
-                                                    <button class="btn btn-primary mb-2" type="button" onclick="chooseMarker()">Vị trí</button>
+                                                    <button class="btn btn-primary mb-2" type="button" onclick="chooseMarker()" ng-click="chooseMarker()">Vị trí</button>
                                                     <button class="btn btn-primary" type="button" onclick="cancelMarker()">Hủy</button>
                                                 </div>
                                             </div>

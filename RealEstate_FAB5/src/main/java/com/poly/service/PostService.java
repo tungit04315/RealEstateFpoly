@@ -14,7 +14,7 @@ public interface PostService {
 	
 	public List<Post> getPostExpired(String username);
 	
-	public List<Post> getPostDelete(String username);
+	public Page<Post> getPostDelete(String username, Pageable p);
 	
 	public Page<Post> getPostDelete(Pageable p);
 	

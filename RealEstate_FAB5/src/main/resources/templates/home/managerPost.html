@@ -136,6 +136,20 @@
                                                 <h3 class="mb-3">Tin của bạn</h3>
 
                                             </div>
+                                            <div th:if="${postError == 'true'}">
+                                                <div class="toast active">
+                                                    <div class="toast-content">
+                                                        <i class="fas fa-solid fa-check check"></i>
+                                                        <div class="message">
+                                                            <span class="text text-1">Bài viết đã bị ẩn!</span>
+                                                            <span class="text text-2">Vui lòng nạp thêm tiền vào ví để phục hồi bài viết!</span>
+                                                        </div>
+                                                    </div>
+                                                    <i class="fa-solid fa-xmark close"></i>
+
+                                                    <div class="progress active"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
                                             <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">

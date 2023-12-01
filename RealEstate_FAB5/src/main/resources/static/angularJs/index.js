@@ -329,6 +329,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.key = '';
     $scope.province = 'null';
     $scope.typePost = 0;
+    $scope.marker = 0;
 
     // post page
     $scope.currentPage = 0;
@@ -946,6 +947,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.increaseToiletCount = function() {
         if ($scope.toilet < 100) {
             $scope.toilet++;
+            $scope.post.toilet++;
         }
     };
 
@@ -991,8 +993,10 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             }
         });
     }
-
-    // Create Post
+    $scope.chooseMarker = function() {
+            $scope.marker = 1;
+        }
+        // Create Post
     $scope.createPost = function() {
         $http.get(`/rest/user`).then(resp => {
             if (resp.data) {
@@ -1044,7 +1048,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 function(error) {
                     swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
                     $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {
-                        $window.location.href = ""
+
                     }, function(error) {
 
                     });
@@ -1314,7 +1318,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 console.log("mapAdress: " + response.data);
             });
             swal("Thành Công!", "Bài viết đã chỉnh sửa!", "success");
-            window.location.href = "http://localhost:8080/home/manager/post";
+            window.location.href = "/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Lỗi chỉnh sửa!", "error");
             console.error('Lỗi cập nhật bài viết', error);
@@ -1390,7 +1394,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 swal("Good job!", "Lỗi - Giao Dịch!", "success");
             });
             swal("Thành Công!", "Bài viết đã đăng!", "success");
-            window.location.href = "http://localhost:8080/home/manager/post";
+            window.location.href = "/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Lỗi đăng bài!", "error");
         });
@@ -1442,11 +1446,6 @@ map.on('click', function(e) {
         checkC = 0;
         var lng = marker.getLngLat();
         var toString = '' + lng.lng + ',' + lng.lat;
-        console.log(typeof toString);
-        console.log(toString);
-        console.log(lng.lng + ',' + lng.lat);
-        console.log("lnglat: " + marker.getLngLat());
-        console.log("lnglat: " + typeof marker.getLngLat());
     } else {
         console.log("khong chon");
     }
@@ -1463,6 +1462,5 @@ function chooseMarker() {
 
 function cancelMarker() {
     marker.remove();
-    console.log("cancel ne");
     checkC = 0;
 }

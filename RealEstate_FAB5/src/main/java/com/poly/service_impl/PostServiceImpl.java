@@ -113,9 +113,9 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<Post> getPostDelete(String username) {
+	public Page<Post> getPostDelete(String username, Pageable p) {
 		// TODO Auto-generated method stub
-		return dao.getPostsDelete(username);
+		return dao.getPostsDelete(username, p);
 	}
 
 	@Override

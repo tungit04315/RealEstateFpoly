@@ -37,7 +37,7 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	public Post getFindIntroducingThePost();
 	
 	@Query(value="select * from post where active = 'false' and deleted_at = 'true' and users_id = ?1 order by post_id desc", nativeQuery = true)
-	public List<Post> getPostsDelete(String username);
+	public Page<Post> getPostsDelete(String username, Pageable p);
 	
 	@Query(value="select * from post where active = 'false' and deleted_at = 'false' and users_id = ?1 order by post_id desc", nativeQuery = true)
 	public List<Post> getPostsExpired(String username); 
@@ -65,7 +65,7 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 //	@Query(value="select * from post where active = 1 and post_title like %?1 or addresss like %?2 or addresss like %?3 or types_id = ?4", nativeQuery = true)
 //	public List<Post> searchPost(String title, String address, String province, Integer type);
 	
-	@Query(value = "select * from post where active = 1 and post_title like %:title% or addresss like %:address% or addresss like %:province% or types_id = :type", nativeQuery = true)
+	@Query(value = "select * from post where active = 1 and deleted_at = 0 and post_title like %:title% or addresss like %:address% or addresss like %:province% or types_id = :type", nativeQuery = true)
 	public List<Post> searchPost(@Param("title") String title, @Param("address") String address, @Param("province") String province, @Param("type") Integer type);
 
 }

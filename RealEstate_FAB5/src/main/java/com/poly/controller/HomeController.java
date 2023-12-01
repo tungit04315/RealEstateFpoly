@@ -210,6 +210,14 @@ public class HomeController {
 	public String getManagerPost(Model m) {
 		Users u = ss.getAttribute("user");
 		List<Post> list = postService.getAllByUserId(u.getUsername());
+		if(ss.getAttribute("show") == null) {
+			
+			m.addAttribute("postError", "true");
+		}
+		else {
+			m.addAttribute("postError", "false");
+			
+		}
 		m.addAttribute("list", list);
 		return "home/managerPost";
 	}
@@ -220,10 +228,10 @@ public class HomeController {
 	public String getManagerPay(Model m) {
 		if(ss.getAttribute("show") == null) {
 			m.addAttribute("visible", "false");
-			m.addAttribute("postError", "true");
+			
 		}
 		else {
-			m.addAttribute("postError", "false");
+			
 			m.addAttribute("visible", "true");
 		}
 		
@@ -387,9 +395,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/home/manager/history-delete-post")
-	public String getHistoryDeletePost(Model m) {
+	public String getHistoryDeletePost(Model m, @RequestParam(defaultValue = "1") int page) {
 		Users u = ss.getAttribute("user");
-		m.addAttribute("list", postService.getPostDelete(u.getUsername()));
+		Pageable pageable = PageRequest.of(page - 1, 4);
+		Page<Post> list = postService.getPostDelete(u.getUsername(), pageable);
+
+		m.addAttribute("list", list);
 		return "home/historyDeletePost";
 	}
 	//Post deadline extension
