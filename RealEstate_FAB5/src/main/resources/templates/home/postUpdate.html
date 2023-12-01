@@ -102,13 +102,13 @@
                                             <div ng-show="post.post_title.length == 0">
                                                 <span style="color:red;">Vui lòng nhập dữ liệu.</span>
                                             </div>
-                                            <span ng-show="post.post_title.length < 50" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
+                                            <span ng-show="post.post_title.length < 20" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
                                             <label for="exampleInputEmail1" class="form-label">Mô tả *</label>
                                             <textarea rows="7" cols="" class="form-control" ng-model="post.post_content" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
                                             <div ng-show="post.post_content.length == 0">
                                                 <span style="color:red;">Vui lòng nhập dữ liệu.</span>
                                             </div>
-                                            <span ng-show="post.post_content.length < 155" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
+                                            <span ng-show="post.post_content.length < 50" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
