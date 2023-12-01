@@ -3,12 +3,16 @@ package com.poly.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.poly.bean.Maps;
 import com.poly.bean.Post;
 import com.poly.service.*;
+import com.poly.util.SessionService;
 
 @RestController
 public class PostRestController {
@@ -22,9 +26,19 @@ public class PostRestController {
 	@Autowired
 	MapService mapService;
 	
+	@Autowired
+	SessionService ss;
+	
 	@RequestMapping("/rest/list-post")
 	public List<Post> getPostAll(){
 		return postService.getAll();
+	}
+	
+	@RequestMapping("/rest/list-post-page")
+	public Page<Post> getPostAllPage(@RequestParam(defaultValue = "1") int page){
+		Pageable pageable = PageRequest.of(page - 1, 6);
+		Page<Post> post = postService.getPageAll(pageable);
+		return post;
 	}
 	
 	@RequestMapping("/rest/list-post-expirect")
@@ -63,6 +77,12 @@ public class PostRestController {
 	@RequestMapping("/post-id/{post_id}")
 	public Post getPost(@PathVariable("post_id") Integer id) {
 		return postService.getFindByid(id);
+	}
+	
+	@RequestMapping("/post-id/{active}/{post_id}")
+	public Integer setActivePost(@PathVariable("active") String active, @PathVariable("post_id") Integer id) {
+		ss.setAttribute("postError", "true");
+		return postService.SoftActivePost(active, id);
 	}
 	
 	@RequestMapping("/create-post")

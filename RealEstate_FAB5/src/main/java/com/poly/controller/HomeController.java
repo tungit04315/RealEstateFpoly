@@ -87,28 +87,17 @@ public class HomeController {
 	// Home Page
 	
 	//List Post Page 
-		@RequestMapping("/home/list-post")
-		public String getListPost(Model m, @RequestParam(defaultValue = "1") int page) {
-			Pageable pageable = PageRequest.of(page - 1, 6);
-			Page<Post> post = postService.getPageAll(pageable);
-			m.addAttribute("listPost", post);
-			return "home/allPost";
-		}
+	@RequestMapping("/home/list-post")
+	public String getListPost(Model m) {
+		return "home/allPost";
+	}
+	
 	// Home Page
 
 	// Post Page
 	@RequestMapping("/home/post")
 	public String getPost(Model m) {
-		Users u = (Users) ss.getAttribute("user");
-		Pay pay = payService.findByID(u.getPay_id().getPay_id());
-		if(pay.getPay_money() < 5000) {
-			ss.setAttribute("visible", "true");
-			ss.setAttribute("thongbao", "Yêu cầu đăng tin: số dư phải từ 5000 VNĐ Vui lòng nạp thêm tiền.");
-			return "redirect:/home";
-		}else {
-			m.addAttribute("u", userService.findById(u.getUsername()));
-			return "home/post";
-		}
+		return "home/post";
 	}
 	
 	@RequestMapping("/home/post-update-expired")
@@ -150,8 +139,8 @@ public class HomeController {
 	@GetMapping("/share-facebook")
     @ResponseBody
     public String shareOnFacebook() {
-        //String url = (String) ss.getAttribute("url");
-		String url = "https://developers.facebook.com/apps/1035305550719180/settings/basic/";
+        String url = (String) ss.getAttribute("url");
+		//String url = "https://developers.facebook.com/apps/1035305550719180/settings/basic/";
         return shareService.shareFacebook(url);
     }
 	
@@ -231,8 +220,10 @@ public class HomeController {
 	public String getManagerPay(Model m) {
 		if(ss.getAttribute("show") == null) {
 			m.addAttribute("visible", "false");
+			m.addAttribute("postError", "true");
 		}
 		else {
+			m.addAttribute("postError", "false");
 			m.addAttribute("visible", "true");
 		}
 		
@@ -368,19 +359,25 @@ public class HomeController {
 		Post p = postService.getFindByid(id);
 		Users u = ss.getAttribute("user");
 		Users uFind = userService.findById(u.getUsername());
-		
-		p.setActive(true);
-		p.setEnd_date(Date.from(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		
 		double money = p.getServices_id().getServices_price() * 1000;
-		double total = u.getPay_id().getPay_money() - money;
-		
-		uFind.getPay_id().setPay_money((long) total);
-		
-		postService.Update(p);
-		userService.update(uFind);
+		double total = uFind.getPay_id().getPay_money() - money;
+		if(uFind.getPay_id().getPay_money() >= money) {
+			p.setActive(true);
+			p.setEnd_date(Date.from(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			
+			
+			
+			uFind.getPay_id().setPay_money((long) total);
+			
+			postService.Update(p);
+			userService.update(uFind);
 
-		return "redirect:/home/manager/post-deadline-extension";
+			return "redirect:/home/manager/post-deadline-extension";
+		}else {
+			return "redirect:/home/manager/pay";
+		}
+		
+		
 	}
 	
 	@RequestMapping("/home/manager/delete-post")

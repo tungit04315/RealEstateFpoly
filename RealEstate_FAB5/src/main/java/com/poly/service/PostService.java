@@ -51,4 +51,6 @@ public interface PostService {
 	public void checkPostExpired() throws MessagingException;
 	
 	public Integer SoftDeletePost(Integer id);
+	
+	public Integer SoftActivePost(String active, Integer id);
 }

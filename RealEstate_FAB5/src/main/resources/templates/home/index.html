@@ -31,75 +31,11 @@
         </div>
         <!-- Header End -->
 
-
-        <!-- Search Start -->
-        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-            <div class="container">
-                <div class="row g-2">
-                    <div class="col-md-10">
-                        <div class="row g-2">
-                            <div class="col-md-4" style="margin-top: -5px;">
-                                <input type="text" class="form-control border-0 py-3" ng-model="key" placeholder="Nhập địa chỉ, tên dự án...">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3" ng-model="province">
-                                    <option selected>Tỉnh/Thành</option>
-                                    <option ng-repeat="p in provinces" value="{{p.name}}">{{p.name}}</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3" ng-model="typePost">
-                                    <option selected>Loại dự án</option>
-                                    <option ng-repeat="t in types" value="{{t.types_id}}">{{t.types_name}}</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Mức giá</option>
-                                    <option value="1">Dưới 100 Triệu</option>
-                                    <option value="2">500 - 800 Triệu</option>
-                                    <option value="3">800 - 1 Tỷ</option>
-                                    <option value="4">1 - 10 Tỷ</option>
-                                    <option value="5">10 - 20 Tỷ</option>
-                                    <option value="6">20 - 50 Tỷ</option>
-                                    <option value="7">50 - 100 Tỷ</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Diện tích</option>
-                                    <option value="1">50 m²</option>
-                                    <option value="2">50 - 200 m²</option>
-                                    <option value="3">200 - 500 m²</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Trạng thái</option>
-                                    <option value="Bán">Để bán</option>
-                                    <option value="Thuê">Cho thuê</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark border-0 w-100 py-3" ng-click="searchPosts()">
-                            <i class="fa-solid fa-magnifying-glass"></i> 
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Search End -->
-
-
         <!-- Category Start -->
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                    <hr style="width: 200px; height: 3px; color: #E57C23; margin: auto; margin-bottom: 30px;">
                     <h1 class="mb-3">Loại Bất Động Sản</h1>
                     <p>Bất động sản có sự đa dạng về loại hình, từ nhà ở, văn phòng, nhà xưởng, đến các loại bất động sản nghỉ dưỡng, thương mại,... Mỗi loại hình bất động sản lại có những đặc điểm và ưu điểm riêng, phù hợp với nhu cầu của từng đối tượng
                         khách hàng.</p>

@@ -987,10 +987,13 @@ textarea {
     width: 100px;
     height: 100px;
 }
+
+
 /*toast*/
+
 .toast {
     position: fixed;
-    top: 500px;
+    top: 450px;
     right: 5px;
     border-radius: 12px;
     background: #fff;

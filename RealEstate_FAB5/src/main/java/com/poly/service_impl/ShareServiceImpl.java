@@ -28,22 +28,26 @@ public class ShareServiceImpl implements ShareService{
 	
 	@Override
 	public String shareFacebook(String url) {
+		
+		Post p = ss.getAttribute("post_id");
+		Users u = ss.getAttribute("user");
+		
 		String shareUrl = FACEBOOK_SHARE_URL +
                 "?app_id=" + APP_ID +
                 "&href=" + url +
-                "&display=popup";
-		Post p = ss.getAttribute("post_id");
-		Users u = ss.getAttribute("user");
+                "&display=popup" +
+                "&redirect_uri=" + url + "?id=" + p.getPost_id();
 		
 		Shares share = new Shares();
 		share.setPost_id(p);
 		share.setShares_date(new Date());
-		share.setEmailTo(shareUrl);
+		share.setEmailTo(url);
 		share.setUsers(u);
 		dao.save(share);
 		
         return "<script>window.location.href='" + shareUrl + "';</script>";
 	}
+	
 
 	@Override
 	public Shares createShare(Shares s) {

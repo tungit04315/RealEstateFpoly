@@ -187,4 +187,10 @@ public class PostServiceImpl implements PostService{
 		return dao.getPostsOften();
 	}
 
+	@Override
+	public Integer SoftActivePost(String active, Integer id) {
+		// TODO Auto-generated method stub
+		return dao.softActionPost(active, id);
+	}
+
 }

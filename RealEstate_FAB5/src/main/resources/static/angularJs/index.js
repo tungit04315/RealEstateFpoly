@@ -327,7 +327,13 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.selectedWard = '';
     $scope.street = '';
     $scope.key = '';
-    $scope.province = '';
+    $scope.province = 'null';
+    $scope.typePost = 0;
+
+    // post page
+    $scope.currentPage = 0;
+    $scope.totalPages = 0;
+    $scope.pages = [];
 
     //$scope.inputNumber = 0;
     $scope.currentDate = new Date();
@@ -351,6 +357,66 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             });
         }, 1500);
     };
+
+    $scope.postsPage = function(page) {
+        $http.get(`/rest/list-post-page?page=` + page).then(function(response) {
+            if (response.data) {
+                $scope.postPage = response.data.content;
+                $scope.currentPage = response.data.number;
+                $scope.totalPages = response.data.totalPages;
+                $scope.pages = new Array(response.data.totalPages);
+
+                $scope.currentPage = $scope.currentPage + 1;
+                console.log($scope.postPage);
+                $scope.postPage.forEach(function(post) {
+                    $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                        if (respAlbums.data && respAlbums.data.length > 0) {
+                            console.log(respAlbums.data);
+                            console.log(respAlbums.data[0].albums_name);
+                            post.firstImage = respAlbums.data[0].albums_name;
+                        }
+                        console.log(typeof post.price);
+                        var priceString = post.price.toString();
+                        if (post.price && priceString.length === 7) {
+                            var millions = priceString.slice(0, 1);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 8) {
+                            var millions = priceString.slice(0, 2);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 9) {
+                            var millions = priceString.slice(0, 3);
+                            post.price = millions + ' triệu';
+                        }
+                        if (post.price && priceString.length === 10) {
+                            var millions = priceString.slice(0, 1);
+                            post.price = millions + ' tỷ';
+                        }
+                        if (post.price && priceString.length === 11) {
+                            var millions = priceString.slice(0, 2);
+                            post.price = millions + ' tỷ';
+                        }
+                        if (post.price && priceString.length === 12) {
+                            var millions = priceString.slice(0, 3);
+                            post.price = millions + ' tỷ';
+                        } else {
+                            post.price = post.price;
+                        }
+                    });
+                });
+            }
+        });
+    }
+    $scope.getPages = function(totalPages) {
+        var pages = [];
+        for (var i = 1; i <= totalPages; i++) {
+            pages.push(i);
+        }
+        return pages;
+    };
+
+    $scope.postsPage(1);
 
     $http.get('/post-id/' + postIdFromQueryString).then(function(response) {
         $scope.post = response.data;
@@ -405,50 +471,105 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
 
     }
 
+    // $scope.updateKey = function(key) {
+    //     console.log(key == '');
+    //     if (key == '') {
+    //         key = 'null';
+    //         $scope.key = key;
+    //     }
+    // };
+
     $scope.searchPosts = function() {
-        $http.get(`/rest/search-post?title=` + $scope.key + `&address=` + $scope.key + `&province=` + $scope.province)
-            .then(function(response) {
-                $scope.listPostDiamond = response.data;
-                $rootScope.listPostDiamond.forEach(function(post) {
-                    $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
-                        if (respAlbums.data && respAlbums.data.length > 0) {
-                            console.log(respAlbums.data);
-                            console.log(respAlbums.data[0].albums_name);
-                            post.firstImage = respAlbums.data[0].albums_name;
-                        }
-                        console.log(typeof post.price);
-                        var priceString = post.price.toString();
-                        if (post.price && priceString.length === 7) {
-                            var millions = priceString.slice(0, 1);
-                            post.price = millions + ' triệu';
-                        }
-                        if (post.price && priceString.length === 8) {
-                            var millions = priceString.slice(0, 2);
-                            post.price = millions + ' triệu';
-                        }
-                        if (post.price && priceString.length === 9) {
-                            var millions = priceString.slice(0, 3);
-                            post.price = millions + ' triệu';
-                        }
-                        if (post.price && priceString.length === 10) {
-                            var millions = priceString.slice(0, 1);
-                            post.price = millions + ' tỷ';
-                        }
-                        if (post.price && priceString.length === 11) {
-                            var millions = priceString.slice(0, 2);
-                            post.price = millions + ' tỷ';
-                        }
-                        if (post.price && priceString.length === 12) {
-                            var millions = priceString.slice(0, 3);
-                            post.price = millions + ' tỷ';
-                        } else {
-                            post.price = post.price;
-                        }
+        if ($scope.key == '') {
+            $http.get(`/rest/search-post?title=` + 'null' + `&address=` + 'null' + `&province=` + $scope.province + `&type=` + $scope.typePost)
+                .then(function(response) {
+                    $scope.postPage = response.data;
+                    $scope.postPage.forEach(function(post) {
+                        $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                            if (respAlbums.data && respAlbums.data.length > 0) {
+                                console.log(respAlbums.data);
+                                console.log(respAlbums.data[0].albums_name);
+                                post.firstImage = respAlbums.data[0].albums_name;
+                            }
+                            console.log(typeof post.price);
+                            var priceString = post.price.toString();
+                            if (post.price && priceString.length === 7) {
+                                var millions = priceString.slice(0, 1);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 8) {
+                                var millions = priceString.slice(0, 2);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 9) {
+                                var millions = priceString.slice(0, 3);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 10) {
+                                var millions = priceString.slice(0, 1);
+                                post.price = millions + ' tỷ';
+                            }
+                            if (post.price && priceString.length === 11) {
+                                var millions = priceString.slice(0, 2);
+                                post.price = millions + ' tỷ';
+                            }
+                            if (post.price && priceString.length === 12) {
+                                var millions = priceString.slice(0, 3);
+                                post.price = millions + ' tỷ';
+                            } else {
+                                post.price = post.price;
+                            }
+                        });
+
+
                     });
-
-
                 });
-            });
+        } else {
+            $http.get(`/rest/search-post?title=` + $scope.key + `&address=` + $scope.key + `&province=` + $scope.province + `&type=` + $scope.typePost)
+                .then(function(response) {
+                    $scope.postPage = response.data;
+                    $scope.postPage.forEach(function(post) {
+                        $http.get(`/rest/find-albums?id=` + post.post_id).then(function(respAlbums) {
+                            if (respAlbums.data && respAlbums.data.length > 0) {
+                                console.log(respAlbums.data);
+                                console.log(respAlbums.data[0].albums_name);
+                                post.firstImage = respAlbums.data[0].albums_name;
+                            }
+                            console.log(typeof post.price);
+                            var priceString = post.price.toString();
+                            if (post.price && priceString.length === 7) {
+                                var millions = priceString.slice(0, 1);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 8) {
+                                var millions = priceString.slice(0, 2);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 9) {
+                                var millions = priceString.slice(0, 3);
+                                post.price = millions + ' triệu';
+                            }
+                            if (post.price && priceString.length === 10) {
+                                var millions = priceString.slice(0, 1);
+                                post.price = millions + ' tỷ';
+                            }
+                            if (post.price && priceString.length === 11) {
+                                var millions = priceString.slice(0, 2);
+                                post.price = millions + ' tỷ';
+                            }
+                            if (post.price && priceString.length === 12) {
+                                var millions = priceString.slice(0, 3);
+                                post.price = millions + ' tỷ';
+                            } else {
+                                post.price = post.price;
+                            }
+                        });
+
+
+                    });
+                });
+        }
+
     }
 
     $scope.list = function() {
@@ -906,59 +1027,66 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             create_at: new Date(),
             users: $rootScope.$u
         };
-
-        $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
-                $http.post(`/create-post`, post)
-                    .then(function(responsePost) {
-                        var lng = marker.getLngLat();
-                        var toString = '' + lng.lng + ',' + lng.lat;
-                        var maps = {
-                            maps_address: toString,
-                            post_id: responsePost.data
-                        };
-                        $http.post(`/create-mapAddress`, maps).then(function(response) {
-                            console.log("mapAdress: " + response.data);
-                        });
-
-                        $http.post(`/rest/create-transaction`, transaction).then(function(response) {
-                            const today = new Date();
-                            var detailTransaction = {
-                                price: $scope.service.services_price * 1000,
-                                transactions_type: false,
-                                timer: today.toLocaleTimeString("en-US"),
-                                account_get: $rootScope.$pay.pay_id,
-                                fullname_get: $rootScope.$u.fullname,
-                                bank_code: null,
-                                transactions_id: response.data
-                            };
-                            $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
-
-                        }, function(err) {});
-
-                        for (let i = 0; i < $scope.filenames.length; i++) {
-                            console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
-                            var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
-
-                            var album = {
-                                albums_name: image,
-                                post_id: responsePost.data
-                            }
-
-                            $http.post(`/rest/create-albums`, album).then(function(response) {
-
-                            }, function(error) {
-                                swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
-                            })
-                        }
-                        swal("Thành Công!", "Đăng bài thành công!", "success");
-                        window.location.href = "http://localhost:8080/home/manager/post";
-                    }, function(error) {
-                        swal("Lỗi!", "Đăng bài thất bại!", "error");
-                    });
-            },
-            function(error) {
-                swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+        $http.post(`/create-post`, post).then(function(responsePost) {
+            var lng = marker.getLngLat();
+            var toString = '' + lng.lng + ',' + lng.lat;
+            var maps = {
+                maps_address: toString,
+                post_id: responsePost.data
+            };
+            $http.post(`/create-mapAddress`, maps).then(function(response) {
+                console.log("mapAdress: " + response.data);
             });
+
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+
+                },
+                function(error) {
+                    swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+                    $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {
+                        $window.location.href = ""
+                    }, function(error) {
+
+                    });
+                });
+
+            $http.post(`/rest/create-transaction`, transaction).then(function(response) {
+                const today = new Date();
+                var detailTransaction = {
+                    price: $scope.service.services_price * 1000,
+                    transactions_type: false,
+                    timer: today.toLocaleTimeString("en-US"),
+                    account_get: $rootScope.$pay.pay_id,
+                    fullname_get: $rootScope.$u.fullname,
+                    bank_code: null,
+                    transactions_id: response.data
+                };
+                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
+
+            }, function(err) {});
+
+            for (let i = 0; i < $scope.filenames.length; i++) {
+                console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
+                var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
+
+                var album = {
+                    albums_name: image,
+                    post_id: responsePost.data
+                }
+
+                $http.post(`/rest/create-albums`, album).then(function(response) {
+
+                }, function(error) {
+                    swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
+                })
+            }
+            swal("Thành Công!", "Đăng bài thành công!", "success");
+            window.location.href = "/home/manager/post";
+        }, function(error) {
+            swal("Lỗi!", "Đăng bài thất bại!", "error");
+
+        });
+
 
     }
 
@@ -1217,46 +1345,56 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
 
     $scope.updatePostExpired = function() {
         $scope.post.active = true;
-        $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
-            $http.put('/update-post', $scope.post).then(function(response) {
+        $http.put('/update-post', $scope.post).then(function(response) {
 
-                var transaction = {
-                    create_at: new Date(),
-                    users: $rootScope.$u
-                };
-                var ll = marker.getLngLat();
-                var toString = '' + ll.lng + ',' + ll.lat;
-                var maps = {
-                    maps_address: toString,
-                    post_id: response.data
-                };
-                $http.post(`/create-mapAddress`, maps).then(function(response) {
-                    console.log("mapAdress: " + response.data);
-                });
-                $http.post(`/rest/create-transaction`, transaction).then(function(response) {
-                    const today = new Date();
-                    var detailTransaction = {
-                        price: $scope.service.services_price * 1000,
-                        transactions_type: false,
-                        timer: today.toLocaleTimeString("en-US"),
-                        account_get: $rootScope.$pay.pay_id,
-                        fullname_get: $rootScope.$u.fullname,
-                        bank_code: null,
-                        transactions_id: response.data
-                    };
-
-                    $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
-                }, function(err) {
-                    swal("Good job!", "Lỗi - Giao Dịch!", "success");
-                });
-                swal("Thành Công!", "Bài viết đã đăng!", "success");
-                window.location.href = "http://localhost:8080/home/manager/post";
-            }, function(error) {
-                swal("Lỗi!", "Lỗi đăng bài!", "error");
+            var transaction = {
+                create_at: new Date(),
+                users: $rootScope.$u
+            };
+            var ll = marker.getLngLat();
+            var toString = '' + ll.lng + ',' + ll.lat;
+            var maps = {
+                maps_address: toString,
+                post_id: response.data
+            };
+            $http.post(`/create-mapAddress`, maps).then(function(response) {
+                console.log("mapAdress: " + response.data);
             });
+
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+
+                },
+                function(error) {
+                    swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+                    $http.put(`/post-id/false/` + response.data.post_id).then(function(response) {
+
+                    }, function(error) {
+
+                    });
+                });
+
+            $http.post(`/rest/create-transaction`, transaction).then(function(response) {
+                const today = new Date();
+                var detailTransaction = {
+                    price: $scope.service.services_price * 1000,
+                    transactions_type: false,
+                    timer: today.toLocaleTimeString("en-US"),
+                    account_get: $rootScope.$pay.pay_id,
+                    fullname_get: $rootScope.$u.fullname,
+                    bank_code: null,
+                    transactions_id: response.data
+                };
+
+                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
+            }, function(err) {
+                swal("Good job!", "Lỗi - Giao Dịch!", "success");
+            });
+            swal("Thành Công!", "Bài viết đã đăng!", "success");
+            window.location.href = "http://localhost:8080/home/manager/post";
         }, function(error) {
-            swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+            swal("Lỗi!", "Lỗi đăng bài!", "error");
         });
+
 
     };
 

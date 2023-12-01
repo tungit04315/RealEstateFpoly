@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
+
 import com.poly.bean.*;
 
 public interface PostDAO extends JpaRepository<Post, Integer>{
@@ -16,6 +18,11 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Transactional
 	@Query(value = "update post set deleted_at = 'true' where post_id = ?1", nativeQuery = true)
 	public Integer softDeletePost(Integer id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+	@Transactional
+	@Query(value = "update post set active = ?1 where post_id = ?2", nativeQuery = true)
+	public Integer softActionPost(String active,Integer id);
 	
 	@Query(value="select * from post where deleted_at = 'true' order by post_id desc", nativeQuery = true)
 	public Page<Post> getHistoryDeletePostsDelete(Pageable p);
@@ -32,7 +39,7 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Query(value="select * from post where active = 'false' and deleted_at = 'true' and users_id = ?1 order by post_id desc", nativeQuery = true)
 	public List<Post> getPostsDelete(String username);
 	
-	@Query(value="select * from post where active = 'false' and deleted_at = 'false' and users_id = ?1", nativeQuery = true)
+	@Query(value="select * from post where active = 'false' and deleted_at = 'false' and users_id = ?1 order by post_id desc", nativeQuery = true)
 	public List<Post> getPostsExpired(String username); 
 	
 	@Query(value="select top 6 * from post where active = 1 and deleted_at = 0 order by post_id desc", nativeQuery = true)
@@ -55,6 +62,10 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 			+ "HAVING AVG(price) < 100000000", nativeQuery = true)
 	public List<Post> getPostsForYou();
 	
-	@Query(value="select * from post where active = 1 and post_title = ?1 or addresss = ?2 or addresss like %?3 or types_id = ?4", nativeQuery = true)
-	public List<Post> searchPost(String title, String address, String province, Integer type);
+//	@Query(value="select * from post where active = 1 and post_title like %?1 or addresss like %?2 or addresss like %?3 or types_id = ?4", nativeQuery = true)
+//	public List<Post> searchPost(String title, String address, String province, Integer type);
+	
+	@Query(value = "select * from post where active = 1 and post_title like %:title% or addresss like %:address% or addresss like %:province% or types_id = :type", nativeQuery = true)
+	public List<Post> searchPost(@Param("title") String title, @Param("address") String address, @Param("province") String province, @Param("type") Integer type);
+
 }

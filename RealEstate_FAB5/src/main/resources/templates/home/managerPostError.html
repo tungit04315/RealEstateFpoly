@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{index_user::areas(~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div class="container-xxl py-5">
+            <div class="content row">
+                <div th:replace="~{/layout_user/aside :: .aside}"></div>
+                <div class="col-lg-9" style="margin-left: -10px;">
+                    <div class="container mb-5">
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <div class="col-md-12">
+                                <div class="card" th:each="post : ${post_list}" style="margin-bottom: 20px;">
+                                    <div class="d-flex justify-content-between p-2 px-3">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <img src="{{urlAvt($u.avatar)}}" width="50" height="50" class="rounded-circle">
+                                            <div class="d-flex flex-column ml-2">
+                                                <span style="font-weight: bold; margin-left: 10px;" th:utext="*{post.users_id.fullname}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row mt-1 ellipsis">
+                                            <small style="margin-right: 10px;" th:utext="*{#dates.format(post.end_date, 'dd/MM/yyyy hh:mm')}"></small>
+                                            <div class="dropdown custom-dropdown">
+                                                <a href="#" data-toggle="dropdown" class="dropdown-link" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right" style="width: 200px;" aria-labelledby="dropdownMenuButton">
+                                                    <div class="title-wrap d-flex align-items-center">
+                                                        <h3 class="title mb-0">Cài đặt</h3>
+                                                    </div>
+                                                    <ul class="custom-notifications" style="height: 100%;">
+                                                        <a th:href="@{/home/post-update-expired?id={id}(id=${post.post_id})}" style="color: black;">
+                                                            <i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa bài viết
+                                                        </a>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <img th:src="@{'/files/img/' + ${post.albums[0].albums_name}}" class="img-fluid">
+                                    <div class="p-2">
+                                        <p class="text-justify" th:utext="*{post.post_title}">
+                                        </p>
+                                        <hr>
+                                        <div class="d-flex">
+                                            <a href="#myModal" class="btn btn-primary" data-toggle="modal" style="margin-right: 10px;"><i class="fa-solid fa-xmark"></i> Hủy bỏ</a>
+                                            <a class="btn btn-primary" th:href="@{'/home/manager/post-deadline-extension-action?id=' + ${post.post_id}}">
+                                                <i class="fa-solid fa-check"></i> Gia hạn ngay
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="myModal" class="modal fade">
+                                        <div class="modal-dialog modal-confirm">
+                                            <div class="modal-content">
+                                                <div class="modal-header flex-column">
+                                                    <div class="icon-box">
+                                                        <i class="fa-solid fa-xmark" style="font-size: 50px; color:red;"></i>
+                                                    </div>
+                                                    <h4 class="modal-title w-100" style="color: red;">Bạn có chắc không?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                        <i class="fa-regular fa-circle-xmark" style="font-size: 25px;"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có chắc chắn muốn hủy gia hạn bài viết này không?</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-center">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                                    <a class="btn btn-danger" th:href="@{'/home/manager/delete-post?id=' + ${post.post_id}}">
+                                                        Đồng ý
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div th:if="${error == 'true'}">
+            <div class="toast active">
+                <div class="toast-content">
+                    <i class="fa-solid fa-exclamation" style="color: #ff0000;"></i>
+                    <div class="message">
+                        <span class="text text-1">Hủy thất bại</span>
+                        <span class="text text-2">Không tìm thấy bài viết muốn hủy!</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-xmark close"></i>
+
+                <div class="progress active"></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
