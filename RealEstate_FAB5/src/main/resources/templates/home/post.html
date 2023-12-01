@@ -107,10 +107,10 @@
                                             <h5>Thông tin bài viết</h5>
                                             <label for="exampleInputEmail1" class="form-label">Tiêu đề *</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1" ng-model="post_title" placeholder="Ví dụ: Bán nhà 50m² chính chủ tại Cầu giấy" style="height: 40px;">
-                                            <span ng-show="post_title.length < 20" style="color:red;">Tiêu đề tối thiểu phải là 50 ký tự.</span> <br>
+                                            <span ng-show="post_title.length < 20" style="color:red;">Tiêu đề tối thiểu phải là 20 ký tự.</span> <br>
                                             <label for="exampleInputEmail1" class="form-label">Mô tả *</label>
                                             <textarea rows="7" cols="" class="form-control" ng-model="post_content" placeholder="Ví dụ: Nhập mô tả chung về bất động sản của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học..."></textarea>
-                                            <span ng-show="post_content.length < 50" style="color:red;">Mô tả tối thiểu phải là 155 ký tự.</span> <br>
+                                            <span ng-show="post_content.length < 50" style="color:red;">Mô tả tối thiểu phải là 50 ký tự.</span> <br>
                                         </div>
                                         <div class="mb-3">
                                             <hr class="mb-3">
@@ -394,19 +394,19 @@
                                                 <div class="col-lg-4">
                                                     <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-two" ng-model="inputNumber" value="10" ng-click="endDate(10)" autocomplete="off">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-two">
-                                                        10 ngày <p >&nbsp; (2.300 đ/ngày)</p>
+                                                        10 ngày 
                                                     </label><br>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-three" ng-model="inputNumber" value="15" ng-click="endDate(15)" autocomplete="off">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-three">
-                                                        15 ngày <p >&nbsp; (2.000 đ/ngày)</p> &nbsp; 
+                                                        15 ngày 
                                                     </label><br>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input type="radio" class="btn-check" name="check-date" id="btn-check-outlined-four" ng-model="inputNumber" value="30" ng-click="endDate(30)" autocomplete="off">
                                                     <label class="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center" for="btn-check-outlined-four">
-                                                        30 ngày <p >&nbsp; (1.500 đ/ngày)</p> &nbsp; 
+                                                        30 ngày 
                                                     </label><br>
                                                 </div>
                                             </div>
