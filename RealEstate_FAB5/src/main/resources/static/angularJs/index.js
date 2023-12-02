@@ -620,22 +620,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                             console.log("Ảnh Mờ")
                             return;
                         }
-                        console.log("Kiểm tra img lớn hơn 100KB" + " ,index = 3.2");
-                        if ((file.size / 1024) > 100) {
-                            $scope.sizeError = true;
-                            $scope.$apply();
-                            console.log($scope.sizeError);
-                            console.log(file.size / 1024);
-                            console.log((600 * 400 * 24) / 1024)
-                            return;
-                        }
-                        console.log("Kiểm tra img w:600 - h:400" + " ,index = 3.3");
-                        if (img.width !== 600 || img.height !== 400) {
-                            $scope.dimensionError = true;
-                            $scope.$apply();
-                            console.log("img w-h");
-                            return;
-                        }
+                        
                         console.log("Kiểm tra img co bị trùng lặp hay không" + " ,index = 3.4");
                         if (uploadedFileHashes.includes(hash)) {
                             $scope.duplicateError = true;
@@ -924,7 +909,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.bed = 1;
-
+	$scope.totalDay=0;
     $scope.increaseBedroomCount = function() {
         console.log($scope.post.bed);
         if ($scope.bed < 100) {
@@ -961,6 +946,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.endDate = function(nthday) {
+		$scope.totalDay = nthday;
+		console.log("hehe: "+$scope.totalDay);
         //var testType = typeof $scope.inputNumber;
         console.log("End Date kiểu dữ liệu: " + typeof nthday);
         var nday = parseInt(nthday, 10);
@@ -1042,7 +1029,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 console.log("mapAdress: " + response.data);
             });
 
-            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000)*$scope.totalDay).then(function(response) {
 
                 },
                 function(error) {
@@ -1057,7 +1044,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                 const today = new Date();
                 var detailTransaction = {
-                    price: $scope.service.services_price * 1000,
+                    price: ($scope.service.services_price * 1000)*$scope.totalDay,
                     transactions_type: false,
                     timer: today.toLocaleTimeString("en-US"),
                     account_get: $rootScope.$pay.pay_id,
@@ -1155,52 +1142,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             var file = files[i];
             var fileName = files[i].name;
             console.log(fileName);
-            // Index 3
-            // calculateFileHash(file, function(hash) {
-            //     console.log(hash + " ,index = 3.1");
-            //     var img = new Image();
-            //     img.src = URL.createObjectURL(file);
-            //     img.onload = function() {
-            //         containsHuman(file, function(containsHuman) {
-            //             if (containsHuman) {
-            //                 $scope.containsHumanError = true;
-            //                 $scope.$apply();
-            //                 console.log("Ảnh Mờ")
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img lớn hơn 100KB" + " ,index = 3.2");
-            //             if ((file.size / 1024) > 100) {
-            //                 $scope.sizeError = true;
-            //                 $scope.$apply();
-            //                 console.log($scope.sizeError);
-            //                 console.log(file.size / 1024);
-            //                 console.log((600 * 400 * 24) / 1024)
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img w:600 - h:400" + " ,index = 3.3");
-            //             if (img.width !== 600 || img.height !== 400) {
-            //                 $scope.dimensionError = true;
-            //                 $scope.$apply();
-            //                 console.log("img w-h");
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img co bị trùng lặp hay không" + " ,index = 3.4");
-            //             // if (uploadedFileHashes.includes(hash)) {
-            //             //     $scope.duplicateError = true;
-            //             //     $scope.$apply();
-            //             //     console.log("Trùng lặp hình ảnh tải lên");
-            //             //     return;
-            //             // } else {
-            //             //     console.log("ELSE HASH")
-            //             //     uploadedFileHashes.push(hash);
-            //             // }
-
-
-            //         })
-            //     };
-
-            // });
-            // updateFiles(file, form);
+            
             form.append("files", file);
             $http.post(url, form, {
                 transformRequest: angular.identity,
@@ -1365,7 +1307,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 console.log("mapAdress: " + response.data);
             });
 
-            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000)*$scope.totalDay).then(function(response) {
 
                 },
                 function(error) {
@@ -1380,7 +1322,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                 const today = new Date();
                 var detailTransaction = {
-                    price: $scope.service.services_price * 1000,
+                    price: ($scope.service.services_price * 1000)*$scope.totalDay,
                     transactions_type: false,
                     timer: today.toLocaleTimeString("en-US"),
                     account_get: $rootScope.$pay.pay_id,
