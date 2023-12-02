@@ -156,7 +156,7 @@ Validator.isConfirmed = function(selector, getConfirmValue, message) {
 }
 Validator.isnotConfirmed = function(selector, getConfirmValue, message) {
     return {
-				/*selector là các thẻ input #fullname,...*/
+				/*mk profile */
         selector: selector,
         test: function(value) {
             return value !== getConfirmValue() ? undefined : message || 'Trường không khớp';
