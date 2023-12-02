@@ -908,7 +908,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.bed = 1;
-
+    $scope.totalDay = 0;
     $scope.increaseBedroomCount = function() {
         console.log($scope.post.bed);
         if ($scope.bed < 100) {
@@ -945,6 +945,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     };
 
     $scope.endDate = function(nthday) {
+        $scope.totalDay = nthday;
+        console.log("hehe: " + $scope.totalDay);
         //var testType = typeof $scope.inputNumber;
         console.log("End Date kiểu dữ liệu: " + typeof nthday);
         var nday = parseInt(nthday, 10);
@@ -1026,7 +1028,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 console.log("mapAdress: " + response.data);
             });
 
-            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay).then(function(response) {
 
                 },
                 function(error) {
@@ -1041,7 +1043,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                 const today = new Date();
                 var detailTransaction = {
-                    price: $scope.service.services_price * 1000,
+                    price: ($scope.service.services_price * 1000) * $scope.totalDay,
                     transactions_type: false,
                     timer: today.toLocaleTimeString("en-US"),
                     account_get: $rootScope.$pay.pay_id,
@@ -1138,8 +1140,6 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             var fileName = files[i].name;
-            console.log(fileName);
-
             form.append("files", file);
             $http.post(url, form, {
                 transformRequest: angular.identity,
@@ -1304,7 +1304,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 console.log("mapAdress: " + response.data);
             });
 
-            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + $scope.service.services_price * 1000).then(function(response) {
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay).then(function(response) {
 
                 },
                 function(error) {
@@ -1319,7 +1319,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                 const today = new Date();
                 var detailTransaction = {
-                    price: $scope.service.services_price * 1000,
+                    price: ($scope.service.services_price * 1000) * $scope.totalDay,
                     transactions_type: false,
                     timer: today.toLocaleTimeString("en-US"),
                     account_get: $rootScope.$pay.pay_id,

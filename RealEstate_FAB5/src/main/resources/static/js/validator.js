@@ -154,6 +154,15 @@ Validator.isConfirmed = function(selector, getConfirmValue, message) {
         }
     }
 }
+Validator.isnotConfirmed = function(selector, getConfirmValue, message) {
+    return {
+				/*mk profile */
+        selector: selector,
+        test: function(value) {
+            return value !== getConfirmValue() ? undefined : message || 'Trường không khớp';
+        }
+    }
+}
 Validator.chckPass = function(selector, message){
     return {
 				/*selector là các thẻ input #fullname,...*/
