@@ -620,22 +620,6 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                             console.log("Ảnh Mờ")
                             return;
                         }
-                        console.log("Kiểm tra img lớn hơn 100KB" + " ,index = 3.2");
-                        if ((file.size / 1024) > 100) {
-                            $scope.sizeError = true;
-                            $scope.$apply();
-                            console.log($scope.sizeError);
-                            console.log(file.size / 1024);
-                            console.log((600 * 400 * 24) / 1024)
-                            return;
-                        }
-                        console.log("Kiểm tra img w:600 - h:400" + " ,index = 3.3");
-                        if (img.width !== 600 || img.height !== 400) {
-                            $scope.dimensionError = true;
-                            $scope.$apply();
-                            console.log("img w-h");
-                            return;
-                        }
                         console.log("Kiểm tra img co bị trùng lặp hay không" + " ,index = 3.4");
                         if (uploadedFileHashes.includes(hash)) {
                             $scope.duplicateError = true;
@@ -1155,52 +1139,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             var file = files[i];
             var fileName = files[i].name;
             console.log(fileName);
-            // Index 3
-            // calculateFileHash(file, function(hash) {
-            //     console.log(hash + " ,index = 3.1");
-            //     var img = new Image();
-            //     img.src = URL.createObjectURL(file);
-            //     img.onload = function() {
-            //         containsHuman(file, function(containsHuman) {
-            //             if (containsHuman) {
-            //                 $scope.containsHumanError = true;
-            //                 $scope.$apply();
-            //                 console.log("Ảnh Mờ")
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img lớn hơn 100KB" + " ,index = 3.2");
-            //             if ((file.size / 1024) > 100) {
-            //                 $scope.sizeError = true;
-            //                 $scope.$apply();
-            //                 console.log($scope.sizeError);
-            //                 console.log(file.size / 1024);
-            //                 console.log((600 * 400 * 24) / 1024)
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img w:600 - h:400" + " ,index = 3.3");
-            //             if (img.width !== 600 || img.height !== 400) {
-            //                 $scope.dimensionError = true;
-            //                 $scope.$apply();
-            //                 console.log("img w-h");
-            //                 return;
-            //             }
-            //             console.log("Kiểm tra img co bị trùng lặp hay không" + " ,index = 3.4");
-            //             // if (uploadedFileHashes.includes(hash)) {
-            //             //     $scope.duplicateError = true;
-            //             //     $scope.$apply();
-            //             //     console.log("Trùng lặp hình ảnh tải lên");
-            //             //     return;
-            //             // } else {
-            //             //     console.log("ELSE HASH")
-            //             //     uploadedFileHashes.push(hash);
-            //             // }
 
-
-            //         })
-            //     };
-
-            // });
-            // updateFiles(file, form);
             form.append("files", file);
             $http.post(url, form, {
                 transformRequest: angular.identity,
