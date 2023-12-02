@@ -65,7 +65,11 @@
         form: '#passprofile',
         errorSelector: '.form-message',
         rules: [
+        	Validator.isRequired('#passcu','Vui lòng nhập mật khẩu cũ'),
             Validator.isRequired('#mkmoi', 'Vui lòng nhập mật khẩu'),
+            Validator.isnotConfirmed('#mkmoi', function() {
+                return document.querySelector('#passprofile #passcu').value;
+            }, 'Mật khẩu mới trùng với mật khẩu cũ'),
             Validator.isRequired('#REmkmoi', 'Vui lòng xác nhận mật khẩu'),
             Validator.chckPass('#mkmoi',
                 'Tổi thiểu 6 ký tự số chữ thường, hoa ký tự đặc biệt'),
