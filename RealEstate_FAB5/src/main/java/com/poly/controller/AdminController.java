@@ -233,13 +233,19 @@ public class AdminController {
 	// Profile User (Admin)
 	@RequestMapping("/admin/profile")
 	public String getProfile(Model m) {
-		m.addAttribute("u", userService.findById("Phatbieu"));
-		ss.setAttribute("user",userService.findById("Phatbieu"));
+		Users u = ss.getAttribute("user");
+		m.addAttribute("u", userService.findById(u.getUsername()));
 		return "admin/profile";
 	}
 	
 	@RequestMapping("/admin/profile-edit")
 	public String setProfile(Model m, Users u) {
+		Users uFind = userService.findById(u.getUsername());
+		Pay p = payService.findByID(uFind.getPay_id().getPay_id());
+		Ranks r = rankService.findById(uFind.getRanks_id().getRanks_id());
+		u.setPay_id(p);
+		u.setRanks_id(r);
+		u.setActive(true);
 		userService.update(u);
 		ss.setAttribute("user", u);
 		return "redirect:/admin/profile";	

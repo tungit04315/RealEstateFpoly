@@ -20,12 +20,19 @@
                                     <input type="text" class="form-control" placeholder="Họ và tên" name="fullname" th:value="*{fullname}">
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username" th:value="*{username}">
+                                    <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username" th:value="*{username}" readonly="readonly">
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <div class="col" hidden>
+                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="passwords" th:value="*{passwords}">
+                                </div>
+                                <input type="text" th:value="${u.fail_login}" name="fail_login" hidden>
+                                <input type="text" th:value="${u.create_block}" name="create_block" hidden>
+                                <input type="text" th:value="${u.avatar}" name="avatar" hidden>
+                                <input type="text" th:value="${u.active}" name="active" hidden>
                                 <div class="col">
-                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="passwords" th:value="*{passwords}" readonly>
+                                    <input type="date" th:value="${u.birthday}" name="birthday" class="form-control" required>
                                 </div>
                                 <div class="col">
                                     <input type="text" class="form-control" placeholder="Email" name="email" th:value="*{email}">
@@ -49,8 +56,7 @@
 											</label>
                                         </div>
                                         <div class="radio-button">
-                                            <input type="radio" class="radio-button__input" id="radio2" name="gender" th:value="false" th:checked="*{gender ? false: true}">
-                                            <label class="radio-button__label" for="radio2"> <span
+                                            <input type="radio" class="radio-button__input" id="radio2" name="gender" th:value="false" th:checked="*{gender ? false: true}"> <label class="radio-button__label" for="radio2"> <span
 												class="radio-button__custom"></span> Nữ
 											</label>
                                         </div>
@@ -68,33 +74,42 @@
                     <label for="tab2-2">Đổi mật khẩu</label> <input id="tab2-2" name="tabs-two" type="checkbox" checked>
                     <div>
                         <h4 class="text-title text-center mb-3">Đổi mật khẩu</h4>
-                        <form action="/admin/ChangePass" method="post" class="form">
+                        <form action="/admin/ChangePass" method="post" class="form" onsubmit="return validateFormSignUp()" id="ChangePass">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <input type="password" name="passmoi" class="form-control" placeholder="Mật khẩu mới" aria-label="First name">
-                                    <div class="form-text">
-                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật khẩu phải đủ 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 ký tự đặt biệt.
-                                    </div>
-                                    <div class="form-text">
-                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Mật khẩu xác nhận phải khớp với mật khẩu mới.
-                                    </div>
-                                    <div class="form-text">
-                                        <i class="fa-solid fa-check" style="color: #6bff7c;"></i> Không sử dụng lại mật khẩu cũ.
-                                    </div>
+                                    <input type="password" name="passmoi" id="password" class="form-control" placeholder="Mật khẩu mới" aria-label="First name">
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                                 </div>
                                 <div class="col">
-                                    <input type="password" name="nhaplaipassmoi"  class="form-control" placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
+                                    <input type="password" name="nhaplaipassmoi" id="repassword" class="form-control" placeholder="Xác nhận mật khẩu mới" aria-label="Last name">
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                                <button type="submit" class="btn btn-primary">Đổi mật
+									khẩu</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <!-- Main Content End -->
             </div>
+            <script type="text/javascript">
+                Validator({
+                    form: '#ChangePass',
+                    errorSelector: '.form-message',
+                    rules: [
+                        Validator.isRequired('#password', 'Vui lòng nhập mật khẩu'),
+                        Validator.isRequired('#repassword', 'Vui lòng xác nhận mật khẩu'),
+                        Validator.isConfirmed('#repassword', function() {
+                            return document.querySelector('#dangky #password').value;
+                        }, 'Nhập lại mật khẩu không khớp'),
+                        Validator.chckPass('#password', 'Tổi thiểu 6 ký tự số chữ thường, hoa ký tự đặc biệt'),
+                    ]
+                });
+            </script>
         </div>
+
     </main>
 </body>
 
