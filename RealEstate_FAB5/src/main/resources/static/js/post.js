@@ -73,7 +73,7 @@ function validateForm() {
         if (y[i].value == "") {
             y[i].className += " invalid";
             valid = false;
-            swal("Lỗi A!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 
@@ -83,7 +83,7 @@ function validateForm() {
         if (selects[i].value == "") {
             selects[i].className += " invalid";
             valid = false;
-            swal("Lỗi B!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 
@@ -92,7 +92,7 @@ function validateForm() {
     for (i = 0; i < radioGroups.length; i++) {
         if (radioGroups[i].type === "radio" && !isChecked(radioGroups[i].name)) {
             valid = false;
-            swal("Lỗi C!", "Vui lòng kiểm tra lại thông tin!", "error");
+            swal("Lỗi!", "Vui lòng kiểm tra lại thông tin!", "error");
         }
     }
 

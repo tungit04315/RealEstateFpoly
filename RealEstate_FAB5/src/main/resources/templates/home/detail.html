@@ -101,8 +101,7 @@
                             </ol>
                         </nav>
                         <div class="title">
-
-                            <h4 th:utext="*{post_title.length() > 25 ? #strings.substring(post_title, 0, 50) : post_title}"></h4>
+                            <h4 th:utext="*{post_title.length() > 25 ? #strings.substring(post_title, 0, 25) : post_title}"></h4>
                             <p th:utext="*{addresss}"></p>
                             <hr class="mb2">
                         </div>
@@ -170,7 +169,7 @@
                         </div>
                         <div class="describe">
                             <h5 class="">Thông tin mô tả</h5>
-                            <p th:utext="*{post_content.length() > 70 ? #strings.substring(post_content, 0, 70) : post_content}">
+                            <p th:utext="*{post_content.length() > 50 ? #strings.substring(post_content, 0, 50) : post_content}">
                             </p>
                         </div>
                         <div class="characteristic">
@@ -297,9 +296,13 @@
                         </div>
                         <div class="maps-project">
                             <h5>Xem trên bản đồ</h5>
-                            <div class="col-sm-10">
+                            <div class="col-sm-12">
                                 <label for="exampleInputEmail1" class="form-label">Vị trí</label>
                                 <div id="mapDetail" style="width:100%;height: 50vh;"></div>
+                            </div>
+                            <h5>Video Youtube</h5>
+                            <div class="col-sm-12">
+                                <iframe width="100%" height="500" th:src="@{'https://www.youtube.com/embed/' + *{linkVideo}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="key-word">

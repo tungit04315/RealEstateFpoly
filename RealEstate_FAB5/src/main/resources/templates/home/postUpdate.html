@@ -134,7 +134,7 @@
                                                     <div ng-show="post.price === undefined || post.price === null">
                                                         <span style="color:red;">Vui lòng nhập dữ liệu.</span>
                                                     </div>
-                                                    <span ng-show="post.price < 0 || post.price < 40000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 40 triệu)</span>
+                                                    <span ng-show="post.price < 0 || post.price < 1000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 1 triệu)</span>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="disabledSelect" class="form-label">Đơn vị</label>
@@ -354,7 +354,7 @@
                                                 <div class="collapse" id="collapseExample">
                                                     <div class="card card-body">
                                                         <label for="linkYoutube" class="form-label" title="Ấn vào">Link video YouTube</label>
-                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" ng-model="post.linkVideo" style="height: 40px;">
+                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" ng-change="urlVideo(post.linkVideo)" ng-model="post.linkVideo" style="height: 40px;">
                                                     </div>
                                                 </div>
                                             </div>

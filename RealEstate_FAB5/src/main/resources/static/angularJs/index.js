@@ -980,7 +980,13 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         });
     }
     $scope.chooseMarker = function() {
-            $scope.marker = 1;
+        $scope.marker = 1;
+    }
+
+    $scope.urlVideo = function(url) {
+            console.log(url);
+            $scope.linkVideo = url.split('=')[1];
+            $scope.post.linkVideo = url.split('=')[1];
         }
         // Create Post
     $scope.createPost = function() {

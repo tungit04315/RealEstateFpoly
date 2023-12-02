@@ -122,7 +122,7 @@
                                                 <div class="col-lg-9">
                                                     <label for="disabledTextInput" class="form-label">Mức giá *</label>
                                                     <input type="number" id="disabledTextInput" class="form-control" ng-model="price" style="height: 40px;">
-                                                    <span ng-show="price < 0 || price < 40000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 40 triệu)</span>
+                                                    <span ng-show="price < 0 || price < 1000000" style="color: red;">Mức giá không được phép âm (tối thiểu la 1 triệu)</span>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <label for="disabledSelect" class="form-label">Đơn vị</label>
@@ -347,7 +347,7 @@
                                                 <div class="collapse" id="collapseExample">
                                                     <div class="card card-body">
                                                         <label for="linkYoutube" class="form-label" title="Ấn vào">Link video YouTube</label>
-                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" ng-model="linkVideo" style="height: 40px;">
+                                                        <input type="text" class="form-control" id="linkYoutube" aria-describedby="emailHelp" ng-change="urlVideo(linkVideo)" ng-model="linkVideo" style="height: 40px;">
                                                     </div>
                                                 </div>
                                             </div>
