@@ -58,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						session.setAttribute("BlockAcc", false);
 					throw new DisabledException("Tài khoản chưa kích hoạt");
 					}
+					if(user==null) {
+						session.setAttribute("checkUser", false);
+					}
 					if(user.getFail_login()==5) {
 						chckUser = true;
 						session.setAttribute("checkUser", chckUser);
