@@ -68,7 +68,7 @@ public class HomeController {
 			String hoten = u.getFullname();
 			String diachi = u.getAddresss();
 			Date ngaysinh = u.getBirthday();
-			if(hoten==null || diachi==null || ngaysinh==null) {
+			if(hoten == "" || diachi == "" || hoten == null || diachi == null || ngaysinh == null) {
 				String hienthi = ss.getAttribute("visible");
 				String tb = ss.getAttribute("thongbao");
 				
@@ -181,7 +181,8 @@ public class HomeController {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		return "home/contact";
+		Post p = ss.getAttribute("post_id");
+		return "redirect:/home/detail?id=" + p.getPost_id();
 	}
 	
 	@RequestMapping("/home/contact-sms")
@@ -193,7 +194,8 @@ public class HomeController {
 		String phoneVN = "+84" + phone.substring(1);
 		String body = "Xin chào anh, tôi là " + fullName + ", " + content;
 		smsService.sendSms(phoneVN, body);
-		return "home/contact";
+		Post p = ss.getAttribute("post_id");
+		return "redirect:/home/detail?id=" + p.getPost_id();
 	}
 	// TEST COMMIT
 	// Contact Page

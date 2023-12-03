@@ -1032,35 +1032,9 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             };
             $http.post(`/create-mapAddress`, maps).then(function(response) {
                 console.log("mapAdress: " + response.data);
+            }, function(error) {
+                swal("Lỗi!", "Vui lòng cập nhật vị trí!", "error");
             });
-
-            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay).then(function(response) {
-
-                },
-                function(error) {
-                    swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
-                    $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {
-
-                    }, function(error) {
-
-                    });
-                });
-
-            $http.post(`/rest/create-transaction`, transaction).then(function(response) {
-                const today = new Date();
-                var detailTransaction = {
-                    price: ($scope.service.services_price * 1000) * $scope.totalDay,
-                    transactions_type: false,
-                    timer: today.toLocaleTimeString("en-US"),
-                    account_get: $rootScope.$pay.pay_id,
-                    fullname_get: $rootScope.$u.fullname,
-                    bank_code: null,
-                    transactions_id: response.data
-                };
-                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
-
-            }, function(err) {});
-
             for (let i = 0; i < $scope.filenames.length; i++) {
                 console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
                 var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
@@ -1076,8 +1050,39 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
                 })
             }
+            console.log($rootScope.$u.username);
+            $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay)
+                .then(function(response) {
+
+                    },
+                    function(error) {
+                        //swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+                        $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {
+
+                        }, function(error) {
+
+                        });
+                    });
+
+            $http.post(`/rest/create-transaction`, transaction).then(function(response) {
+                const today = new Date();
+                var detailTransaction = {
+                    price: ($scope.service.services_price * 1000) * $scope.totalDay,
+                    transactions_type: false,
+                    timer: today.toLocaleTimeString("en-US"),
+                    account_get: $rootScope.$pay.pay_id,
+                    fullname_get: $rootScope.$u.fullname,
+                    bank_code: null,
+                    transactions_id: response.data
+                };
+                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {
+                    window.location.href = "/home/manager/post";
+                }, function(err) {})
+
+            }, function(err) {});
+
+
             swal("Thành Công!", "Đăng bài thành công!", "success");
-            window.location.href = "/home/manager/post";
         }, function(error) {
             swal("Lỗi!", "Đăng bài thất bại!", "error");
 
@@ -1308,13 +1313,15 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             };
             $http.post(`/create-mapAddress`, maps).then(function(response) {
                 console.log("mapAdress: " + response.data);
+            }, function(error) {
+                swal("Lỗi!", "Vui lòng cập nhật vị trí!", "error");
             });
 
             $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay).then(function(response) {
 
                 },
                 function(error) {
-                    swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
+                    //swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
                     $http.put(`/post-id/false/` + response.data.post_id).then(function(response) {
 
                     }, function(error) {
@@ -1334,12 +1341,14 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     transactions_id: response.data
                 };
 
-                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {}, function(err) {})
+                $http.post(`/rest/create-detail-transaction`, detailTransaction).then(function(response) {
+                    window.location.href = "/home/manager/post";
+                }, function(err) {})
             }, function(err) {
                 swal("Good job!", "Lỗi - Giao Dịch!", "success");
             });
             swal("Thành Công!", "Bài viết đã đăng!", "success");
-            window.location.href = "/home/manager/post";
+
         }, function(error) {
             swal("Lỗi!", "Lỗi đăng bài!", "error");
         });

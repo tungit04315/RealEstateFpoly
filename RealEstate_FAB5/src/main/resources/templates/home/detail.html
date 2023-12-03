@@ -9,65 +9,6 @@
 
 <body>
     <main>
-        <!-- Search Start -->
-        <!-- <div class="container-fluid bg-primary wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-            <div class="container">
-                <div class="row g-2">
-                    <div class="col-md-10">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control border-0 py-3" placeholder="Nhập địa chỉ, tên dự án...">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Tỉnh/Thành</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Loại dự án</option>
-                                    <option value="1">Property Type 1</option>
-                                    <option value="2">Property Type 2</option>
-                                    <option value="3">Property Type 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Mức giá</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Diện tích</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Trạng thái</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark border-0 w-100 py-3"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- Search End -->
-
         <!-- Detail -->
         <div class="container-xxl py-5" th:object="${post}">
             <div class="container wow fadeInUp" data-wow-delay="0.1s">
@@ -346,15 +287,15 @@
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-body">
                                 <div class="d-flex align-content-center justify-content-center">
-                                    <img src="{{urlAvt($u.avatar)}}" class="rounded-circle w-25" alt="...">
+                                    <img th:src="@{'/files/avatar/'+*{users_id.avatar}}" class="rounded-circle w-25" alt="...">
 
                                 </div>
                                 <p class="card-title mt-2 d-flex justify-content-center" style="font-size: 13px;">Được đăng bởi</p>
-                                <h5 class="card-title d-flex justify-content-center">{{$u.fullname}}</h5>
+                                <h5 class="card-title d-flex justify-content-center" th:utext="*{users_id.fullname}"></h5>
                                 <a href="#" class="card-text d-flex justify-content-center">Xem thêm</a>
 
-                                <input type="button" class="btn btn-primary w-100 mt-4" value="{{$u.phone.substr(0, $u.phone.length - 4) + '****'}} Hiện số" id="togglePhoneButton">
-                                <button type="button" class="btn btn-outline-light w-100 mt-2" id="contact">Gửi email</button>
+                                <input type="button" class="btn btn-primary w-100 mt-4" th:value="*{users_id.phone}" id="togglePhoneButton">
+                                <button type="button" class="btn btn-outline-light w-100 ntact">Gửi email</button>
                                 <button type="button" class="btn btn-outline-light w-100 mt-2" id="contact-two">Yêu cầu liên hệ lại</button>
                             </div>
                         </div>

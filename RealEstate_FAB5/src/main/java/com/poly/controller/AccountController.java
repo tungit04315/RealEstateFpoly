@@ -84,14 +84,17 @@ public class AccountController {
 		if(findId != null) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Tên đăng nhập đã được đăng ký");
+			return "account/login";
 		}else
 		if(uFindPhone != null) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Số điện thoại đã được sử dụng");
+			return "account/login";
 		}else
 		if (uFindEmail != null) {
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Email đã được đăng ký");
+			return "account/login";
 		}else {
 			Pay newpay = new Pay();
 			newpay.setPay_money((long) 0.00);
@@ -119,8 +122,9 @@ public class AccountController {
 			
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Đăng ký thành công!!");
+			return "account/login";
 		}
-		return "account/login";
+		
 	}
 
 	@GetMapping("/account/cofirm")
@@ -131,7 +135,7 @@ public class AccountController {
 		userService.update(users);
 		
 		return "redirect:/login";
-		}
+	}
 	
 	private void verifyReCAPTCHA(String gRecaptchaResponse) {
 		HttpHeaders headers = new HttpHeaders();
@@ -228,7 +232,7 @@ public class AccountController {
 		if (authList.contains("ROLE_admin")) {
 			return "redirect:/admin";
 		} else {
-			if(hoten==null||diachi==null||ngaysinh==null) {
+			if(hoten == ""|| diachi == "" || hoten == null || diachi == null|| ngaysinh == null) {
 				ss.setAttribute("visible", "true");
 				ss.setAttribute("thongbao", "Vui lòng cập nhật đầy đủ thông tin!");
 				return "redirect:/home/manager/profile";
