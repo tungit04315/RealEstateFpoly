@@ -25,7 +25,9 @@ app.run(function($rootScope, $http, $window) {
         $http.get(`/likes`).then(response => {
             if (response.data) {
                 $rootScope.likes = response.data;
+                console.log($rootScope.likes);
                 $rootScope.likes.forEach(like => {
+                    console.log(like);
                     like.post_id.post_title = handleTitle(like.post_id.post_title);
                     like.likes_date = getDaysSinceSave(like.likes_date);
                     $http.get(`/rest/find-albums?id=` + like.post_id.post_id).then(function(respAlbums) {
@@ -804,6 +806,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
     $scope.toggleLike = function() {
         $scope.post_id = postIdFromQueryString;
         console.log($scope.post_id);
+
         $http.get(`/find-by-post-likes`)
             .then(function(response) {
                 console.log(response.data);
@@ -843,7 +846,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                     var like = $scope.likes;
                     $http.post('/likes-add', like)
                         .then(function() {
-
+                            window.location.href = '/home/detail?id=' + $scope.post_id;
                         })
                         .catch(function(error) {
                             console.error('Lỗi thêm bài viết vào danh sách yêu thích: ', error);

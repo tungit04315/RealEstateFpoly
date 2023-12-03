@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		http.authorizeRequests()
-		.antMatchers("/home/post", "/home/post-update", "/post/**", "/user/**", "/home/manager/**")
+		.antMatchers("/home/post", "/home/post-update", "/post/**", "/user/**", "/home/manager/**", "/find-by-post-likes", "/share-facebook")
 		.authenticated().antMatchers("/admin/**")
 		.hasAnyRole("admin").antMatchers("/rest/authorities").hasRole("user")
 		.anyRequest().permitAll();
