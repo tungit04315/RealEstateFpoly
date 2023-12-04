@@ -57,9 +57,7 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Query(value="select * from post where active = 'true' and deleted_at = 'false'", nativeQuery = true)
 	public List<Post> getPostsAll();
 	
-	@Query(value="SELECT * FROM post "
-			+ "GROUP BY post_id, post_title, post_content, create_at, end_date, acreage,price,addresss,link_video,services_id,types_id,direction,bed,juridical,balcony,toilet,interior,active,users_id,deleted_at "
-			+ "HAVING AVG(price) < 100000000", nativeQuery = true)
+	@Query(value="SELECT TOP 6 * FROM post WHERE price < (SELECT AVG(price) FROM post) ORDER BY price", nativeQuery = true)
 	public List<Post> getPostsForYou();
 	
 //	@Query(value="select * from post where active = 1 and post_title like %?1 or addresss like %?2 or addresss like %?3 or types_id = ?4", nativeQuery = true)

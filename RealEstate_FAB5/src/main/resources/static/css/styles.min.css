@@ -2819,6 +2819,7 @@ progress {
 }
 
 .form-control-div input:focus+label span,
+.form-control-div input:not(:placeholder-shown)+label span,
 .form-control-div input:valid+label span {
     color: #E8AA42;
     transform: translateY(-30px);

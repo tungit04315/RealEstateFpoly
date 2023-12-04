@@ -26,7 +26,7 @@
                     <tbody>
                         <tr th:each="p,state : ${managerPost}">
                             <th th:text="${state.index + 1}"></th>
-                            <td th:utext="${p.post_title}"></td>
+                            <td th:utext="${p.post_title.length > 20 ? #strings.substring(p.post_title, 0, 20) : p.post_title}"></td>
                             <td th:utext="${p.users_id.username}"></td>
                             <td th:utext="${p.services_id.services_name}"></td>
                             <td th:utext="${p.create_at}"></td>
