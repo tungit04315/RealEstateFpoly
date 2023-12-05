@@ -816,7 +816,8 @@
     top: 56%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%)
+    -webkit-transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
 #contactForm-two {
@@ -830,7 +831,8 @@
     top: 56%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%)
+    -webkit-transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
 #editPostForm {

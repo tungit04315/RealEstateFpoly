@@ -297,7 +297,7 @@
                                 <input placeholder="Tiêu đề" name="subject" type="text" required />
                                 <textarea placeholder="Nội dung" name="content"></textarea>
                                 <input class="formBtn" type="submit" value="Gửi" />
-                                <input class="formBtn" type="reset" value="Hủy" />
+                                <input class="formBtn" type="reset" value="Làm mới" />
                             </form>
                         </div>
                         <div id="contactForm-two">
@@ -306,9 +306,9 @@
                             <form action="/home/contact-sms" method="post">
                                 <input placeholder="Họ và tên" name="fullname" type="text" required />
                                 <input placeholder="Số điện thoại" name="phone" th:value="*{users_id.phone}" type="text" hidden/>
-                                <textarea placeholder="Nội dung" name="content"></textarea>
+                                <textarea placeholder="Thông tin liên hệ" name="content"></textarea>
                                 <input class="formBtn" type="submit" value="Gửi" />
-                                <input class="formBtn" type="reset" value="Hủy" />
+                                <input class="formBtn" type="reset" value="Làm mới" />
                             </form>
                         </div>
                         <div class="more-information-1">
