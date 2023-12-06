@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					session.setAttribute("usermail", user.getEmail());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
-					
+					//
 					Map<String, Object> authentication = new HashMap<>();
 					
 					byte[] token = (username + ":" + user.getPasswords()).getBytes();
