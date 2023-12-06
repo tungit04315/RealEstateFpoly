@@ -79,6 +79,7 @@ public class AdminController {
 	// Home
 	
 	// User List
+	//hiển thị thông tin người dùng trừ thông tin admin
 	@RequestMapping("/admin/users")
 	public String getUsers(Model m, @RequestParam(defaultValue = "1") int page) {
 		Users u = ss.getAttribute("user");
@@ -90,11 +91,12 @@ public class AdminController {
 		return "admin/users";
 	}
 	
+	//làm mới form
 	@RequestMapping("/admin/users-new")
 	public String setUserNew(Model m) {
 		return "redirect:/admin/users";
 	}
-	
+	// chi tiết
 	@RequestMapping("/admin/user/findBy/{username}")
 	public String getUsers(Model m, @PathVariable String username, @RequestParam(defaultValue = "1") int page) {
 		Users u = ss.getAttribute("user");
@@ -105,7 +107,7 @@ public class AdminController {
 		m.addAttribute("u", userService.findById(username));
 		return "admin/users";
 	}
-	
+	//cập nhạt
 	@PostMapping("/admin/user/update")
 	public String getUsersUpdate(Model m, Users u) {
 		m.addAttribute("users", userService.findAll());
@@ -120,6 +122,7 @@ public class AdminController {
 		return "redirect:/admin/user/findBy/" + u.getUsername();
 	}
 	
+	//chặn người dùng
 	@RequestMapping("/admin/user/delete/{username}")
 	public String setAccountUser(Model m, @PathVariable String username){
 		Users u = userService.findById(username);
@@ -131,6 +134,7 @@ public class AdminController {
 	// User List
 	
 	// Post List
+	//hiện thị thông tin bài viết
 	@RequestMapping({"/admin/post","/admin/post-list"})
 	public String getPostList(Model m, @RequestParam(defaultValue = "1") Integer page) {
 		Pageable pageable = PageRequest.of(page - 1, 4);
@@ -140,7 +144,7 @@ public class AdminController {
 		m.addAttribute("managerPost", managerPost);
 		return "admin/post";
 	}
-	
+	//hiển thị chi tiết bài viết
 	@RequestMapping("/admin/post-find")
 	public String getPostList(Model m, @Param("id") Integer id, @RequestParam(defaultValue = "1") Integer page) {
 		Pageable pageable = PageRequest.of(page - 1, 4);
@@ -152,6 +156,7 @@ public class AdminController {
 		return "admin/post";
 	}
 	
+	//xóa bài viết
 	@RequestMapping("/admin/post-find-delete")
 	public String getPostDelete(Model m, @Param("id") Integer id) {
 		
@@ -160,6 +165,7 @@ public class AdminController {
 		return "redirect:/admin/post";
 	}
 	
+	// phục hồi bài viết
 	@RequestMapping("/admin/post-find-update")
 	public String getPostUpdate(Model m, @Param("id") Integer id) {
 		Post p = postService.getFindByid(id);
@@ -168,7 +174,7 @@ public class AdminController {
 		
 		return "redirect:/admin/history-delete-post";
 	}
-	
+	//xóa bài viết trong historyDelete
 	@RequestMapping("/admin/history-delete-post")
 	public String getHistoryDeletePostList(Model m, @RequestParam(defaultValue = "1") Integer page) {
 		Pageable pageable = PageRequest.of(page - 1, 4);
@@ -238,6 +244,7 @@ public class AdminController {
 	// Wallet List
 	
 	// Profile User (Admin)
+	// hiển thị thông tin cá nhân user
 	@RequestMapping("/admin/profile")
 	public String getProfile(Model m) {
 		Users u = ss.getAttribute("user");
@@ -245,6 +252,7 @@ public class AdminController {
 		return "admin/profile";
 	}
 	
+	// cập nhật thông tin
 	@RequestMapping("/admin/profile-edit")
 	public String setProfile(Model m, Users u) {
 		Users uFind = userService.findById(u.getUsername());
@@ -257,6 +265,8 @@ public class AdminController {
 		ss.setAttribute("user", u);
 		return "redirect:/admin/profile";	
 	}
+	
+	//thay đổi mật khẩu
 	@RequestMapping("/admin/ChangePass")
 	public String setChangePass(Model m, Users u) {
 		Users user = (Users) ss.getAttribute("user");

@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="u,state : ${users}">
-                            <th th:utext="${state.index}"></th>
+                            <th th:utext="${state.index + 1}"></th>
                             <td th:utext="${u.fullname}"></td>
                             <td th:utext="${u.username}"></td>
 
