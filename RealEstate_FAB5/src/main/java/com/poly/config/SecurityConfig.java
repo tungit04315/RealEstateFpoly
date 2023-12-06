@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder getpaBCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	boolean chckUser =false;
+	
 	// Provide login data
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,21 +49,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				username -> {
 				try {
 					Users user = userService.findById(username);
-					if(user.isActive()==false) {
-						session.setAttribute("usermail", user.getEmail());
-						session.setAttribute("checkActive", false);
-						session.setAttribute("checkPass", true);
-						chckUser = true;
-						session.setAttribute("checkUser", chckUser);
-						session.setAttribute("BlockAcc", false);
-					throw new DisabledException("Tài khoản chưa kích hoạt");
-					}
-					if(user==null) {
+					if(user == null) {
 						session.setAttribute("checkUser", false);
 					}
-					if(user.getFail_login()==5) {
-						chckUser = true;
-						session.setAttribute("checkUser", chckUser);
+					if(user.isActive() == false && user.getCreate_block() != null) {
+						session.setAttribute("usermail", user.getEmail());
+						session.setAttribute("checkActive", false);
+						session.setAttribute("BlockAcc", false);
+						session.setAttribute("checkPass", true);
+						session.setAttribute("checkUser", true);
+						session.setAttribute("permanentlyLocked", true);
+						throw new DisabledException("Tài khoản bị khóa");
+					}
+					if(user.isActive() == false && user.getCreate_block() == null) {
+						session.setAttribute("usermail", user.getEmail());
+						session.setAttribute("permanentlyLocked", false);
+						session.setAttribute("checkActive", false);
+						session.setAttribute("BlockAcc", false);
+						session.setAttribute("checkPass", true);
+						session.setAttribute("checkUser", true);
+						throw new DisabledException("Tài khoản chưa kích hoạt");
+					}
+					if(user.getFail_login() == 5) {
+						session.setAttribute("checkUser", true);
 						session.setAttribute("BlockAcc", true);
 						session.setAttribute("checkPass", true);
 						throw new DisabledException("Tài khoản bị khoá");
@@ -87,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					//Lưu tài khoản vào session
 					return User.withUsername(username).password(user.getPasswords()).roles(roles).build();
 				} catch (Exception e) {
-					session.setAttribute("checkUser", chckUser);
+//					session.setAttribute("checkUser", false);
 					throw new UsernameNotFoundException(username + " Not Found!!! 404");
 				}
 		});

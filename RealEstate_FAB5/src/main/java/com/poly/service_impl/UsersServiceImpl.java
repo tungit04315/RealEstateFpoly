@@ -54,8 +54,8 @@ public class UsersServiceImpl implements UsersService{
 	RoleService roleService;
 	
 	@Override
-	public Page<Users> findAll(Pageable p) {
-		return dao.findAll(p);
+	public Page<Users> findAll(String username, Pageable p) {
+		return dao.getListUserAdmin(username, p);
 	}
 
 	@Override
