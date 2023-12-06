@@ -42,11 +42,9 @@ $(function() {
 
     var chart = {
         series: [{
-                name: "Thu nhập tháng này:",
-                data: []
-            },
-            //{ name: "Chi phí tháng này:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
-        ],
+            name: "Thu nhập tháng này:",
+            data: []
+        }, ],
 
         chart: {
             type: "bar",
