@@ -102,7 +102,7 @@
                         Validator.isRequired('#password', 'Vui lòng nhập mật khẩu'),
                         Validator.isRequired('#repassword', 'Vui lòng xác nhận mật khẩu'),
                         Validator.isConfirmed('#repassword', function() {
-                            return document.querySelector('#dangky #password').value;
+                            return document.querySelector('#ChangePass #password').value;
                         }, 'Nhập lại mật khẩu không khớp'),
                         Validator.chckPass('#password', 'Tổi thiểu 6 ký tự số chữ thường, hoa ký tự đặc biệt'),
                     ]
