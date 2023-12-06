@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						session.setAttribute("checkUser", true);
 						session.setAttribute("BlockAcc", true);
 						session.setAttribute("checkPass", true);
-						throw new DisabledException("Tài khoản bị khoá");
+						throw new DisabledException("Tài khoản bị khoá vui lòng chọn mặt khẩu");
 					}
 					session.setAttribute("BlockAcc", false);
 					session.setAttribute("checkActive", true);
