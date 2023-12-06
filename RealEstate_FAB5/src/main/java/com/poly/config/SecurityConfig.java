@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					Users user = userService.findById(username);
 					if(user == null) {
 						session.setAttribute("checkUser", false);
-					}
+					}//
 					if(user.isActive() == false && user.getCreate_block() != null) {
 						session.setAttribute("usermail", user.getEmail());
 						session.setAttribute("checkActive", false);
