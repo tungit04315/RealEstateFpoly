@@ -160,42 +160,46 @@ public class AccountController {
 	public String loginError(Model m) throws MessagingException {
 		Users u = userService.findByEmailOrPhone(ss.getAttribute("usermail"), null);
 		boolean chkUser = ss.getAttribute("checkUser");
-		if(chkUser==false) {
+		if(chkUser == false) {
+			System.out.println("user == false (1)");
 			m.addAttribute("visible", "true");
 			m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
 			return "account/login";
 		}else {
+			boolean permanentlyLocked = ss.getAttribute("permanentlyLocked");
+			if(permanentlyLocked == true) {
+				m.addAttribute("visible", "true");
+				m.addAttribute("thongbao", "Tài khoản đã bị khóa vĩnh viễn.");
+				return "account/login";
+			}
 			boolean chkPass = ss.getAttribute("checkPass");
-			if(chkPass==false) {
+			if(chkPass == false) {
 					m.addAttribute("visible", "true");
 					m.addAttribute("thongbao", "Sai mật khẩu");
 					u.setFail_login(u.getFail_login()+1);
 					userService.update(u);
 				return "account/login";
 			}
-		boolean blckAc =ss.getAttribute("BlockAcc");
-		if (blckAc==true) {
-			m.addAttribute("visible", "true");
-			m.addAttribute("thongbao", "Tài khoản của bạn đã bị khoá! Hãy chọn quên mật khẩu!");
-			return "account/login";
-		}
-		boolean chkActive =ss.getAttribute("checkActive");
-		if(chkActive==false && chkUser==true) {
-			m.addAttribute("visible", "true");
-			m.addAttribute("thongbao", "Tài khoản chưa được kích hoạt bằng email");
-			
-			ss.setAttribute("checkUser", false);
-			ss.setAttribute("checkActive", true);
-			//gui mail kich hoat tai khoan
-			mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
-			//gui mail kich hoat tai khoan
-			return "account/login";
-			}else {
+			boolean blckAc =ss.getAttribute("BlockAcc");
+			if (blckAc == true) {
 				m.addAttribute("visible", "true");
-				m.addAttribute("thongbao", "Tên đăng nhập không tồn tại");
+				m.addAttribute("thongbao", "Tài khoản của bạn đã bị khoá! Hãy chọn quên mật khẩu!");
 				return "account/login";
 			}
-		}
+			boolean chkActive =ss.getAttribute("checkActive");
+			if(chkActive == false && chkUser == true && permanentlyLocked == false) {
+					m.addAttribute("visible", "true");
+					m.addAttribute("thongbao", "Tài khoản chưa được kích hoạt bằng email");
+					
+					ss.setAttribute("checkUser", false);
+					ss.setAttribute("checkActive", true);
+					//gui mail kich hoat tai khoan
+					mailService.sendMailConfirm(u.getEmail(), "Kích hoạt tài khoản", u.getFullname(), null);
+					//gui mail kich hoat tai khoan
+					return "account/login";
+				}
+			}
+		return "account/login";
 	}
 	//Đăng nhập thành công
 	@RequestMapping("/login/action/success")

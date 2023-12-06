@@ -11,7 +11,7 @@ import com.poly.bean.Users;
 
 public interface UsersService {
 	
-	public Page<Users> findAll(Pageable p);
+	public Page<Users> findAll(String username, Pageable p);
 	
 	public List<Users> findAll();
 

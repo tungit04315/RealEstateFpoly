@@ -1,6 +1,7 @@
 package com.poly.controller;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,8 +54,11 @@ public class AdminController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private PaymentService Pay;
+	
+	
 	// Home
 	@RequestMapping({"/admin","/admin/index"})
 	public String getHome(Model m) {
@@ -77,8 +81,9 @@ public class AdminController {
 	// User List
 	@RequestMapping("/admin/users")
 	public String getUsers(Model m, @RequestParam(defaultValue = "1") int page) {
+		Users u = ss.getAttribute("user");
 		Pageable pageable = PageRequest.of(page - 1, 4);
-		Page<Users> users = userService.findAll(pageable);
+		Page<Users> users = userService.findAll(u.getUsername(), pageable);
 		
 		m.addAttribute("users", users);
 		m.addAttribute("u", new Users());
@@ -92,8 +97,9 @@ public class AdminController {
 	
 	@RequestMapping("/admin/user/findBy/{username}")
 	public String getUsers(Model m, @PathVariable String username, @RequestParam(defaultValue = "1") int page) {
+		Users u = ss.getAttribute("user");
 		Pageable pageable = PageRequest.of(page - 1, 4);
-		Page<Users> users = userService.findAll(pageable);
+		Page<Users> users = userService.findAll(u.getUsername(), pageable);
 		
 		m.addAttribute("users", users);
 		m.addAttribute("u", userService.findById(username));
@@ -118,6 +124,7 @@ public class AdminController {
 	public String setAccountUser(Model m, @PathVariable String username){
 		Users u = userService.findById(username);
 		u.setActive(false);
+		u.setCreate_block(new Date());
 		userService.update(u);
 		return "redirect:/admin/user/findBy/" + u.getUsername();
 	}

@@ -661,14 +661,12 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             form.append("files", file);
-
             $http.post(`http://localhost:8080/rest/files/avatar`, form, {
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
             }).then(response => {
                 console.log(response.data);
                 var image = response.data[0].split('.')[0] + '.' + response.data[0].split('.')[1];
-
                 console.log(image);
                 $http.put(`/rest/update-avatar-user?avt=` + image).then(function(response) {
                     console.log(response.data.avatar);
