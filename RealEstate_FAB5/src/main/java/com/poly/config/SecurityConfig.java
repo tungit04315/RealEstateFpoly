@@ -49,9 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				username -> {
 				try {
 					Users user = userService.findById(username);
+					//user k ton tai
 					if(user == null) {
 						session.setAttribute("checkUser", false);
-					}//
+					}
+					//tk bi khoa vinh vien
 					if(user.isActive() == false && user.getCreate_block() != null) {
 						session.setAttribute("usermail", user.getEmail());
 						session.setAttribute("checkActive", false);
@@ -61,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						session.setAttribute("permanentlyLocked", true);
 						throw new DisabledException("Tài khoản bị khóa");
 					}
+					//tk ch kich hoat
 					if(user.isActive() == false && user.getCreate_block() == null) {
 						session.setAttribute("usermail", user.getEmail());
 						session.setAttribute("permanentlyLocked", false);
@@ -70,16 +73,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						session.setAttribute("checkUser", true);
 						throw new DisabledException("Tài khoản chưa kích hoạt");
 					}
+					//ktr fail login
 					if(user.getFail_login() == 5) {
 						session.setAttribute("checkUser", true);
 						session.setAttribute("BlockAcc", true);
 						session.setAttribute("checkPass", true);
-						throw new DisabledException("Tài khoản bị khoá");
+						session.setAttribute("permanentlyLocked", false);
+						throw new DisabledException("Tài khoản bị khoá vui lòng chọn QMK");
 					}
+					//saimk
 					session.setAttribute("BlockAcc", false);
 					session.setAttribute("checkActive", true);
 					session.setAttribute("checkUser", true);
 					session.setAttribute("checkPass", false);
+					session.setAttribute("permanentlyLocked", false);
 					session.setAttribute("usermail", user.getEmail());
 					String[] roles = user.getAuth().stream().map(ro -> ro.getRoles().getRoles_id())
 									.collect(Collectors.toList()).toArray(new String[0]);
