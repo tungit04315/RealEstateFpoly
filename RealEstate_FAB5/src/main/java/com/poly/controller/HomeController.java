@@ -261,8 +261,6 @@ public class HomeController {
 	public String getCreate(@RequestParam("amount") Integer amount
 			,@RequestParam("orderInfo") String orderInfo) {
 
-		
-		
 		String baseUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
 		String payURL = payService.createOrder(amount, String.valueOf(orderInfo), baseUrl);
 		return "redirect:" + payURL;
