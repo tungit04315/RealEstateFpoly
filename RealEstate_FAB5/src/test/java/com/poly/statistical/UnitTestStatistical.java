@@ -8,6 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -100,7 +103,8 @@ public class UnitTestStatistical {
 	@Test
 	void findAllByUser() {
 		String username = "tungngayngo";
-		List<DetailTransactions> list = detailTransactionService.findAllByUser(username);
+		Pageable page = PageRequest.of(0, 5);
+		Page<DetailTransactions> list = detailTransactionService.findAllByUser(username, page);
 		assertThat(list).isNotNull();
 	}
 	
