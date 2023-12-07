@@ -53,15 +53,10 @@
                                     <strong class="text-dark" th:text="${#numbers.formatDecimal(post.price, 0, 'COMMA', 0, 'POINT')}"></strong>
                                     <p style="font-size:13px;">
                                         ~
-                                        <span th:if="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT').length() < 11}">
-                                            <span th:text="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT')}">
+                                        <span th:text="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT')}">
                                               
-                                            </span> triệu
-                                        </span>
-                                        <span th:if="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT').length() >= 11}">
-                                            <span th:text="${#numbers.formatDecimal(approximately, 0, 'COMMA', 0, 'POINT')}">
-                                              
-                                            </span> tỷ
+                                        </span> VNĐ
+
                                         </span> /m²
                                     </p>
                                 </div>
@@ -229,7 +224,7 @@
                                 <div id="mapDetail" style="width:100%;height: 50vh;"></div>
                             </div>
                             <h5>Video Youtube</h5>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" th:if="*{linkVideo != null}">
                                 <iframe width="100%" height="500" th:src="@{'https://www.youtube.com/embed/' + *{linkVideo}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                             </div>
                         </div>
@@ -273,13 +268,14 @@
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-body">
-                                <div class="d-flex align-content-center justify-content-center">
+                                <div class="d-flex align-content-center justify-content-center" th:if="*{users_id.avatar != '' && users_id.avatar != null}">
                                     <img th:src="@{'/files/avatar/'+*{users_id.avatar}}" class="rounded-circle w-25" alt="...">
-
+                                </div>
+                                <div class="d-flex align-content-center justify-content-center" th:if="*{users_id.avatar == '' || users_id.avatar == null}">
+                                    <img th:src="@{'/files/avatar/profile.png'}" class="rounded-circle w-25" alt="...">
                                 </div>
                                 <p class="card-title mt-2 d-flex justify-content-center" style="font-size: 13px;">Được đăng bởi</p>
                                 <h5 class="card-title d-flex justify-content-center" th:utext="*{users_id.fullname}"></h5>
-                                <a href="#" class="card-text d-flex justify-content-center">Xem thêm</a>
 
                                 <input type="button" class="btn btn-primary w-100 mt-4" th:value="*{users_id.phone}" id="togglePhoneButton">
                                 <button type="button" class="btn btn-outline-light w-100 ntact" id="contact">Gửi email</button>

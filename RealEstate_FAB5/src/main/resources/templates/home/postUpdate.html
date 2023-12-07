@@ -312,23 +312,7 @@
                                         <div class="mb-3">
                                             <hr class="mb-3">
                                             <h5>Video & Hình ảnh</h5>
-                                            <div class="mb-3" style="font-size: 14px;">
-                                                <p>
-                                                    <li style="margin-bottom: -15px;">Đăng tối thiểu 4 ảnh với tin VIP</li>
-                                                </p>
-                                                <p>
-                                                    <li style="margin-bottom: -15px;">Đăng tối đa 24 ảnh với tất cả loại tin</li>
-                                                </p>
-                                                <p>
-                                                    <li style="margin-bottom: -15px;">Mỗi ảnh kích thước tối thiểu 100x100 px, tối đa 15MB</li>
-                                                </p>
-                                                <p>
-                                                    <li style="margin-bottom: -15px;">Hãy dùng ảnh thật, không trùng, chèn số điện thoại</li>
-                                                </p>
-                                                <p>
-                                                    <li style="margin-bottom: -15px;">Mô tả ảnh không được quá 45 ký tự</li>
-                                                </p>
-                                            </div>
+
                                             <div class="mb-3">
                                                 <div class="col-lg-12 mb-2">
                                                     <label for="action" class="btn btn-outline-primary w-100">Upload file <i class="fa-solid fa-cloud-arrow-up"></i></label>
@@ -469,7 +453,7 @@
                                                 </div>
                                                 <div class="col-lg-2">
                                                     {{inputNumber}} ngày
-                                                    <p style="font-size: 10px;">{{currentDate | date:'dd/MM/yyyy'}} - {{ currentEndDate | date:'dd/MM/yyyy' }}</p>
+                                                    <p style="font-size: 10px;">{{currentDate | date:'dd/MM/yyyy'}} - <span ng-model="post.end_date"></span>
                                                 </div>
                                                 <hr class="mb-3">
                                             </div>
@@ -496,8 +480,8 @@
                                     <hr class="mb-3">
 
                                     <div class="form-footer d-flex">
-                                        <button type="button" id="prevBtn" onclick="nextPrevUpdate(-1)">Quay lại</button>
-                                        <button type="button" id="nextBtn" onclick="nextPrevUpdate(1)">Tiếp</button>
+                                        <button type="button" id="prevBtn" onclick="nextPrevUpdate(-1)" scroll-to-top>Quay lại</button>
+                                        <button type="button" id="nextBtn" onclick="nextPrevUpdate(1)" scroll-to-top>Tiếp</button>
                                         <button type="submit" id="submitBtn" style="display: none;">Đăng tin</button>
                                     </div>
                                 </form>

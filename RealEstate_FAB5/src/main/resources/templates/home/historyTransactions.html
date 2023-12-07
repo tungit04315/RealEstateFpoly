@@ -21,9 +21,11 @@
                                         <tr>
                                             <th scope="col">STT</th>
                                             <th scope="col">Mã giao dịch</th>
-                                            <th scope="col">Thời gian</th>
+                                            <th scope="col">Loại giao dịch</th>
                                             <th scope="col">Ngày</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Thời gian</th>
+
+                                            <th scope="col">Tổng tiền</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -33,13 +35,17 @@
 
                                             </td>
                                             <td>
-                                                <a href="#" th:utext="${s.transactions_id.transactions_id}"></a>
+                                                <span th:utext="${s.transactions_id.transactions_id}"></span>
                                             </td>
+                                            <td>
+                                                <span th:utext="${s.transactions_type ? 'Nạp tiền':'Đăng bài'}"></span>
+                                            </td>
+                                            <td th:text="${#dates.format(s.transactions_id.create_at, 'dd-MM-yyyy')}"></td>
                                             <td th:utext="${s.timer}">
-
                                             </td>
-                                            <td th:utext="${s.transactions_id.create_at}"></td>
-                                            <td th:utext="${s.price}"></td>
+                                            <td>
+                                                <span th:utext="${#numbers.formatDecimal(s.price, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ
+                                            </td>
                                             <td>
                                                 <a href="#" type="button" class="more" data-bs-toggle="modal" data-bs-whatever="@mdo" th:attr="data-bs-target='#exampleModal-' + ${state.index}"><i class="fa-solid fa-magnifying-glass"></i></a>
                                             </td>
@@ -55,7 +61,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="col">Mã giao dịch: <span th:utext="${s.transactions_id.transactions_id}"></span></div>
                                                                     <div class="col">Thời gian: <span th:utext="${s.timer}"></span></div>
-                                                                    <div class="col">Ngày giao dịch: <span th:utext="${s.transactions_id.create_at}"></span></div>
+                                                                    <div class="col">Ngày giao dịch: <span th:utext="${#dates.format(s.transactions_id.create_at, 'dd-MM-yyyy')}"></span></div>
                                                                     <div class="col">Loại giao dịch: <span th:utext="${s.transactions_type ? 'Nạp tiền':'Đăng bài'}"></span></div>
                                                                 </div>
                                                                 <div class="col-md-6">
@@ -75,6 +81,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>

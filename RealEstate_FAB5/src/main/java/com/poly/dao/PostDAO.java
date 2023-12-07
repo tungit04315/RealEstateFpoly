@@ -27,7 +27,7 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Query(value="select * from post where deleted_at = 'true' order by post_id desc", nativeQuery = true)
 	public Page<Post> getHistoryDeletePostsDelete(Pageable p);
 	
-	@Query(value="select * from post where active = 'true' and deleted_at = 'false'", nativeQuery = true)
+	@Query(value="select * from post where active = 'true' and deleted_at = 'false' order by post_id desc", nativeQuery = true)
 	public Page<Post> getPostsAll(Pageable p);
 	
 	@Query(value="select top 1 * from post where active = 1 and deleted_at = 0 order by post_id desc", nativeQuery = true)
@@ -45,10 +45,10 @@ public interface PostDAO extends JpaRepository<Post, Integer>{
 	@Query(value="select top 6 * from post where active = 1 and deleted_at = 0 order by post_id desc", nativeQuery = true)
 	public List<Post> getListPostDesc();
 	
-	@Query(value="select top 6 * from post where active = 'true' and deleted_at = 'false' and services_id = 4", nativeQuery = true)
+	@Query(value="select top 6 * from post where active = 'true' and deleted_at = 'false' and services_id = 2", nativeQuery = true)
 	public List<Post> getPostsDiamond();
 	
-	@Query(value="select top 6 * from post where active = 'true' and deleted_at = 'false' and services_id = 15", nativeQuery = true)
+	@Query(value="select top 6 * from post where active = 'true' and deleted_at = 'false' and services_id = 3", nativeQuery = true)
 	public List<Post> getPostsOften();
 	
 	@Query(value="select * from post where active = 'true' and deleted_at = 'false' and users_id = ?1", nativeQuery = true)

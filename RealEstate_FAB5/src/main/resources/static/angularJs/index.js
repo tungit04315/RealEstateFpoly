@@ -346,6 +346,8 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
 
     $scope.copyIconClass = 'fa-regular fa-copy';
 
+
+
     // copy address 
     $scope.copyAddress = function(address) {
         navigator.clipboard.writeText(address);
@@ -994,7 +996,6 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
         $http.get(`/rest/user`).then(resp => {
             if (resp.data) {
                 $rootScope.$u = resp.data;
-                console.log(resp.data);
             }
         });
 
@@ -1024,6 +1025,7 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
             create_at: new Date(),
             users: $rootScope.$u
         };
+
         $http.post(`/create-post`, post).then(function(responsePost) {
             var lng = marker.getLngLat();
             var toString = '' + lng.lng + ',' + lng.lat;
@@ -1031,40 +1033,25 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 maps_address: toString,
                 post_id: responsePost.data
             };
-            $http.post(`/create-mapAddress`, maps).then(function(response) {
-                console.log("mapAdress: " + response.data);
-            }, function(error) {
+            $http.post(`/create-mapAddress`, maps).then(function(response) {}, function(error) {
                 swal("Lỗi!", "Vui lòng cập nhật vị trí!", "error");
             });
             for (let i = 0; i < $scope.filenames.length; i++) {
-                console.log($scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1]);
                 var image = $scope.filenames[i].split('.')[0] + '.' + $scope.filenames[i].split('.')[1];
-
                 var album = {
                     albums_name: image,
                     post_id: responsePost.data
                 }
-
-                $http.post(`/rest/create-albums`, album).then(function(response) {
-
-                }, function(error) {
+                $http.post(`/rest/create-albums`, album).then(function(response) {}, function(error) {
                     swal("Lỗi!", "Thêm Ảnh Thất Bại!", "error");
                 })
             }
-            console.log($rootScope.$u.username);
             $http.put(`/rest/set-money-pay?user=` + $rootScope.$u.username + `&money=` + ($scope.service.services_price * 1000) * $scope.totalDay)
-                .then(function(response) {
-
-                    },
+                .then(function(response) {},
                     function(error) {
                         //swal("Lỗi!", "Lỗi ví tiền của bạn!", "error");
-                        $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {
-
-                        }, function(error) {
-
-                        });
+                        $http.put(`/post-id/false/` + responsePost.data.post_id).then(function(response) {}, function(error) {});
                     });
-
             $http.post(`/rest/create-transaction`, transaction).then(function(response) {
                 const today = new Date();
                 var detailTransaction = {
@@ -1081,15 +1068,10 @@ app.controller("mycontroller", function($scope, $http, $rootScope, $window) {
                 }, function(err) {})
 
             }, function(err) {});
-
-
             swal("Thành Công!", "Đăng bài thành công!", "success");
         }, function(error) {
             swal("Lỗi!", "Đăng bài thất bại!", "error");
-
         });
-
-
     }
 
     $scope.deleteUpdate = function(filename) {
@@ -1419,3 +1401,16 @@ function cancelMarker() {
     marker.remove();
     checkC = 0;
 }
+
+app.directive('scrollToTop', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element) {
+            // Thêm sự kiện click cho phần tử
+            element.on('click', function() {
+                // Cuộc gọi hàm scroll lên đầu trang
+                window.scrollTo(0, 0);
+            });
+        }
+    };
+});
