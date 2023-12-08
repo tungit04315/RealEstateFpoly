@@ -20,8 +20,36 @@
         <link rel="shortcut icon" href="/img/Real_Estate.png" type="image/x-icon">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="/css/otp.css">
-
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+        
+        th {
+            float: left;
+        }
+        
+        .email-container {
+            width: 600px;
+            margin: 0 auto;
+        }
+        
+        .email-header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .email-body {
+            padding: 20px;
+        }
+        
+        .email-footer {
+            padding: 20px;
+        }
+    </style>
     </head>
 
     <body>
@@ -30,9 +58,30 @@
                 <div style="border-bottom:1px solid #eee">
                     <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">RealEstate</a>
                 </div>
-                <p style="font-size:1.1em">Hi, <span th:utext="${fullname}"></span></p>
+                <p style="font-size:1.1em">Xin chào, <span th:utext="${fullname}"></span></p>
                 <p>Đây là mail kích hoạt tài khoản!</p>
+                <p>Vui lòng nhấn vào nút xác nhận bên dưới để kích hoạt tài khoản!</p>
                 <a type="button" href="http://localhost:8080/account/cofirm" style="text-decoration: none; width: 100px; background-color: darkblue; color: white; border-radius: 5px; padding: 5px;">Xác nhận</a>
+                <p>    	Trân trọng</p>
+        <footer class="email-footer">
+    	<div style="margin-top:16px;margin-bottom:16px">
+        <table id="m_9182271091248024059tableSelected0" style="border-collapse:collapse;border-spacing:0px" >
+        <tbody>
+        <tr>
+        <td style="border-right: 1.5pt solid rgb(244,176,131);">
+            <img style="max-width:70%;margin-top:0px;margin-bottom:0px" src="https://data.terabox.com/thumbnail/bed07ef8021b54df12dba69ac485a890?fid=4400154978961-250528-433264789579605&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-HXRX6GDejC2KRJX5Ik3%2fiuwNLMo%3d&expires=8h&chkbd=0&chkv=0&dp-logid=9073005416329868542&dp-callid=0&time=1702004400&size=c1536_u864&quality=90&vuk=4400154978961&ft=image&autopolicy=1" data-image-whitelisted="" class="CToWUd a6T" data-bit="iit" tabindex="0">
+        </td>
+        <td style="padding:0in 5.4pt;vertical-align:top;width:450px;height:120px;box-sizing:border-box">
+        <p font-size:11pt"><span style="font-family:Times,serif;font-size:13.5pt;color:rgb(0,32,96)"><b>REALESTATE</b></span></p>
+        <p font-size:11pt"><span style="font-family:Times,serif;font-size:13.5pt;color:rgb(0,32,96)"><b>Team FAB5</b></span></p>
+        <p>Email:<u><a href="mailto:tungtqpc04315@fpt.edu.vn" target="_blank">tungtqpc04315@fpt.edu.vn</a></u></p>
+        <p>Mobile: 0838565542</p>
+        </td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+        </footer>
             </div>
         </div>
     </body>
