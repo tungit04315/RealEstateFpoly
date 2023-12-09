@@ -9,6 +9,16 @@
 <body>
     <main>
         <div class="container-fluid">
+        <style>
+			.item3 {
+			    font-size: 12px;
+			    font-style: italic;
+			    display: flex;
+			    justify-content: flex-end;
+			    margin-left: 5px;
+			    color: red;
+			}
+		</style>
             <!--  Row 1 -->
             <div class="col-lg-12 mb-3">
                 <h5 class="mb-3">Danh Sách Tài Khoản</h5>
@@ -59,7 +69,7 @@
                 </div>
             </div>
             <div class="col-lg-12 mb-3">
-                <form action="/admin/user/update" class="form-edit-user-list" method="post" th:object="${u}">
+                <form action="/admin/user/update" class="form-edit-user-list" method="post" th:object="${u}" id="adminuser">
                     <div class="mb-3 mt-2 mr-2 d-flex justify-content-end">
                         <div class="input-wrapper">
                             <button class="icon" type="button"> 
@@ -108,21 +118,22 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-control-div">
-                                <input required="" type="text" th:value="*{email}" placeholder="" name="email">
+                                <input required type="text" th:value="*{email}" placeholder="" id="email" name="email">
                                 <label>
                                         <span style="transition-delay:350ms">E</span>
                                         <span style="transition-delay:300ms">m</span>
                                         <span style="transition-delay:250ms">a</span>
                                         <span style="transition-delay:200ms">i</span>
                                         <span style="transition-delay:150ms">l</span>
-                                    </label>
+                                </label>
+                               	<span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <div class="form-control-div">
-                                <input required="" type="text" th:value="*{fullname}" placeholder="" name="fullname">
+                                <input required type="text" th:value="*{fullname}" placeholder="" id="fullname" name="fullname">
                                 <label>
                                         <span style="transition-delay:350ms">H</span>
                                         <span style="transition-delay:300ms">ọ</span>
@@ -134,12 +145,13 @@
                                         <span style="transition-delay:50ms">ê</span>
                                         <span style="transition-delay:250ms">n</span>
                                 </label>
+                                <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                             </div>
 
                         </div>
                         <div class="col-lg-6">
                             <div class="form-control-div">
-                                <input required="" type="text" th:value="*{addresss}" placeholder="" name="addresss">
+                                <input required type="text" th:value="*{addresss}" placeholder="" id="address" name="addresss">
                                 <label>
                                         <span style="transition-delay:350ms">Đ</span>
                                         <span style="transition-delay:300ms">ị</span>
@@ -149,13 +161,14 @@
                                         <span style="transition-delay:100ms">h</span>
                                         <span style="transition-delay:50ms">ỉ</span>
                                     </label>
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <div class="form-control-div">
-                                <input required="" type="text" th:value="*{phone}" placeholder="" name="phone">
+                                <input required="" type="text" th:value="*{phone}" placeholder="" id="phone" name="phone">
                                 <label>
                                         <span style="transition-delay:350ms">S</span>
                                         <span style="transition-delay:300ms">ố</span>
@@ -171,6 +184,7 @@
                                         <span style="transition-delay:0ms">ạ</span>
                                         <span style="transition-delay:0ms">i</span>
                                     </label>
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -211,6 +225,21 @@
                     </div>
                 </form>
             </div>
+            <script src="/js/validator.js"></script>
+                        <script type="text/javascript">
+                Validator({
+                    form: '#adminuser',
+                    errorSelector: '.form-message',
+                    rules: [
+                        Validator.isRequired('#email', 'Vui lòng nhập email'),
+                        Validator.isEmail('#email'),
+                        Validator.isRequired('#phone', 'Vui lòng nhập số điện thoại'),
+                        Validator.isPhone('#phone'),
+                        Validator.isRequired('#fullname', 'Vui lòng nhập họ tên'),
+                        Validator.isRequired('#address', 'Vui lòng nhập địa chỉ'),
+                    ]
+                });
+            </script>
         </div>
     </main>
 </body>
