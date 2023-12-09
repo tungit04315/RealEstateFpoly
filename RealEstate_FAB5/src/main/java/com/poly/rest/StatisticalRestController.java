@@ -24,6 +24,7 @@ public class StatisticalRestController {
 		LocalDate currentDate = LocalDate.now();
         
         int currentYear = currentDate.getYear();
+        
 		return  transactionDao.getMonthlyTotalPrices(currentYear);
 	}
 	

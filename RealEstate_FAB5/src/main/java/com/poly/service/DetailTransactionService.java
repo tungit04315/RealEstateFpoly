@@ -14,7 +14,7 @@ public interface DetailTransactionService {
 	
 	public Page<DetailTransactions> findAll(Pageable p);
 	
-	public List<DetailTransactions> findAllByUser(String username);
+	public Page<DetailTransactions> findAllByUser(String username, Pageable p);
 	
 	public List<DetailTransactions> findAllDetailTransactionPay();
 	

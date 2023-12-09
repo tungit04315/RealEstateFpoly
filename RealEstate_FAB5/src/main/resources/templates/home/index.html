@@ -41,91 +41,13 @@
                         khách hàng.</p>
                 </div>
                 <div class="row g-4">
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s" th:each="typeProperty : ${typeProperty}">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" th:href="@{'/home/search?id' + ${typeProperty.types_id}}">
                             <div class="rounded p-4">
                                 <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-apartment.png" alt="Icon" style="width: 45px;">
+                                    <img class="img-fluid" th:src="@{'img/'+${typeProperty.types_name}+'.png'}" alt="Icon" style="width: 45px;">
                                 </div>
-                                <h6 class="text-primary">Căn hộ</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-villa.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Biệt thự</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-house.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Nhà</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-housing.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Văn Phòng</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-building.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Xây Dựng</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-neighborhood.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Nhà Phố</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-condominium.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Cửa Hàng</h6>
-                                <span class="text-primary">123/123</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-luxury.png" alt="Icon" style="width: 45px;">
-                                </div>
-                                <h6 class="text-primary">Nhà Để Xe</h6>
-                                <span class="text-primary">123/123</span>
+                                <h6 class="text-primary" th:utext="${typeProperty.types_name}"></h6>
                             </div>
                         </a>
                     </div>
@@ -173,9 +95,9 @@
                             <li class="nav-item me-2">
                                 <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Tin Nổi Bật</a>
                             </li>
-                            <li class="nav-item me-2">
+                            <!-- <li class="nav-item me-2">
                                 <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">Tin Hot</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item me-0">
                                 <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">Tin Thường</a>
                             </li>
@@ -216,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-2" class="tab-pane fade show p-0">
+                    <!-- <div id="tab-2" class="tab-pane fade show p-0">
                         <div class="row g-4">
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" ng-repeat="p in listPostHotsNew">
                                 <div class="property-item rounded overflow-hidden">
@@ -224,7 +146,7 @@
                                         <a href="/home/detail?id={{p.post_id}}">
                                             <img class="img-fluid" src="{{url(p.firstImage)}}" alt="">
                                         </a>
-                                        <!-- <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">Để bán</div> -->
+                                        
                                         <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
                                             {{p.types_id.types_name}}
                                         </div>
@@ -248,7 +170,7 @@
                                 <a class="btn btn-primary py-3 px-5" href="/home/list-post">Xem thêm</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div id="tab-3" class="tab-pane fade show p-0">
                         <div class="row g-4">
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" ng-repeat="p in listPostOften">

@@ -3,6 +3,8 @@ package com.poly.controller;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,9 @@ public class HomeController {
 	@Autowired
 	ShareService shareService;
 	
+	@Autowired
+	TypePropertyService typeService;
+	
 	//Home Page 
 	@RequestMapping({"/home", "/"})
 	public String getHome(Model m) {
@@ -81,7 +86,7 @@ public class HomeController {
 				return "home/index";
 			}
 		}
-		
+		m.addAttribute("typeProperty", typeService.findAll());
 		return "home/index";
 	}
 	// Home Page
@@ -230,13 +235,16 @@ public class HomeController {
 	public String getManagerPay(Model m) {
 		if(ss.getAttribute("show") == null) {
 			m.addAttribute("visible", "false");
-			
 		}
 		else {
-			
 			m.addAttribute("visible", "true");
 		}
-		
+		if(ss.getAttribute("postFailed") == null) {
+			m.addAttribute("postFailed", "false");
+		}
+		else {
+			m.addAttribute("postFailed", "true");
+		}
 		return "home/pay";
 	}
 
@@ -261,8 +269,6 @@ public class HomeController {
 	public String getCreate(@RequestParam("amount") Integer amount
 			,@RequestParam("orderInfo") String orderInfo) {
 
-		
-		
 		String baseUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
 		String payURL = payService.createOrder(amount, String.valueOf(orderInfo), baseUrl);
 		return "redirect:" + payURL;
@@ -315,9 +321,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/home/manager/history-transactions")
-	public String getHistoryTransaction(Model m) {
+	public String getHistoryTransaction(Model m, @RequestParam(defaultValue = "1") int page) {
 		Users u = ss.getAttribute("user");
-		m.addAttribute("list", detailTransactionService.findAllByUser(u.getUsername()));
+		Pageable pageable = PageRequest.of(page - 1, 10);
+		Page<DetailTransactions> list = detailTransactionService.findAllByUser(u.getUsername(), pageable);
+		m.addAttribute("list", list);
 		return "home/historyTransactions";
 	}
 	// Pay Page
@@ -369,7 +377,10 @@ public class HomeController {
 		Post p = postService.getFindByid(id);
 		Users u = ss.getAttribute("user");
 		Users uFind = userService.findById(u.getUsername());
-		double money = p.getServices_id().getServices_price() * 1000;
+		long diffInMillies = Math.abs(p.getEnd_date().getTime() - p.getCreate_at().getTime());
+        long daysDiff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        System.out.println(daysDiff + "SỐ NGÀY");
+		double money = (p.getServices_id().getServices_price() * 1000) * daysDiff;
 		double total = uFind.getPay_id().getPay_money() - money;
 		if(uFind.getPay_id().getPay_money() >= money) {
 			p.setActive(true);
@@ -384,6 +395,7 @@ public class HomeController {
 
 			return "redirect:/home/manager/post-deadline-extension";
 		}else {
+			ss.setAttribute("postFailed", u);
 			return "redirect:/home/manager/pay";
 		}
 		

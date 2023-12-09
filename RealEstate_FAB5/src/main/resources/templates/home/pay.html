@@ -636,7 +636,20 @@
                         <div class="progress active"></div>
                     </div>
                 </div>
+                <div th:if="${postFailed == 'true'}">
+                    <div class="toast active">
+                        <div class="toast-content">
+                            <i class="fas fa-solid fa-check check"></i>
+                            <div class="message">
+                                <span class="text text-1">Kích hoạt bài viết thất bại!</span>
+                                <span class="text text-2">Vui lòng nạp thêm tiền vào ví!</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-xmark close"></i>
 
+                        <div class="progress active"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

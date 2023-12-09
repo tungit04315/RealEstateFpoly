@@ -57,9 +57,9 @@ public class DetailTransactionsServiceImpl implements DetailTransactionService{
 	}
 
 	@Override
-	public List<DetailTransactions> findAllByUser(String username) {
+	public Page<DetailTransactions> findAllByUser(String username, Pageable p) {
 		// TODO Auto-generated method stub
-		return dao.getDetailTransactionsByUser(username);
+		return dao.getDetailTransactionsByUser(username, p);
 	}
 
 	@Override

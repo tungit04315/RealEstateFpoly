@@ -104,8 +104,9 @@
                                         <li ng-class="{ 'disabled': currentPage == totalPages}" class="page-item" style="margin-right: 10px;">
                                             <a ng-click="postsPage(currentPage + 1)" class="page-link"><i class="fa-solid fa-chevron-right"></i></a>
                                         </li>
-                                        <li>
-                                            <select class="form-select" aria-label="Page Select" ng-model="currentPage" ng-options="page for page in getPages(totalPages)" ng-change="postsPage(currentPage)">
+                                        <li style="display: flex;">
+                                            <label for="pageSelector" style="margin-right: 10px; width: 150px;">Chọn trang:</label>
+                                            <select class="form-select w-50" aria-label="Page Select" ng-model="currentPage" ng-options="page for page in getPages(totalPages)" ng-change="postsPage(currentPage)">
                                             </select>
                                         </li>
                                     </ul>
