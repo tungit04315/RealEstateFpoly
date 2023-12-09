@@ -14,10 +14,11 @@
                     <label for="tab2-1">Cập nhật thông tin</label> <input id="tab2-1" name="tabs-two" type="checkbox" checked>
                     <div>
                         <h4 class="text-title text-center mb-3">Thông tin cá nhân</h4>
-                        <form action="/admin/profile-edit" th:object="${u}" method="post" class="form">
+                        <form action="/admin/profile-edit" th:object="${u}" method="post" class="form" id="adminprofile">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Họ và tên" name="fullname" th:value="*{fullname}">
+                                    <input type="text" class="form-control" placeholder="Họ và tên" name="fullname" th:value="*{fullname}" required id="fullname">
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                                 </div>
                                 <div class="col">
                                     <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username" th:value="*{username}" readonly="readonly">
@@ -35,15 +36,17 @@
                                     <input type="date" th:value="${u.birthday}" name="birthday" class="form-control" required>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Email" name="email" th:value="*{email}">
+                                    <input type="text" class="form-control" placeholder="Email" name="email" th:value="*{email}" required id="email">
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Số điện thoại" name="phone" th:value="*{phone}">
+                                    <input type="text" class="form-control" placeholder="Số điện thoại" name="phone" th:value="*{phone}" required id="phone">
+                                    <span class="form-message item3" style="color: #ff0000; margin-top: 5px;"></span>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Địa chỉ" name="addresss" th:value="*{addresss}">
+                                    <input type="text" class="form-control" placeholder="Địa chỉ" name="addresss" th:value="*{addresss}" required>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -105,6 +108,17 @@
                             return document.querySelector('#dangky #password').value;
                         }, 'Nhập lại mật khẩu không khớp'),
                         Validator.chckPass('#password', 'Tổi thiểu 6 ký tự số chữ thường, hoa ký tự đặc biệt'),
+                    ]
+                });
+                Validator({
+                    form: '#adminprofile',
+                    errorSelector: '.form-message',
+                    rules: [
+                    	Validator.isRequired('#fullname', 'Vui lòng nhập họ tên'),
+                        Validator.isRequired('#phone', 'Vui lòng nhập số điện thoại'),
+                        Validator.isPhone('#phone'),
+                        Validator.isRequired('#email', 'Vui lòng nhập email'),
+                        Validator.isEmail('#email'),
                     ]
                 });
             </script>
